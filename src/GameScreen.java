@@ -10,6 +10,7 @@ public class GameScreen extends JPanel{
         // Przycisk pauzy
         JButton pauseButton = new JButton("Pause");
         pauseButton.addActionListener(e -> {
+            app.pauseGame();
             app.setGameState(GameState.PAUSED);
         });
 

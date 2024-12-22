@@ -13,7 +13,10 @@ public class PauseScreen extends JPanel {
         JButton exitButton = new JButton("Exit");
 
         // Akcje przycisków
-        resumeButton.addActionListener(e -> app.setGameState(GameState.PLAYING));
+        resumeButton.addActionListener(e -> {
+            app.resumeGame();
+            app.setGameState(GameState.PLAYING);
+        });
         exitButton.addActionListener(e -> System.exit(0));
 
         // Dodanie przycisków do panelu
