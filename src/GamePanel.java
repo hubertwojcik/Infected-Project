@@ -19,7 +19,6 @@ public class GamePanel extends JPanel implements Runnable{
 
         setGameState(GameState.NOT_STARTED);
 
-
         gameFrame.setVisible(true);
     }
 
