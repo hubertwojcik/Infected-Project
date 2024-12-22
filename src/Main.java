@@ -2,7 +2,8 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(()->{});
-        GameFrame gameFrame = new GameFrame();
+        SwingUtilities.invokeLater(()->{
+            new Thread(new GameLoop(new GamePanel())).start();
+        });
     }
 }
