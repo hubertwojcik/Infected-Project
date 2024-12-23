@@ -5,11 +5,11 @@ import models.CountryRectangle;
 import javax.swing.*;
 import java.awt.*;
 
-public class UpgradePanel extends JPanel {
+public class UpgradeCountryView extends JPanel {
     private final JLabel countryNameLabel;
     private final DefaultListModel<String> upgradesModel;
 
-    public UpgradePanel() {
+    public UpgradeCountryView() {
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(200, 0)); // Panel boczny
 

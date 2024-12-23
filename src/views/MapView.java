@@ -1,2 +1,4 @@
-package views;public class MapView {
+package views;
+
+public class MapView {
 }

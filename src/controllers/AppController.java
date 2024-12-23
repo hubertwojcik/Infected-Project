@@ -1,5 +1,9 @@
-import enums.GameState;
+package controllers;
 
+import enums.GameState;
+import models.AppModel;
+import views.*;
+import views.GameFrame;
 import javax.swing.*;
 import java.awt.*;
 
@@ -105,7 +109,6 @@ public class AppController extends JPanel implements Runnable{
 
     public void pauseGame() {
         isRunning = false;
-        setGameState(GameState.PAUSED);
     }
 
     public void resumeGame() {

@@ -1,2 +1,4 @@
-package controllers;public class UpgradePanelController {
+package controllers;
+
+public class UpgradePanelController {
 }

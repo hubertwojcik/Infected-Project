@@ -1,2 +1,4 @@
-package controllers;public class MapController {
+package controllers;
+
+public class MapController {
 }

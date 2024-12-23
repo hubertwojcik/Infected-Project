@@ -1,16 +1,20 @@
-import enums.GameState;
+package views;
+
+import controllers.AppController;
+import models.AppModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import models.CountryRectangle;
 
 public class GameView extends JPanel {
     private final AppModel appModel;
     private final AppController appController;
 
     private final List<CountryRectangle> countries;
-    private final UpgradePanel upgradePanel;
+    private final UpgradeCountryView upgradeCountryView;
 
     public GameView(AppModel appModel,AppController appController) {
         this.appModel = appModel;
@@ -32,8 +36,8 @@ public class GameView extends JPanel {
         JPanel sidebar = new JPanel(new BorderLayout());
 
         // Panel ulepszeń
-        upgradePanel = new UpgradePanel();
-        this.add(upgradePanel, BorderLayout.EAST);
+        upgradeCountryView = new UpgradeCountryView();
+        this.add(upgradeCountryView, BorderLayout.EAST);
 
 
         // Inicjalizacja krajów
@@ -81,7 +85,7 @@ public class GameView extends JPanel {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g); // Wyczyszczenie panelu przed rysowaniem
         Graphics2D g2 = (Graphics2D) g;
 

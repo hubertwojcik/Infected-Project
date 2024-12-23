@@ -1,3 +1,5 @@
+package models;
+
 import java.awt.*;
 
 public class CountryRectangle {

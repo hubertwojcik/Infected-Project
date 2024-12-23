@@ -1,3 +1,5 @@
+package views;
+
 import controllers.AppController;
 import enums.GameState;
 
