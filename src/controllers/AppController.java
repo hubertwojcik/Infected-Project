@@ -2,32 +2,43 @@ package controllers;
 
 import enums.GameState;
 import models.AppModel;
+import models.GameModel;
 import views.*;
 import views.GameFrame;
 import javax.swing.*;
 import java.awt.*;
 
 public class AppController extends JPanel implements Runnable{
-    private final AppModel appModel;
     private boolean isRunning = false;
+    private int FPS = 60;
 
-    public int FPS = 60;
+    //Models
+    private final AppModel appModel;
+    private final GameModel gameModel;
+
+    // CONTROLLERS
+    public MapController mapController;
 
     // GAME SCREENS
     public GameView gameView;
     public StartGameView startGameView;
     public PauseView pauseView;
 
-    public GameState gameState = GameState.NOT_STARTED;
+    //Views
     public GameFrame gameFrame;
 
 
     public AppController(){
+        //MODELS
         appModel = new AppModel();
+        gameModel = new GameModel();
+        // CONTROLLERS
+        mapController = new MapController(appModel);
+        // VIEWS
         gameFrame = new GameFrame();
 
         startGameView = new StartGameView(this);
-        gameView = new GameView(appModel,this);
+        gameView = new GameView(appModel,this,gameModel,mapController);
         pauseView = new PauseView(this);
 
         gameFrame.add(startGameView,"START");
@@ -39,25 +50,20 @@ public class AppController extends JPanel implements Runnable{
         gameFrame.setVisible(true);
     }
 
-    public void setGameState(GameState gameState){
-        this.gameState = gameState;
+    public void setGameState(GameState gameState) {
+        appModel.setGameState(gameState); // Aktualizacja modelu
 
         CardLayout layout = (CardLayout) gameFrame.getContentPane().getLayout();
 
         switch (gameState) {
-            case NOT_STARTED -> {
-                layout.show(gameFrame.getContentPane(), "START");
-                pauseGame();
-            }
-            case PLAYING -> {
-                layout.show(gameFrame.getContentPane(), "GAME");
-                resumeGame();
-            }
-            case PAUSED -> {
-                layout.show(gameFrame.getContentPane(), "PAUSE");
-                pauseGame();
-            }
+            case NOT_STARTED -> layout.show(gameFrame.getContentPane(), "START");
+            case PLAYING -> layout.show(gameFrame.getContentPane(), "GAME");
+            case PAUSED -> layout.show(gameFrame.getContentPane(), "PAUSE");
         }
+    }
+
+    public GameState getGameState() {
+        return appModel.getGameState();
     }
 
     @Override
@@ -71,7 +77,7 @@ public class AppController extends JPanel implements Runnable{
         int drawCount = 0;
 
         while (isRunning){
-            if (gameState == GameState.PAUSED) {
+            if (appModel.getGameState() == GameState.PAUSED) {
                 continue;
             }
 

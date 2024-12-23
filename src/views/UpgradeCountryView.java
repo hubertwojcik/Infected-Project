@@ -34,9 +34,6 @@ public class UpgradeCountryView extends JPanel {
             upgradesModel.addElement(i + " (Cost: " + i+ ")");
 
         }
-//        List<Upgrade> upgrades = country.getAvailableUpgrades(); // Załóżmy, że kraj ma tę metodę
-//        for (Upgrade upgrade : upgrades) {
-//            upgradesModel.addElement(upgrade.getName() + " (Cost: " + upgrade.getCost() + ")");
-//        }
+
     }
 }
