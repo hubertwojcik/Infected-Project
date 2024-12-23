@@ -3,7 +3,7 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(()->{
-            new Thread(new GamePanel()).start();
+            new Thread(new AppController()).start();
         });
     }
 }

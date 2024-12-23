@@ -3,19 +3,32 @@ import enums.GameState;
 import javax.swing.*;
 import java.awt.*;
 
-public class GamePanel extends JPanel implements Runnable{
-    int FPS = 60;
+public class AppController extends JPanel implements Runnable{
+    private final AppModel appModel;
     private boolean isRunning = false;
 
+    public int FPS = 60;
 
-    GameState gameState = GameState.NOT_STARTED;
-    GameFrame gameFrame;
+    // GAME SCREENS
+    public GameView gameView;
+    public StartGameView startGameView;
+    public PauseView pauseView;
+
+    public GameState gameState = GameState.NOT_STARTED;
+    public GameFrame gameFrame;
 
 
-    public GamePanel(){
+    public AppController(){
+        appModel = new AppModel();
         gameFrame = new GameFrame();
 
-        initializeGameScreens();
+        startGameView = new StartGameView(this);
+        gameView = new GameView(appModel,this);
+        pauseView = new PauseView(this);
+
+        gameFrame.add(startGameView,"START");
+        gameFrame.add(gameView,"GAME");
+        gameFrame.add(pauseView,"PAUSE");
 
         setGameState(GameState.NOT_STARTED);
 
@@ -83,13 +96,16 @@ public class GamePanel extends JPanel implements Runnable{
 
     }
 
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics2D g){
         super.paintComponent(g);
+
+        gameView.paintComponent(g);
 
     }
 
     public void pauseGame() {
         isRunning = false;
+        setGameState(GameState.PAUSED);
     }
 
     public void resumeGame() {
@@ -99,11 +115,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
-    private void initializeGameScreens(){
-        gameFrame.add(new StartGameScreen(this), "START");
-        gameFrame.add(new GameScreen(this), "GAME");
-        gameFrame.add(new PauseScreen(this), "PAUSE");
-    }
+
 
 
 
