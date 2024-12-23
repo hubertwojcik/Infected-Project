@@ -16,4 +16,6 @@ public class AppModel {
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
+
+
 }

@@ -1,13 +1,18 @@
 package models;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameModel {
+    private final LocalDate startDate = LocalDate.of(2024,12,31);
+    private LocalDate gameDate;
     private final List<Country> countries;
 
     public GameModel(){
         countries = initializeCountries();
+        this.gameDate = startDate;
+
     }
 
     private List<Country> initializeCountries() {
@@ -21,6 +26,14 @@ public class GameModel {
 
     public List<Country> getCountries(){
         return countries;
+    }
+
+    public void advanceOneDay(){
+        gameDate = gameDate.plusDays(1);
+    }
+
+    public LocalDate getGameDate(){
+        return gameDate;
     }
 
 }

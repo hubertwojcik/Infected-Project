@@ -11,6 +11,7 @@ import java.awt.*;
 public class AppController extends JPanel implements Runnable{
     private boolean isRunning = false;
     private int FPS = 60;
+    private double timeElapsed = 0;
 
     //Models
     private final AppModel appModel;
@@ -65,7 +66,6 @@ public class AppController extends JPanel implements Runnable{
     public GameState getGameState() {
         return appModel.getGameState();
     }
-
     @Override
     public void run() {
         isRunning = true;
@@ -85,6 +85,7 @@ public class AppController extends JPanel implements Runnable{
 
             delta += (currentTime - lastTime) / drawInterval;
             timer += (currentTime - lastTime);
+            timeElapsed += (currentTime - lastTime) / 1_000_000_000.0; // W sekundach
             lastTime = currentTime;
 
             if(delta >= 1){
@@ -103,13 +104,19 @@ public class AppController extends JPanel implements Runnable{
     }
 
     public void update(){
-
+        //Update Day
+        if (timeElapsed >= 5) {
+            System.out.println("TIME ELAPSED");
+            gameModel.advanceOneDay();
+            gameView.updateDate();
+            timeElapsed = 0;
+        }
     }
 
     public void paintComponent(Graphics2D g){
         super.paintComponent(g);
 
-        gameView.paintComponent(g);
+//        gameView.paintComponent(g);
 
     }
 
@@ -123,9 +130,5 @@ public class AppController extends JPanel implements Runnable{
             new Thread(this).start();
         }
     }
-
-
-
-
 
 }

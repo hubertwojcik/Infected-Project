@@ -16,7 +16,6 @@
       <change afterPath="$PROJECT_DIR$/src/entity/MapObject.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/enums/TransportType.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/models/CountryRectangle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/GameModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/GameFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameLoop.java" beforeDir="false" />
@@ -29,6 +28,7 @@
       <change beforePath="$PROJECT_DIR$/src/enums/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/GameState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/AppModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/AppModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Country.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/GameModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/GameView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/MapView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/UpgradeCountryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/UpgradeCountryView.java" afterDir="false" />
@@ -85,7 +85,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1734863381251</updated>
-      <workItem from="1734863382424" duration="20780000" />
+      <workItem from="1734863382424" duration="22739000" />
     </task>
     <servers />
   </component>
