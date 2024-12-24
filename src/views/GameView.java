@@ -10,56 +10,46 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import models.Country;
 import models.CountryRectangle;
 import models.GameModel;
 
 public class GameView extends JPanel {
-
     private final GameModel gameModel;
     private final GameController gameController;
     private final MapView mapView;
 
-    //Views
-    private final UpgradeCountryView upgradeCountryView;
+    //VIEWS
     private final GameHeaderView gameHeaderView;
-
-    // Lables
-
-
+    private GameSidebarView gameSidebarView;
 
     public GameView(GameController gameController, GameModel gameModel, MapController mapController) {
-        //Models
+        //MODELS
         this.gameModel = gameModel;
-        //Controlles
+        //CONTROLLERS
         this.gameController = gameController;
         //Views
         this.setLayout(new BorderLayout());
 
-
         gameHeaderView = new GameHeaderView(gameController, gameModel);
-        // Top Panel
+        //GAME HEADER
         this.add(gameHeaderView, BorderLayout.NORTH);
-
+        //GAME MAP
         mapView = new MapView(gameModel, mapController);
-
-
-        JPanel sidebar = new JPanel(new BorderLayout());
-        // Panel ulepszeń
-        upgradeCountryView = new UpgradeCountryView();
-        this.add(upgradeCountryView, BorderLayout.EAST);
         this.add(mapView, BorderLayout.CENTER);
+        //GAME SIDE BAR
+        gameSidebarView = new GameSidebarView(gameModel);
+        this.add(gameSidebarView,BorderLayout.EAST);
+    }
 
-
-
+    public GameSidebarView getGameSidebarView(){
+        return gameSidebarView;
     }
 
     public void updateDate() {
             gameHeaderView.updateGameDateLabel();;
     }
 
-//    @Override
-//    public void paintComponent(Graphics g) {
-//      mapView.paintComponent(g);
-//
-//    }
+
 }

@@ -8,9 +8,14 @@ import java.awt.*;
 
 public class MapController {
     private final GameModel gameModel;
+    private final GameController gameController;
 
-    public MapController(GameModel gameModel){
+
+    public MapController(GameModel gameModel,GameController gameController)
+    {
         this.gameModel = gameModel;
+        this.gameController = gameController;
+
     }
 
     public void handleMapClick(Point point) {
@@ -41,6 +46,8 @@ public class MapController {
         for (Country country : gameModel.getCountries()) {
             country.setSelected(country.equals(gameModel.getSelectedCountry()));
         }
+
+        gameController.updateSidebar();
     }
 
 }

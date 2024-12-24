@@ -2,7 +2,6 @@ package controllers;
 
 import enums.GameState;
 import models.AppModel;
-import models.GameModel;
 import views.*;
 import views.GameFrame;
 import javax.swing.*;

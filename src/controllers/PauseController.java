@@ -1,7 +1,6 @@
 package controllers;
 
 import enums.GameState;
-import models.AppModel;
 import views.PauseView;
 
 public class PauseController {

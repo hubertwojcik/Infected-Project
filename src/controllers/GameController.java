@@ -1,5 +1,6 @@
 package controllers;
 import enums.GameState;
+import models.Country;
 import models.GameModel;
 import views.GameView;
 public class GameController {
@@ -15,7 +16,7 @@ public class GameController {
     public GameController(AppController appController) {
         this.appController = appController;
         this.gameModel = new GameModel();
-        this.mapController = new MapController(gameModel);
+        this.mapController = new MapController(gameModel,this);
         this.gameView = new GameView(this, gameModel,mapController);
     }
 
@@ -28,14 +29,13 @@ public class GameController {
         appController.setGameState(GameState.PAUSED);
     }
 
+    public void updateSidebar() {
+        gameView.getGameSidebarView().updateCountryPanel();
+    }
+
     public void updateGameDate(){
         gameModel.advanceOneDay();
         gameView.updateDate();
     }
-
-
-
-
-
 
 }
