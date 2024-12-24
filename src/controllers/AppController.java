@@ -13,7 +13,7 @@ public class AppController extends JPanel implements Runnable{
     private int FPS = 60;
     private double timeElapsed = 0;
 
-    //Models
+    //MODELS
     private final AppModel appModel;
     private final GameModel gameModel;
 
@@ -25,7 +25,7 @@ public class AppController extends JPanel implements Runnable{
     public StartGameView startGameView;
     public PauseView pauseView;
 
-    //Views
+    //VIEWS
     public GameFrame gameFrame;
 
 
@@ -34,12 +34,12 @@ public class AppController extends JPanel implements Runnable{
         appModel = new AppModel();
         gameModel = new GameModel();
         // CONTROLLERS
-        mapController = new MapController(appModel);
+        mapController = new MapController(gameModel);
         // VIEWS
         gameFrame = new GameFrame();
 
         startGameView = new StartGameView(this);
-        gameView = new GameView(appModel,this,gameModel,mapController);
+        gameView = new GameView(this,gameModel,mapController);
         pauseView = new PauseView(this);
 
         gameFrame.add(startGameView,"START");
@@ -96,7 +96,7 @@ public class AppController extends JPanel implements Runnable{
             }
 
             if(timer >= 1_000_000_000){
-                System.out.println("FPS: " + drawCount);
+//                System.out.println("FPS: " + drawCount);
                 drawCount = 0;
                 timer = 0;
             }

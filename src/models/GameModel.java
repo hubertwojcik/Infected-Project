@@ -8,6 +8,7 @@ public class GameModel {
     private final LocalDate startDate = LocalDate.of(2024,12,31);
     private LocalDate gameDate;
     private final List<Country> countries;
+    private Country selectedCountry;
 
     public GameModel(){
         countries = initializeCountries();
@@ -15,13 +16,12 @@ public class GameModel {
 
     }
 
-    private List<Country> initializeCountries() {
-        List<Country> list = new ArrayList<>();
-        list.add(new Country("Russia", 144000000, 50, 50, 200, 100 ));
-        list.add(new Country("China", 1400000000 ,300, 150, 150, 100));
-        list.add(new Country("India", 1300000000 ,300, 300, 100, 100));
-        list.add(new Country("Japan", 126000000,500, 200, 100, 50));
-        return list;
+    public Country getSelectedCountry() {
+        return selectedCountry;
+    }
+
+    public void setSelectedCountry(Country selectedCountry) {
+        this.selectedCountry = selectedCountry;
     }
 
     public List<Country> getCountries(){
@@ -35,5 +35,15 @@ public class GameModel {
     public LocalDate getGameDate(){
         return gameDate;
     }
+
+    private List<Country> initializeCountries() {
+        List<Country> list = new ArrayList<>();
+        list.add(new Country("Russia", 144000000, 50, 50, 200, 100 ));
+        list.add(new Country("China", 1400000000 ,300, 150, 150, 100));
+        list.add(new Country("India", 1300000000 ,300, 300, 100, 100));
+        list.add(new Country("Japan", 126000000,500, 200, 100, 50));
+        return list;
+    }
+
 
 }
