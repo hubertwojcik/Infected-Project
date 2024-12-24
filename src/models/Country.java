@@ -8,6 +8,10 @@ public class Country  extends MapObject {
     private String name;
     private int population;
     private boolean isSelected;
+    // VIRUS DATA
+    int infected =0;
+    int recovered = 0;
+    int dead = 0;
 
     public Country(String name, int population, int mapX, int mapY, int width, int height) {
         super(mapX,mapY,width,height);
@@ -33,5 +37,18 @@ public class Country  extends MapObject {
 
     public Point getMapObjectPosition() {
         return new Point(getMapObjectX(), getMapObjectY());
+    }
+
+
+    public int getRecovered() {
+        return recovered;
+    }
+
+    public int getInfected() {
+        return infected;
+    }
+
+    public int getDead() {
+        return dead;
     }
 }

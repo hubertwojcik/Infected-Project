@@ -9,6 +9,8 @@ public class GameSidebarView extends JPanel {
     private final GameModel gameModel;
     private final GameStatisticsView statisticsPanel;
     private final GameCountryView gameCountryView;
+
+
     public GameSidebarView(GameModel gameModel){
         this.gameModel = gameModel;
         this.setLayout(new BorderLayout());
@@ -33,11 +35,12 @@ public class GameSidebarView extends JPanel {
             gameCountryView.setVisible(true);
             gameCountryView.updateCountryPanel();
         }
-
-
-
     }
 
+    public void hideCountryPanel(){
+        gameCountryView.setVisible(false);
+
+    }
 
 
 }

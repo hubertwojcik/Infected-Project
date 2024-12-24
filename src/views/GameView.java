@@ -1,18 +1,9 @@
 package views;
 
-import controllers.AppController;
 import controllers.GameController;
 import controllers.MapController;
-import enums.GameState;
-import models.AppModel;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import models.Country;
-import models.CountryRectangle;
 import models.GameModel;
 
 public class GameView extends JPanel {
@@ -31,7 +22,6 @@ public class GameView extends JPanel {
         this.gameController = gameController;
         //Views
         this.setLayout(new BorderLayout());
-
         gameHeaderView = new GameHeaderView(gameController, gameModel);
         //GAME HEADER
         this.add(gameHeaderView, BorderLayout.NORTH);

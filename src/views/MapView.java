@@ -51,6 +51,7 @@ public class MapView extends JPanel {
     }
 
     private void handleCountryClick(Country selectedCountry) {
+        System.out.println("HEHEHEHHEHE cOUNTRY CLICK");
         gameModel.getCountries().forEach(country -> country.setSelected(false));
 
         selectedCountry.setSelected(true);
@@ -60,6 +61,8 @@ public class MapView extends JPanel {
         });
 
         mapController.handleMapClick(selectedCountry.getMapObjectPosition());
+        revalidate();
+        repaint();
     }
 
 

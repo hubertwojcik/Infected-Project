@@ -12,7 +12,6 @@ public class GameController {
     //VIEWS
     private final GameView gameView;
 
-
     public GameController(AppController appController) {
         this.appController = appController;
         this.gameModel = new GameModel();
@@ -30,7 +29,12 @@ public class GameController {
     }
 
     public void updateSidebar() {
-        gameView.getGameSidebarView().updateCountryPanel();
+        Country selectedCountry = gameModel.getSelectedCountry();
+        if (selectedCountry == null) {
+            gameView.getGameSidebarView().hideCountryPanel();
+        } else {
+            gameView.getGameSidebarView().updateCountryPanel();
+        }
     }
 
     public void updateGameDate(){

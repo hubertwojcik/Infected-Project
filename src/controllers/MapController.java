@@ -19,35 +19,28 @@ public class MapController {
     }
 
     public void handleMapClick(Point point) {
-        Country selectedCountry = null;
-
-
         for (Country country : gameModel.getCountries()) {
-            int countryXLeftPosition = country.getMapObjectX();
-            int countryYTopPosition = country.getMapObjectY();
-            int countryXRightPosition = countryXLeftPosition + country.getWidth();
-            int countryYBottomPosition = countryYTopPosition + country.getHeight();
-
-            if (point.x >= countryXLeftPosition
-                    && point.x <= countryXRightPosition
-                    && point.y >= countryYTopPosition
-                    && point.y <= countryYBottomPosition) {
-                selectedCountry = country;
-                break;
+            if (isClickedPointCountry(point, country)) {
+                gameModel.setSelectedCountry(country);
+                gameController.updateSidebar();
+                return;
             }
         }
 
-        if (selectedCountry != null && selectedCountry.equals(gameModel.getSelectedCountry())) {
-            gameModel.setSelectedCountry(null);
-        } else {
-            gameModel.setSelectedCountry(selectedCountry);
-        }
+        // Jeśli kliknięto poza krajami, odznacz wszystkie
+        gameModel.setSelectedCountry(null);
+        gameController.updateSidebar(); // Aktualizuj widok
+    }
+    private boolean isClickedPointCountry(Point point, Country country){
+        int x = point.x;
+        int y = point.y;
+        int countryX = country.getMapObjectX();
+        int countryY = country.getMapObjectY();
+        int width = country.getWidth();
+        int height = country.getHeight();
 
-        for (Country country : gameModel.getCountries()) {
-            country.setSelected(country.equals(gameModel.getSelectedCountry()));
-        }
+        return x >= countryX && x <= countryX + width && y >= countryY && y <= countryY + height;
 
-        gameController.updateSidebar();
     }
 
 }
