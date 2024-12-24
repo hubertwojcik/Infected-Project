@@ -1,6 +1,7 @@
 package views;
 
 import controllers.AppController;
+import controllers.GameController;
 import controllers.MapController;
 import enums.GameState;
 import models.AppModel;
@@ -15,7 +16,7 @@ import models.GameModel;
 public class GameView extends JPanel {
 
     private final GameModel gameModel;
-    private final AppController appController;
+    private final GameController gameController;
     private final MapView mapView;
 
     //Views
@@ -26,16 +27,16 @@ public class GameView extends JPanel {
 
 
 
-    public GameView( AppController appController,GameModel gameModel, MapController mapController) {
+    public GameView(GameController gameController, GameModel gameModel, MapController mapController) {
         //Models
         this.gameModel = gameModel;
         //Controlles
-        this.appController = appController;
+        this.gameController = gameController;
         //Views
         this.setLayout(new BorderLayout());
 
 
-        gameHeaderView = new GameHeaderView(appController, gameModel);
+        gameHeaderView = new GameHeaderView(gameController, gameModel);
         // Top Panel
         this.add(gameHeaderView, BorderLayout.NORTH);
 

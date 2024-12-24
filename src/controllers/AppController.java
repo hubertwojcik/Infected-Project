@@ -15,16 +15,12 @@ public class AppController extends JPanel implements Runnable{
 
     //MODELS
     private final AppModel appModel;
-    private final GameModel gameModel;
-
     // CONTROLLERS
-    public MapController mapController;
+    public PauseController pauseController;
+    public GameController gameController;
 
     // GAME SCREENS
-    public GameView gameView;
     public StartGameView startGameView;
-    public PauseView pauseView;
-
     //VIEWS
     public GameFrame gameFrame;
 
@@ -32,19 +28,19 @@ public class AppController extends JPanel implements Runnable{
     public AppController(){
         //MODELS
         appModel = new AppModel();
-        gameModel = new GameModel();
         // CONTROLLERS
-        mapController = new MapController(gameModel);
+        pauseController = new PauseController(this);
+        gameController = new GameController(this);
+
         // VIEWS
         gameFrame = new GameFrame();
 
         startGameView = new StartGameView(this);
-        gameView = new GameView(this,gameModel,mapController);
-        pauseView = new PauseView(this);
+
 
         gameFrame.add(startGameView,"START");
-        gameFrame.add(gameView,"GAME");
-        gameFrame.add(pauseView,"PAUSE");
+        gameFrame.add(gameController.getGameView(),"GAME");
+        gameFrame.add(pauseController.getPauseView(),"PAUSE");
 
         setGameState(GameState.NOT_STARTED);
 
@@ -106,19 +102,13 @@ public class AppController extends JPanel implements Runnable{
     public void update(){
         //Update Day
         if (timeElapsed >= 5) {
-            System.out.println("TIME ELAPSED");
-            gameModel.advanceOneDay();
-            gameView.updateDate();
+            System.out.println("Date change");
+            gameController.updateGameDate();
             timeElapsed = 0;
         }
     }
 
-    public void paintComponent(Graphics2D g){
-        super.paintComponent(g);
 
-//        gameView.paintComponent(g);
-
-    }
 
     public void pauseGame() {
         isRunning = false;

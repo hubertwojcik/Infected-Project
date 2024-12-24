@@ -1,6 +1,7 @@
 package views;
 
 import controllers.AppController;
+import controllers.GameController;
 import enums.GameState;
 import models.GameModel;
 
@@ -8,13 +9,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameHeaderView extends JPanel {
-    private final AppController appController;
+    private final GameController gameController;
     private final GameModel gameModel;
     private JButton pauseButton;
     private JLabel gameDateLabel;
 
-    public GameHeaderView(AppController appController, GameModel gameModel){
-        this.appController = appController;
+    public GameHeaderView(GameController gameController, GameModel gameModel){
+        this.gameController = gameController;
         this.gameModel = gameModel;
 
         this.setBackground(Color.GREEN);
@@ -24,8 +25,7 @@ public class GameHeaderView extends JPanel {
         pauseButton = new JButton();
         pauseButton.setText("Pause");
         pauseButton.addActionListener(e->{
-            appController.pauseGame();
-            appController.setGameState(GameState.PAUSED);
+          gameController.pauseGame();
         });
         this.add(pauseButton, BorderLayout.WEST);
 

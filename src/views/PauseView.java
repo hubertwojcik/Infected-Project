@@ -1,14 +1,15 @@
 package views;
 
 import controllers.AppController;
+import controllers.PauseController;
 import enums.GameState;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class PauseView extends JPanel {
-    public PauseView(AppController app) {
-        this.setLayout(new GridBagLayout()); // Wyśrodkowanie przycisków
+    public PauseView(PauseController pauseController) {
+        this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
@@ -17,10 +18,10 @@ public class PauseView extends JPanel {
 
         // Akcje przycisków
         resumeButton.addActionListener(e -> {
-            app.resumeGame();
-            app.setGameState(GameState.PLAYING);
+            pauseController.resumeGame();
+
         });
-        exitButton.addActionListener(e -> System.exit(0));
+        exitButton.addActionListener(e -> pauseController.exitGame());
 
         // Dodanie przycisków do panelu
         gbc.gridy = 0;
