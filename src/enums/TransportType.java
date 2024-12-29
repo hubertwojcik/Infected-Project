@@ -2,6 +2,6 @@ package enums;
 
 public enum TransportType {
     LAND,
-    RAIL,
+    RAILWAY,
     AIR
 }

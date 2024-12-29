@@ -51,4 +51,12 @@ public class Country  extends MapObject {
     public int getDead() {
         return dead;
     }
+
+    public synchronized void increasePopulation(int value) {
+        this.population += value;
+    }
+
+    public synchronized void decreasePopulation(int value) {
+        this.population -= Math.min(value, population);
+    }
 }

@@ -37,6 +37,8 @@ public class AppController extends JPanel implements Runnable{
 
         setGameState(GameState.NOT_STARTED);
 
+//        gameController.startAllTransports();
+
         gameFrame.setVisible(true);
     }
 
@@ -80,12 +82,14 @@ public class AppController extends JPanel implements Runnable{
 
     public void pauseGame() {
         isRunning = false;
+
     }
 
     public void resumeGame() {
         if (!isRunning) {
             isRunning = true;
             new Thread(this).start();
+            gameController.resumeGame();
         }
     }
 
