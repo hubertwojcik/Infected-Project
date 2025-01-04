@@ -3,6 +3,7 @@ package models;
 import java.awt.*;
 import java.util.*;
 import entity.MapObject;
+import enums.CountryColor;
 
 public class Country extends MapObject {
     private String name;
@@ -15,10 +16,13 @@ public class Country extends MapObject {
     private int dayCounter = 0;
     private final Map<Integer, Integer> infectedMap = new HashMap<>();
     private Random random = new Random();
+    private final CountryColor color;
+
     // VIRUS
+
     private Virus virus;
 
-    public Country(String name, int population, int mapX, int mapY, int width, int height) {
+    public Country(String name, int population, int mapX, int mapY, int width, int height,CountryColor color) {
         super(mapX, mapY, width, height);
         this.name = name;
         this.population = population;
@@ -26,7 +30,14 @@ public class Country extends MapObject {
         this.infected = 0;
         this.recovered = 0;
         this.dead = 0;
+        this.color = color;
+
     }
+
+    public CountryColor getColor() {
+        return color;
+    }
+
 
     // Getters
     public String getName() {
@@ -88,7 +99,7 @@ public class Country extends MapObject {
         double potentialInfections = infectionRate * susceptible * infected / population;
         int newInfections = (int) Math.max(1, Math.min(Math.ceil(potentialInfections), susceptible));
 
-        int recoverOrDeadDay = dayCounter + getRandomDays(7, 14);
+        int recoverOrDeadDay = dayCounter + getRandomDays(14, 21);
         infectedMap.put(recoverOrDeadDay, infectedMap.getOrDefault(recoverOrDeadDay, 0) + newInfections);
 
         susceptible -= newInfections;

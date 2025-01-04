@@ -1,11 +1,14 @@
 package views;
 
+import config.Config;
 import controllers.MapController;
 import models.Country;
 import models.GameModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,14 +25,22 @@ public class MapView extends JPanel {
         this.mapController = mapController;
         this.setLayout(null);
         initializeCountries();
+
+        this.addComponentListener(new ComponentAdapter() {
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                System.out.println("DUPA");
+                scaleMap();
+            }
+        });
     }
 
     public void initializeCountries(){
         for( Country country : gameModel.getCountries()){
             JPanel countryPanel = new JPanel();
 
-            countryPanel.setBackground(Color.GREEN);
-            countryPanel.setBackground(Color.GREEN);
+            countryPanel.setBackground(country.getColor().getColor());
             countryPanel.setBounds(
                     country.getMapObjectX(),
                     country.getMapObjectY(),
@@ -56,14 +67,37 @@ public class MapView extends JPanel {
 
         selectedCountry.setSelected(true);
 
-        countryPanels.forEach((country, panel) -> {
-            panel.setBackground(country.isSelected() ? Color.RED : Color.GREEN);
-        });
+//        countryPanels.forEach((country, panel) -> {
+//            panel.setBackground(country.isSelected() ? Color.RED : Color.GREEN);
+//        });
 
         mapController.handleMapClick(selectedCountry.getMapObjectPosition());
         revalidate();
         repaint();
     }
+
+    private void scaleMap() {
+        double scaleX = (double) getWidth() / Config.mapWidth;
+        double scaleY = (double) getHeight() / Config.windowHeight;
+
+        for (Map.Entry<Country, JPanel> entry : countryPanels.entrySet()) {
+            Country country = entry.getKey();
+            JPanel countryPanel = entry.getValue();
+
+            if (countryPanel != null) {
+                int scaledX = (int) (country.getMapObjectX() * scaleX);
+                int scaledY = (int) (country.getMapObjectY() * scaleY);
+                int scaledWidth = (int) (country.getWidth() * scaleX);
+                int scaledHeight = (int) (country.getHeight() * scaleY);
+
+                countryPanel.setBounds(scaledX, scaledY, scaledWidth, scaledHeight);
+            }
+        }
+
+        revalidate();
+        repaint();
+    }
+
 
 
 }

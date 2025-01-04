@@ -17,7 +17,7 @@ public class GameController implements Runnable{
 
     public GameController(AppController appController) {
         //MODELS
-        this.gameModel = new GameModel(this);
+        this.gameModel = new GameModel();
         //CONTROLLERS
         this.mapController = new MapController(gameModel,this);
         this.gameView = new GameView(this, gameModel,mapController);
@@ -83,7 +83,7 @@ public class GameController implements Runnable{
     }
 
     private void updateGameState() {
-        gameModel.updateGameState(); // Zaktualizuj model gry
+        gameModel.updateModel();
         updateGameViews(); // Zaktualizuj widok
     }
     public void updateGameViews(){

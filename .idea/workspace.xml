@@ -5,16 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf8b1bbb-2aac-429d-bb3f-be35e3a40fd1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/views/HighScoresView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/SelectDifficultyLevelView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/enums/CountryColor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/AppController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Upgrade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/Config.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/PauseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/PauseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enums/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/GameState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/MapController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/MapController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Country.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/GameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/GameHeaderView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/GameHeaderView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/StartGameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/StartGameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/GameFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/GameSidebarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/GameSidebarView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/MapView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,9 +25,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -70,7 +71,7 @@
       <option name="presentableId" value="Default" />
       <updated>1734863381251</updated>
       <workItem from="1734863382424" duration="51599000" />
-      <workItem from="1735380588844" duration="34361000" />
+      <workItem from="1735380588844" duration="40037000" />
     </task>
     <servers />
   </component>

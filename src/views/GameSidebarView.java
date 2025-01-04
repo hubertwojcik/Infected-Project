@@ -1,5 +1,6 @@
 package views;
 
+import config.Config;
 import models.GameModel;
 
 import javax.swing.*;
@@ -14,7 +15,7 @@ public class GameSidebarView extends JPanel {
     public GameSidebarView(GameModel gameModel){
         this.gameModel = gameModel;
         this.setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(200, 0));
+        this.setPreferredSize(new Dimension(Config.sidebarWidht, 0));
         this.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
 
         statisticsPanel = new GameStatisticsView(gameModel);

@@ -31,16 +31,14 @@ public class MapController {
         gameModel.setSelectedCountry(null);
         gameController.handleCountrySidebarClick(); // Aktualizuj widok
     }
-    private boolean isClickedPointCountry(Point point, Country country){
-        int x = point.x;
-        int y = point.y;
-        int countryX = country.getMapObjectX();
-        int countryY = country.getMapObjectY();
-        int width = country.getWidth();
-        int height = country.getHeight();
+    private boolean isClickedPointCountry(Point point, Country country) {
+        Rectangle countryBounds = new Rectangle(
+                country.getMapObjectX(),
+                country.getMapObjectY(),
+                country.getWidth(),
+                country.getHeight()
+        );
 
-        return x >= countryX && x <= countryX + width && y >= countryY && y <= countryY + height;
-
+        return countryBounds.contains(point);
     }
-
 }
