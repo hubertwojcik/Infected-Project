@@ -22,14 +22,14 @@ public class MapController {
         for (Country country : gameModel.getCountries()) {
             if (isClickedPointCountry(point, country)) {
                 gameModel.setSelectedCountry(country);
-                gameController.updateSidebar();
+                gameController.handleCountrySidebarClick();
                 return;
             }
         }
 
         // Jeśli kliknięto poza krajami, odznacz wszystkie
         gameModel.setSelectedCountry(null);
-        gameController.updateSidebar(); // Aktualizuj widok
+        gameController.handleCountrySidebarClick(); // Aktualizuj widok
     }
     private boolean isClickedPointCountry(Point point, Country country){
         int x = point.x;

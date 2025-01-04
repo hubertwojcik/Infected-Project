@@ -18,7 +18,9 @@ public class StartGameView extends JPanel {
         JButton exitButton = new JButton("Exit");
 
         // Akcje przycisków
-        startButton.addActionListener(e -> app.setGameState(GameState.PLAYING));
+        startButton.addActionListener(e -> {
+            app.startGame();
+        });
         exitButton.addActionListener(e -> System.exit(0));
 
         // Dodanie przycisków do panelu

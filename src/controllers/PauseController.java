@@ -17,11 +17,9 @@ public class PauseController {
     public PauseView getPauseView(){
         return pauseView;
     }
+
     public void resumeGame() {
-
         appController.setGameState(GameState.PLAYING);
-        appController.resumeGame();
-
     }
 
     public void exitGame(){

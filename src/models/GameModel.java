@@ -1,41 +1,75 @@
 package models;
 
+import controllers.GameController;
+import enums.GameState;
 import enums.TransportType;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameModel {
-    private final LocalDate startDate = LocalDate.of(2024,12,31);
+public class GameModel implements Runnable{
+    GameController gameController;
+    //
     private LocalDate gameDate;
+    private int dayCounter = 0;
+    // COUNTRIES
     private final List<Country> countries;
     private Country selectedCountry;
     private final List<Transport> transports;
+    private boolean isRunning = false;
+    private Thread gameThread;
+    //
+    private GameState gameState = GameState.NOT_STARTED;
 
-
-    public GameModel(){
+    public GameModel(GameController gameController){
+        this.gameController= gameController;
         countries = initializeCountries();
         transports = new ArrayList<>();
-
         initializeTransports();
-        this.gameDate = startDate;
     }
 
-    public void enableAllTransports() {
-        transports.forEach(Transport::enable);
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
-    public void disableAllTransports() {
-        transports.forEach(Transport::disable);
+    public GameState getGameState() {
+        return gameState;
     }
 
-    public void enableTransport(Transport transport) {
-        transport.enable();
+    public int getDayCounter() {
+        return dayCounter;
     }
 
-    public void disableTransport(Transport transport) {
-        transport.disable();
+    public void updateGameState() {
+        if (gameState == GameState.PLAYING) {
+            // Synchronizuj kraje
+            synchronizeCountries();
+            // Synchronizuj transporty
+            synchronizeTransports();
+            // Zwiększ datę gry
+            dayCounter++;
+
+        }
+    }
+
+    public void startGame() {
+        if (gameThread == null || !gameThread.isAlive()) {
+            isRunning = true;
+            gameThread = new Thread(this);
+            gameThread.start();
+        }
+    }
+
+    public void pauseGame() {
+        isRunning = false;
+    }
+
+    public void stopGame() {
+        isRunning = false;
+        if (gameThread != null) {
+            gameThread.interrupt();
+        }
     }
 
     public Country getSelectedCountry() {
@@ -50,40 +84,96 @@ public class GameModel {
         return countries;
     }
 
-    public void advanceOneDay(){
-        gameDate = gameDate.plusDays(1);
+    @Override
+    public void run() {
+        while (isRunning) {
+            if (gameState == GameState.PLAYING) {
+                updateGameState();
+                gameController.updateGameViews();
+            }
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
     }
 
-    public LocalDate getGameDate(){
-        return gameDate;
+    private void synchronizeCountries() {
+        List<Thread> countryThreads = new ArrayList<>();
+
+        for (Country country : countries) {
+            Thread thread = new Thread(country::simulateInfectionSpread);
+            countryThreads.add(thread);
+            thread.start();
+        }
+
+
+        for (Thread thread : countryThreads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.err.println("Wątek synchronizacji kraju został przerwany: " + e.getMessage());
+            }
+        }
     }
 
-    public List<Transport> getTransports() {
-        return transports;
+
+    private void synchronizeTransports() {
+        List<Thread> transportThreads = new ArrayList<>();
+
+        for (Transport transport : transports) {
+            Thread thread = new Thread(transport::run);
+            transportThreads.add(thread);
+            thread.start();
+        }
+
+
+        for (Thread thread : transportThreads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.err.println("Wątek synchronizacji transportu został przerwany: " + e.getMessage());
+            }
+        }
     }
+
+
 
     private List<Country> initializeCountries() {
         List<Country> list = new ArrayList<>();
-        list.add(new Country("Russia", 144000000, 50, 50, 200, 100 ));
-        list.add(new Country("China", 1400000000 ,300, 150, 150, 100));
+        Country russia =new Country("Russia", 144000000, 50, 50, 200, 100 );
+        list.add(russia);
+        Country china =new Country("China", 1400000000 ,300, 150, 150, 100);
+        china.setVirus(new Virus("COVID-19", 0.4, 0.01, 0.002,14),1);
+        list.add(china);
         list.add(new Country("India", 1300000000 ,300, 300, 100, 100));
         list.add(new Country("Japan", 126000000,500, 200, 100, 50));
         return list;
     }
 
-    public void initializeTransports() {
+    private void initializeTransports() {
         Country russia = countries.stream().filter(c -> c.getName().equals("Russia")).findFirst().orElse(null);
         Country china = countries.stream().filter(c -> c.getName().equals("China")).findFirst().orElse(null);
         if (russia != null && china != null) {
-            System.out.println("HEHEHE");
             Transport rusChina =new Transport(russia, china, 1000, TransportType.RAILWAY);
+            Transport chinaRus = new Transport(china, russia, 2000, TransportType.AIR);
+
             transports.add(rusChina);
-            rusChina.enable();
+//            transports.add(chinaRus);
+//            rusChina.enable();
+//            chinaRus.enable();
+//            System.out.println(chinaRus.isEnabled());
+
 
         }
     }
 
-    //Transport
+
 
 
 }

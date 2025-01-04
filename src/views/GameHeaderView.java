@@ -29,12 +29,12 @@ public class GameHeaderView extends JPanel {
         });
         this.add(pauseButton, BorderLayout.WEST);
 
-        gameDateLabel = new JLabel("Date: " + gameModel.getGameDate());
+        gameDateLabel = new JLabel("Date: " + gameModel.getDayCounter());
         gameDateLabel.setHorizontalAlignment(JLabel.CENTER);
         this.add(gameDateLabel,BorderLayout.CENTER);
     }
 
     public void updateGameDateLabel() {
-        gameDateLabel.setText("Date: " + gameModel.getGameDate());
+        gameDateLabel.setText("Dzień epidemii: " + gameModel.getDayCounter());
     }
 }

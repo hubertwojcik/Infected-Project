@@ -23,7 +23,6 @@ public class GameSidebarView extends JPanel {
         gameCountryView = new GameCountryView(gameModel);
         gameCountryView.setVisible(false);
         this.add(gameCountryView,BorderLayout.CENTER);
-
     }
 
     public void updateCountryPanel() {

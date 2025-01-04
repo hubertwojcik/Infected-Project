@@ -7,8 +7,6 @@ import java.awt.*;
 import models.GameModel;
 
 public class GameView extends JPanel {
-    private final GameModel gameModel;
-    private final GameController gameController;
     private final MapView mapView;
 
     //VIEWS
@@ -17,9 +15,7 @@ public class GameView extends JPanel {
 
     public GameView(GameController gameController, GameModel gameModel, MapController mapController) {
         //MODELS
-        this.gameModel = gameModel;
         //CONTROLLERS
-        this.gameController = gameController;
         //Views
         this.setLayout(new BorderLayout());
         gameHeaderView = new GameHeaderView(gameController, gameModel);
@@ -37,8 +33,9 @@ public class GameView extends JPanel {
         return gameSidebarView;
     }
 
-    public void updateDate() {
+    public void updateGameViews() {
             gameHeaderView.updateGameDateLabel();;
+            gameSidebarView.updateCountryPanel();
     }
 
 

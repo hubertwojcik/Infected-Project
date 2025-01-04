@@ -5,13 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf8b1bbb-2aac-429d-bb3f-be35e3a40fd1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/models/Transport.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/config/Config.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/Improvement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/Virus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/AppController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enums/TransportType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/TransportType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/MapController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/MapController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/PauseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/PauseController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Country.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/GameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Transport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Transport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/GameSidebarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/GameSidebarView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/StartGameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/StartGameView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +75,7 @@
       <option name="presentableId" value="Default" />
       <updated>1734863381251</updated>
       <workItem from="1734863382424" duration="51599000" />
-      <workItem from="1735380588844" duration="592000" />
+      <workItem from="1735380588844" duration="27922000" />
     </task>
     <servers />
   </component>
