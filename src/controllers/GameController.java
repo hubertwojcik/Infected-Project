@@ -4,13 +4,16 @@ import models.Country;
 import models.GameModel;
 import views.GameView;
 
-public class GameController {
+public class GameController implements Runnable{
     //MODELS
     private final GameModel gameModel;
     //CONTROLLERS
     private final MapController mapController;
     //VIEWS
     private final GameView gameView;
+    //LOOP
+    private boolean isRunning;
+    private Thread gameThread;
 
     public GameController(AppController appController) {
         //MODELS
@@ -21,26 +24,68 @@ public class GameController {
 
     }
 
+    public GameModel getGameModel() {
+        return gameModel;
+    }
+
     public GameView getGameView() {
         return gameView;
     }
 
-    public void startGame() {
-        gameModel.setGameState(GameState.PLAYING);
-        gameModel.startGame();
+    @Override
+    public void run() {
+        while (isRunning) {
+            try {
+                updateGameState();
+                Thread.sleep(1000); // Odczekaj 1 sekundę
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+    }
+
+    public void startNewGame() {
+        resetGame();
+        startGameLoop();
+    }
+
+    public void resumeGame() {
+        startGameLoop();
     }
 
     public void pauseGame() {
-        gameModel.setGameState(GameState.PAUSED);
-        gameModel.pauseGame();
+        stopGameLoop();
     }
 
     public void stopGame() {
-        gameModel.setGameState(GameState.NOT_STARTED);
-        gameModel.stopGame();
+        stopGameLoop();
+        resetGame();
     }
 
+    public void resetGame() {
+        gameModel.initializeGameData();
+    }
 
+    private void startGameLoop() {
+        if (gameThread == null || !gameThread.isAlive()) {
+            isRunning = true;
+            gameThread = new Thread(this);
+            gameThread.start();
+        }
+    }
+
+    private void stopGameLoop() {
+        isRunning = false;
+        if (gameThread != null) {
+            gameThread.interrupt();
+        }
+    }
+
+    private void updateGameState() {
+        gameModel.updateGameState(); // Zaktualizuj model gry
+        updateGameViews(); // Zaktualizuj widok
+    }
     public void updateGameViews(){
         gameView.updateGameViews();
     }

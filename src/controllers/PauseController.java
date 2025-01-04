@@ -19,7 +19,7 @@ public class PauseController {
     }
 
     public void resumeGame() {
-        appController.setGameState(GameState.PLAYING);
+        appController.setAppState(GameState.PLAYING);
     }
 
     public void exitGame(){

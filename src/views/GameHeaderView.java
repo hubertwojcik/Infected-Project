@@ -9,13 +9,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameHeaderView extends JPanel {
-    private final GameController gameController;
     private final GameModel gameModel;
     private JButton pauseButton;
     private JLabel gameDateLabel;
 
     public GameHeaderView(GameController gameController, GameModel gameModel){
-        this.gameController = gameController;
         this.gameModel = gameModel;
 
         this.setBackground(Color.GREEN);
@@ -29,7 +27,7 @@ public class GameHeaderView extends JPanel {
         });
         this.add(pauseButton, BorderLayout.WEST);
 
-        gameDateLabel = new JLabel("Date: " + gameModel.getDayCounter());
+        gameDateLabel = new JLabel("");
         gameDateLabel.setHorizontalAlignment(JLabel.CENTER);
         this.add(gameDateLabel,BorderLayout.CENTER);
     }

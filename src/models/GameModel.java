@@ -1,75 +1,27 @@
 package models;
 
 import controllers.GameController;
-import enums.GameState;
 import enums.TransportType;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameModel implements Runnable{
+public class GameModel {
     GameController gameController;
-    //
-    private LocalDate gameDate;
     private int dayCounter = 0;
     // COUNTRIES
-    private final List<Country> countries;
+    private  List<Country> countries;
     private Country selectedCountry;
-    private final List<Transport> transports;
-    private boolean isRunning = false;
-    private Thread gameThread;
-    //
-    private GameState gameState = GameState.NOT_STARTED;
+    //Trasport
+    private  List<Transport> transports;
 
     public GameModel(GameController gameController){
         this.gameController= gameController;
-        countries = initializeCountries();
-        transports = new ArrayList<>();
-        initializeTransports();
-    }
-
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
-
-    public GameState getGameState() {
-        return gameState;
+        initializeGameData();
     }
 
     public int getDayCounter() {
         return dayCounter;
-    }
-
-    public void updateGameState() {
-        if (gameState == GameState.PLAYING) {
-            // Synchronizuj kraje
-            synchronizeCountries();
-            // Synchronizuj transporty
-            synchronizeTransports();
-            // Zwiększ datę gry
-            dayCounter++;
-
-        }
-    }
-
-    public void startGame() {
-        if (gameThread == null || !gameThread.isAlive()) {
-            isRunning = true;
-            gameThread = new Thread(this);
-            gameThread.start();
-        }
-    }
-
-    public void pauseGame() {
-        isRunning = false;
-    }
-
-    public void stopGame() {
-        isRunning = false;
-        if (gameThread != null) {
-            gameThread.interrupt();
-        }
     }
 
     public Country getSelectedCountry() {
@@ -84,21 +36,18 @@ public class GameModel implements Runnable{
         return countries;
     }
 
-    @Override
-    public void run() {
-        while (isRunning) {
-            if (gameState == GameState.PLAYING) {
-                updateGameState();
-                gameController.updateGameViews();
-            }
+    public void updateGameState() {
+            synchronizeCountries();
+            synchronizeTransports();
+            dayCounter++;
+    }
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                break;
-            }
-        }
+    public void initializeGameData() {
+        dayCounter = 0;
+        countries = new ArrayList<>();
+        transports = new ArrayList<>();
+        initializeCountries();
+        initializeTransports();
     }
 
     private void synchronizeCountries() {
@@ -121,7 +70,6 @@ public class GameModel implements Runnable{
         }
     }
 
-
     private void synchronizeTransports() {
         List<Thread> transportThreads = new ArrayList<>();
 
@@ -142,34 +90,26 @@ public class GameModel implements Runnable{
         }
     }
 
+    private void initializeCountries() {
+        Country russia = new Country("Russia", 144000000, 50, 50, 200, 100);
+        Country china = new Country("China", 1400000000, 300, 150, 150, 100);
+        china.setVirus(new Virus("COVID-19", 0.4, 0.01, 0.002, 14), 1);
 
-
-    private List<Country> initializeCountries() {
-        List<Country> list = new ArrayList<>();
-        Country russia =new Country("Russia", 144000000, 50, 50, 200, 100 );
-        list.add(russia);
-        Country china =new Country("China", 1400000000 ,300, 150, 150, 100);
-        china.setVirus(new Virus("COVID-19", 0.4, 0.01, 0.002,14),1);
-        list.add(china);
-        list.add(new Country("India", 1300000000 ,300, 300, 100, 100));
-        list.add(new Country("Japan", 126000000,500, 200, 100, 50));
-        return list;
+        countries.add(russia);
+        countries.add(china);
+        countries.add(new Country("India", 1300000000, 300, 300, 100, 100));
+        countries.add(new Country("Japan", 126000000, 500, 200, 100, 50));
     }
 
     private void initializeTransports() {
         Country russia = countries.stream().filter(c -> c.getName().equals("Russia")).findFirst().orElse(null);
         Country china = countries.stream().filter(c -> c.getName().equals("China")).findFirst().orElse(null);
+
         if (russia != null && china != null) {
-            Transport rusChina =new Transport(russia, china, 1000, TransportType.RAILWAY);
-            Transport chinaRus = new Transport(china, russia, 2000, TransportType.AIR);
-
-            transports.add(rusChina);
-//            transports.add(chinaRus);
-//            rusChina.enable();
+            transports.add(new Transport(russia, china, 1000, TransportType.RAILWAY));
+            transports.add(new Transport(china, russia, 2000, TransportType.AIR));
+            //            rusChina.enable();
 //            chinaRus.enable();
-//            System.out.println(chinaRus.isEnabled());
-
-
         }
     }
 
