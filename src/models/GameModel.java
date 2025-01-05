@@ -1,8 +1,8 @@
 package models;
 
-import config.Config;
-import controllers.GameController;
+import config.GameSettings;
 import enums.CountryColor;
+import enums.DifficultyLevel;
 import enums.TransportType;
 
 import java.util.ArrayList;
@@ -13,6 +13,9 @@ public class GameModel {
     private  List<Country> countries;
     private Country selectedCountry;
     private  List<Transport> transports;
+    private Virus virus;
+
+
 
     public GameModel(){
         initializeGameData();
@@ -40,10 +43,16 @@ public class GameModel {
             dayCounter++;
     }
 
+
     public void initializeGameData() {
         dayCounter = 0;
         countries = new ArrayList<>();
         transports = new ArrayList<>();
+        virus = new Virus("SUPER-VIRUS-25", GameSettings.getDifficultyLevel().getInfectionRate(),
+                GameSettings.getDifficultyLevel().getDeathRate(), GameSettings.getDifficultyLevel().getRecoveryRate(), 14);
+
+
+        System.out.println("POZIOM TRUNOSC: " + GameSettings.getDifficultyLevel());
         initializeCountries();
         initializeTransports();
     }
@@ -83,7 +92,7 @@ public class GameModel {
                 thread.join();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                System.err.println("Wątek synchronizacji transportu został przerwany: " + e.getMessage());
+                e.printStackTrace();
             }
         }
     }
@@ -97,7 +106,7 @@ public class GameModel {
                 144000000,
                 mapPadding,
                 mapPadding,
-                Config.mapWidth - 2 * mapPadding - countrySpacing,
+                GameSettings.mapWidth - 2 * mapPadding - countrySpacing,
                 100 - countrySpacing,
                 CountryColor.RUSSIA);
         Country kazakhstan = new Country(

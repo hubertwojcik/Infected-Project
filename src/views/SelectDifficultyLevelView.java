@@ -1,6 +1,8 @@
 package views;
 
+import config.GameSettings;
 import controllers.AppController;
+import enums.DifficultyLevel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,15 +19,17 @@ public class SelectDifficultyLevelView extends JPanel{
         JButton easyButton = new JButton("Easy - łatwy");
 
         hardButton.addActionListener(e -> {
+            GameSettings.setDifficultyLevel(DifficultyLevel.HARD);
             app.startNewGame();
         });
         mediumButton.addActionListener(e -> {
+            GameSettings.setDifficultyLevel(DifficultyLevel.MEDIUM);
             app.startNewGame();
         });
         easyButton.addActionListener(e -> {
+            GameSettings.setDifficultyLevel(DifficultyLevel.EASY);
             app.startNewGame();
         });
-
 
         gbc.gridy = 0;
         this.add(hardButton, gbc);

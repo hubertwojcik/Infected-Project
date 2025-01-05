@@ -1,6 +1,6 @@
 package models;
 
-import config.Config;
+import config.GameSettings;
 import enums.TransportType;
 
 public class Transport implements Runnable {
@@ -72,7 +72,7 @@ public class Transport implements Runnable {
             }
 
             try {
-                Thread.sleep(Config.simulationInterval);
+                Thread.sleep(GameSettings.simulationInterval);
                 synchronized (fromCountry) {
                     synchronized (toCountry) {
 

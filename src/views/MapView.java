@@ -1,6 +1,6 @@
 package views;
 
-import config.Config;
+import config.GameSettings;
 import controllers.MapController;
 import models.Country;
 import models.GameModel;
@@ -25,6 +25,12 @@ public class MapView extends JPanel {
         this.mapController = mapController;
         this.setLayout(null);
         initializeCountries();
+
+
+        Color oceanColor = new Color(0, 51, 102, 255); // Alpha 255 = pełna nieprzezroczystość
+
+        this.setBackground(oceanColor);
+
 
         this.addComponentListener(new ComponentAdapter() {
 
@@ -77,8 +83,8 @@ public class MapView extends JPanel {
     }
 
     private void scaleMap() {
-        double scaleX = (double) getWidth() / Config.mapWidth;
-        double scaleY = (double) getHeight() / Config.windowHeight;
+        double scaleX = (double) getWidth() / GameSettings.mapWidth;
+        double scaleY = (double) getHeight() / GameSettings.windowHeight;
 
         for (Map.Entry<Country, JPanel> entry : countryPanels.entrySet()) {
             Country country = entry.getKey();

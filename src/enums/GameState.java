@@ -6,6 +6,6 @@ public enum GameState {
     PLAYING,
     PAUSED,
     GAME_OVER,
-    HIGH_SCORES
+    HIGH_SCORES,
 
 }

@@ -38,5 +38,16 @@ public class GameView extends JPanel {
             gameSidebarView.updateCountryPanel();
     }
 
+    public void showGameStartAlert() {
+        // Wyświetlenie okna dialogowego z alertem
+        JOptionPane.showMessageDialog(
+                this,
+                "W prowincji Huber wybuchła pozornie niewinna epidemia.\n" +
+                        "Rozprzestrzenia się szybciej, niż ktokolwiek mógł przypuszczać.",
+                "Początek epidemii",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
 
 }

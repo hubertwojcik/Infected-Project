@@ -31,8 +31,10 @@ public class AppController extends JPanel
         selectDifficultyLevelView = new SelectDifficultyLevelView(this);
         highScoresView = new HighScoresView(this);
 
+
         gameFrame.add(startGameView,"START");
         gameFrame.add(selectDifficultyLevelView,"SELECT_DIFFICULTY");
+
         gameFrame.add(gameController.getGameView(),"GAME");
         gameFrame.add(pauseController.getPauseView(),"PAUSE");
         gameFrame.add(highScoresView,"HIGH_SCORES");
@@ -49,6 +51,7 @@ public class AppController extends JPanel
             case PLAYING -> layout.show(gameFrame.getContentPane(), "GAME");
             case PAUSED -> layout.show(gameFrame.getContentPane(), "PAUSE");
             case HIGH_SCORES -> layout.show(gameFrame.getContentPane(),"HIGH_SCORES");
+
         }
     }
 

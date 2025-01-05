@@ -48,6 +48,7 @@ public class GameController implements Runnable{
     public void startNewGame() {
         resetGame();
         startGameLoop();
+        gameView.showGameStartAlert();
     }
 
     public void resumeGame() {
