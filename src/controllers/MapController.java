@@ -27,9 +27,9 @@ public class MapController {
             }
         }
 
-        // Jeśli kliknięto poza krajami, odznacz wszystkie
+
         gameModel.setSelectedCountry(null);
-        gameController.handleCountrySidebarClick(); // Aktualizuj widok
+        gameController.handleCountrySidebarClick();
     }
     private boolean isClickedPointCountry(Point point, Country country) {
         Rectangle countryBounds = new Rectangle(

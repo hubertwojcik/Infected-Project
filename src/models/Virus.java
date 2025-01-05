@@ -5,7 +5,7 @@ public class Virus {
     private double infectionRate;
     private double recoveryResistance;
     private double mortalityRate;
-    private int incubationPeriod; // Liczba dni w okresie inkubacji
+    private int incubationPeriod;
 
 
 
