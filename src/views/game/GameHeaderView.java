@@ -1,9 +1,7 @@
-package views;
+package views.game;
 
-import controllers.AppController;
-import controllers.GameController;
-import enums.GameState;
-import models.GameModel;
+import controllers.game.GameController;
+import models.game.GameModel;
 
 import javax.swing.*;
 import java.awt.*;

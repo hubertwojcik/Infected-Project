@@ -1,4 +1,4 @@
-package entity;
+package models.map;
 
 public class MapObject {
     private final int mapObjectX,mapObjectY;

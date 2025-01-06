@@ -1,8 +1,9 @@
-package models;
+package models.map;
 
 import java.awt.*;
 import java.util.*;
-import entity.MapObject;
+
+import models.game.Virus;
 import enums.CountryColor;
 
 public class Country extends MapObject {

@@ -1,8 +1,9 @@
-package controllers;
-import enums.GameState;
-import models.Country;
-import models.GameModel;
-import views.GameView;
+package controllers.game;
+import controllers.AppController;
+import controllers.map.MapController;
+import models.map.Country;
+import models.game.GameModel;
+import views.game.GameView;
 
 public class GameController implements Runnable{
     //MODELS

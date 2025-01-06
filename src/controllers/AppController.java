@@ -1,16 +1,19 @@
 package controllers;
 
+import controllers.game.GameController;
 import enums.GameState;
-import views.*;
-import views.GameFrame;
+import views.game.GameFrame;
+import views.general.HighScoresView;
+import views.general.SelectDifficultyLevelView;
+import views.general.StartGameView;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class AppController extends JPanel
 {
-    private GameState gameState = GameState.NOT_STARTED;
     // CONTROLLERS
-    public PauseController pauseController;
+
     public GameController gameController;
     // GAME SCREENS
     public StartGameView startGameView;
@@ -21,9 +24,8 @@ public class AppController extends JPanel
 
     public AppController(){
         //MODELS
-//        appModel = new AppModel();
         // CONTROLLERS
-        pauseController = new PauseController(this);
+
         gameController = new GameController(this);
         // VIEWS
         gameFrame = new GameFrame();
@@ -36,7 +38,6 @@ public class AppController extends JPanel
         gameFrame.add(selectDifficultyLevelView,"SELECT_DIFFICULTY");
 
         gameFrame.add(gameController.getGameView(),"GAME");
-        gameFrame.add(pauseController.getPauseView(),"PAUSE");
         gameFrame.add(highScoresView,"HIGH_SCORES");
 
 
@@ -49,7 +50,6 @@ public class AppController extends JPanel
             case NOT_STARTED -> layout.show(gameFrame.getContentPane(), "START");
             case SELECT_DIFFICULTY -> layout.show(gameFrame.getContentPane(),"SELECT_DIFFICULTY");
             case PLAYING -> layout.show(gameFrame.getContentPane(), "GAME");
-            case PAUSED -> layout.show(gameFrame.getContentPane(), "PAUSE");
             case HIGH_SCORES -> layout.show(gameFrame.getContentPane(),"HIGH_SCORES");
 
         }
@@ -62,19 +62,6 @@ public class AppController extends JPanel
         gameController.startNewGame();
     }
 
-    public void resumeGame() {
-        if (gameState == GameState.PAUSED) {
-            setAppState(GameState.PLAYING);
-            gameController.resumeGame();
-        }
-    }
-
-    public void pauseGame() {
-        if (gameState == GameState.PLAYING) {
-            setAppState(GameState.PAUSED);
-            gameController.pauseGame();
-        }
-    }
 
     public void stopGame() {
         setAppState(GameState.NOT_STARTED);

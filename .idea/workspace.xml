@@ -5,19 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf8b1bbb-2aac-429d-bb3f-be35e3a40fd1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/enums/DifficultyLevel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/GameSettings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/AppController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/game/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/MapController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/map/MapController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/PauseController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/UpgradePanelController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/game/UpgradePanelController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/MapObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/map/MapObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/enums/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/GameState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/GameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Transport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Transport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/GameFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/GameSidebarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/GameSidebarView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/GameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/MapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/SelectDifficultyLevelView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/SelectDifficultyLevelView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/AppModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/map/Country.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/CountryRectangle.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/game/GameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Improvement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/game/Improvement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Transport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/game/Transport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Virus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/game/Virus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/GameCountryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameCountryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/GameHeaderView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameHeaderView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/GameSidebarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameSidebarView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/GameStatisticsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameStatisticsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/HighScoresView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/general/HighScoresView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/map/MapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/PauseView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/SelectDifficultyLevelView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/general/SelectDifficultyLevelView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/StartGameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/general/StartGameView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +87,7 @@
       <option name="presentableId" value="Default" />
       <updated>1734863381251</updated>
       <workItem from="1734863382424" duration="51599000" />
-      <workItem from="1735380588844" duration="45976000" />
+      <workItem from="1735380588844" duration="47420000" />
     </task>
     <servers />
   </component>

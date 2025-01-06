@@ -1,10 +1,9 @@
-package views;
+package views.game;
 
-import models.Country;
-import models.GameModel;
+import models.map.Country;
+import models.game.GameModel;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class GameCountryView extends JPanel {
     private final GameModel gameModel;

@@ -1,4 +1,4 @@
-package models;
+package models.game;
 
 public class Improvement {
     private final String name;

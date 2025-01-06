@@ -1,8 +1,9 @@
-package controllers;
+package controllers.map;
 
 
-import models.Country;
-import models.GameModel;
+import controllers.game.GameController;
+import models.map.Country;
+import models.game.GameModel;
 
 import java.awt.*;
 

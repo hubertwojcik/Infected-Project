@@ -1,7 +1,8 @@
-package models;
+package models.game;
 
 import config.GameSettings;
 import enums.TransportType;
+import models.map.Country;
 
 public class Transport implements Runnable {
     private final Country fromCountry;

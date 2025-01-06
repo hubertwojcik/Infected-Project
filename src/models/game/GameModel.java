@@ -1,9 +1,9 @@
-package models;
+package models.game;
 
 import config.GameSettings;
 import enums.CountryColor;
-import enums.DifficultyLevel;
 import enums.TransportType;
+import models.map.Country;
 
 import java.util.ArrayList;
 import java.util.List;

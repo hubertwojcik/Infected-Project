@@ -1,4 +1,4 @@
-package views;
+package views.general;
 
 import controllers.AppController;
 

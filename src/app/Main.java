@@ -1,3 +1,5 @@
+package app;
+
 import controllers.AppController;
 
 import javax.swing.*;

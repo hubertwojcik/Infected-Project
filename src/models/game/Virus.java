@@ -1,4 +1,4 @@
-package models;
+package models.game;
 
 public class Virus {
     private String name;

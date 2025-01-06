@@ -1,10 +1,11 @@
-package views;
+package views.game;
 
-import controllers.GameController;
-import controllers.MapController;
+import controllers.game.GameController;
+import controllers.map.MapController;
 import javax.swing.*;
 import java.awt.*;
-import models.GameModel;
+import models.game.GameModel;
+import views.map.MapView;
 
 public class GameView extends JPanel {
     private final MapView mapView;

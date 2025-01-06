@@ -1,9 +1,9 @@
-package views;
+package views.map;
 
 import config.GameSettings;
-import controllers.MapController;
-import models.Country;
-import models.GameModel;
+import controllers.map.MapController;
+import models.map.Country;
+import models.game.GameModel;
 
 import javax.swing.*;
 import java.awt.*;

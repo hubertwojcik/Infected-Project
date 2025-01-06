@@ -1,4 +1,4 @@
-package views;
+package views.game;
 
 import config.GameSettings;
 

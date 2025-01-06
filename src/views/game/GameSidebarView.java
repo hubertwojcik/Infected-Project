@@ -1,11 +1,11 @@
-package views;
+package views.game;
 
 import config.GameSettings;
-import models.GameModel;
+import models.game.GameModel;
 
 import javax.swing.*;
 import java.awt.*;
-import models.Country;
+import models.map.Country;
 public class GameSidebarView extends JPanel {
     private final GameModel gameModel;
     private final GameStatisticsView statisticsPanel;
