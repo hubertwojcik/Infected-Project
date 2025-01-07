@@ -1,6 +1,6 @@
 package models.game;
 
-import config.GameSettings;
+import game.GameSettings;
 import enums.TransportType;
 import models.map.Country;
 
@@ -49,7 +49,6 @@ public class Transport implements Runnable {
             notify();
         }
     }
-
 
     public boolean isEnabled() {
         return isEnabled;

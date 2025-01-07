@@ -1,11 +1,12 @@
 package views.game;
 
+import models.game.GameObserver;
 import models.map.Country;
 import models.game.GameModel;
 
 import javax.swing.*;
 
-public class GameCountryView extends JPanel {
+public class GameCountryView extends JPanel implements GameObserver {
     private final GameModel gameModel;
     private JLabel countryLabel;
     private JLabel populationLabel;
@@ -43,24 +44,31 @@ public class GameCountryView extends JPanel {
 
     }
 
-    public void updateCountryPanel() {
-        Country selectedCountry = gameModel.getSelectedCountry();
-        if (selectedCountry == null) {
-            countryLabel.setText("No country selected");
-            populationLabel.setText("No country selected");
-            infectedLabel.setText("Infected: -");
-            recoveredLabel.setText("Recovered: ");
-            deadLabel.setText("Dead: ");
-        } else {
-            countryLabel.setText(selectedCountry.getName());
-            populationLabel.setText("Populacja: "+ selectedCountry.getPopulation());
-            infectedLabel.setText("Infected: " + (selectedCountry.getInfected()));
-            recoveredLabel.setText("Recovered: "+(selectedCountry.getRecovered()));
-            deadLabel.setText("Dead: "+(selectedCountry.getDead()));
-        }
 
-        // Odśwież widok
-        this.revalidate(); // Przebuduj layout
-        this.repaint(); // Odśwież widok
+
+    @Override
+    public void onSelectedCountryUpdate(String countryName, int population, int infected, int cured, int dead) {
+        if (countryName == null) {
+            SwingUtilities.invokeLater(() -> this.setVisible(false));
+        } else {
+            SwingUtilities.invokeLater(() -> {
+                this.setVisible(true);
+                countryLabel.setText("Country: " + countryName);
+                populationLabel.setText("Populacja: " + population);
+                infectedLabel.setText("Infected: " + infected);
+                recoveredLabel.setText("Cured: " + cured);
+                deadLabel.setText("Dead: " + dead);
+            });
+        }
+    }
+
+    @Override
+    public void onGlobalStatsUpdate(int infected, int cured, int dead) {
+
+    }
+
+    @Override
+    public void onDayUpdate(int dayCounter) {
+
     }
 }

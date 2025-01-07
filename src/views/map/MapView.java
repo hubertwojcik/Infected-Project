@@ -1,6 +1,6 @@
 package views.map;
 
-import config.GameSettings;
+import game.GameSettings;
 import controllers.map.MapController;
 import models.map.Country;
 import models.game.GameModel;

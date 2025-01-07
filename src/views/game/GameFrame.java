@@ -1,6 +1,6 @@
 package views.game;
 
-import config.GameSettings;
+import game.GameSettings;
 
 import javax.swing.*;
 import java.awt.*;

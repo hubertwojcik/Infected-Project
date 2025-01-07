@@ -2,11 +2,12 @@ package views.game;
 
 import controllers.game.GameController;
 import models.game.GameModel;
+import models.game.GameObserver;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class GameHeaderView extends JPanel {
+public class GameHeaderView extends JPanel implements GameObserver {
     private final GameModel gameModel;
 
     private JLabel gameDateLabel;
@@ -14,9 +15,10 @@ public class GameHeaderView extends JPanel {
     public GameHeaderView(GameController gameController, GameModel gameModel){
         this.gameModel = gameModel;
 
-        this.setBackground(Color.GREEN);
+        this.setBackground(Color.RED);
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.setPreferredSize(new Dimension(0, 30));
 
         gameDateLabel = new JLabel("");
         gameDateLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -24,6 +26,21 @@ public class GameHeaderView extends JPanel {
     }
 
     public void updateGameDateLabel() {
+
+    }
+
+    @Override
+    public void onDayUpdate(int dayCounter) {
         gameDateLabel.setText("Dzień epidemii: " + gameModel.getDayCounter());
+    }
+
+    @Override
+    public void onSelectedCountryUpdate(String countryName, int population, int infected, int cured, int dead) {
+
+    }
+
+    @Override
+    public void onGlobalStatsUpdate(int infected, int cured, int dead) {
+
     }
 }

@@ -1,11 +1,12 @@
 package views.game;
 
 import models.game.GameModel;
+import models.game.GameObserver;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class GameStatisticsView extends JPanel {
+public class GameStatisticsView extends JPanel implements GameObserver {
     private final GameModel gameModel;
     private final JLabel infectedLabel;
     private final JLabel curedLabel;
@@ -28,8 +29,24 @@ public class GameStatisticsView extends JPanel {
 
     //TODO AKTUALIZACJA PO KAZDYM DNIU
     public void updateStats(int infected, int cured, int dead) {
-        infectedLabel.setText("Infected: " + infected);
-        curedLabel.setText("Cured: " + cured);
-        deadLabel.setText("Dead: " + dead);
+
+    }
+
+    @Override
+    public void onSelectedCountryUpdate(String countryName, int population, int infected, int cured, int dead) {
+
+    }
+
+    @Override
+    public void onGlobalStatsUpdate(int infected, int cured, int dead) {
+        SwingUtilities.invokeLater(()->{});
+            infectedLabel.setText("Infected: " + infected);
+            curedLabel.setText("Cured: " + cured);
+            deadLabel.setText("Dead: " + dead);
+    }
+
+    @Override
+    public void onDayUpdate(int dayCounter) {
+
     }
 }

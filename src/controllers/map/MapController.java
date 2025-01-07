@@ -22,16 +22,14 @@ public class MapController {
     public void handleMapClick(Point point) {
         for (Country country : gameModel.getCountries()) {
             if (isClickedPointCountry(point, country)) {
-                gameModel.setSelectedCountry(country);
-                gameController.handleCountrySidebarClick();
+                gameModel.setSelectedCountry(country); // Powiadamia obserwatorów
+                System.out.println(country.getName());
                 return;
             }
         }
-
-
-        gameModel.setSelectedCountry(null);
-        gameController.handleCountrySidebarClick();
+        gameModel.setSelectedCountry(null); // Brak wybranego kraju
     }
+
     private boolean isClickedPointCountry(Point point, Country country) {
         Rectangle countryBounds = new Rectangle(
                 country.getMapObjectX(),

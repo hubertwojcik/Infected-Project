@@ -1,6 +1,6 @@
 package views.general;
 
-import config.GameSettings;
+import game.GameSettings;
 import controllers.AppController;
 import enums.DifficultyLevel;
 

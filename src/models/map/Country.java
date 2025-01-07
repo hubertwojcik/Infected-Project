@@ -99,7 +99,7 @@ public class Country extends MapObject {
 
         double potentialInfections = infectionRate * susceptible * infected / population;
         int newInfections = (int) Math.max(1, Math.min(Math.ceil(potentialInfections), susceptible));
-
+        System.out.println("NAMe: "+name+" | New infections: "+newInfections);
         int recoverOrDeadDay = dayCounter + getRandomDays(14, 21);
         infectedMap.put(recoverOrDeadDay, infectedMap.getOrDefault(recoverOrDeadDay, 0) + newInfections);
 
@@ -146,7 +146,7 @@ public class Country extends MapObject {
     public synchronized void decreasePopulation(int value) {
         int decreaseAmount = Math.min(value, population);
         this.population -= decreaseAmount;
-
+        System.out.println("Value: "+value );
 
         if (susceptible >= decreaseAmount) {
             this.susceptible -= decreaseAmount;
