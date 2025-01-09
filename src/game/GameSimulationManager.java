@@ -25,14 +25,12 @@ public class GameSimulationManager {
         }
 
         for (Transport transport : transports) {
-            Thread thread = new Thread(transport::run);
-            threads.add(thread);
-            thread.start();
+            transport.executeTransport();
         }
 
         for (Thread thread : threads) {
             try {
-                thread.join(); // Wait for each thread to complete
+                thread.join();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 System.err.println("Simulation thread interrupted: " + e.getMessage());

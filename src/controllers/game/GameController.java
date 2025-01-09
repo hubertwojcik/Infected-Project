@@ -20,17 +20,13 @@ public class GameController implements Runnable{
     private boolean isRunning;
     private Thread gameThread;
 
-    public GameController(AppController appController,DifficultyLevel difficultyLevel) {
+    public GameController(AppController appController) {
         //MODELS
-        this.gameModel = new GameModel(difficultyLevel);
+        this.gameModel = new GameModel();
         //CONTROLLERS
         this.mapController = new MapController(gameModel,this);
         this.gameView = new GameView(this, gameModel,mapController);
 
-    }
-
-    public GameModel getGameModel() {
-        return gameModel;
     }
 
     public GameView getGameView() {
@@ -51,22 +47,10 @@ public class GameController implements Runnable{
     }
 
     public void startNewGame() {
-
-//        gameModel = new GameModel(GameSettings.getDifficultyLevel());
-//        mapController = new MapController(gameModel, this);
-//        gameView = new GameView(this, gameModel, mapController);
-
-
         resetGame();
         startGameLoop();
         gameModel.startNewGame();
         gameView.showGameStartAlert();
-    }
-
-
-    public void stopGame() {
-        stopGameLoop();
-        resetGame();
     }
 
     public void resetGame() {
@@ -80,14 +64,5 @@ public class GameController implements Runnable{
             gameThread.start();
         }
     }
-
-    private void stopGameLoop() {
-        isRunning = false;
-        if (gameThread != null) {
-            gameThread.interrupt();
-        }
-    }
-
-
 
 }

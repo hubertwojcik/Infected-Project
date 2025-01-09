@@ -1,6 +1,5 @@
 package models.game;
 
-import enums.DifficultyLevel;
 import game.GameDataInitializer;
 import game.GameSettings;
 import game.GameSimulationManager;
@@ -24,7 +23,6 @@ public class GameModel {
     private Country selectedCountry;
     private  List<Transport> transports;
     private Virus virus;
-    private DifficultyLevel difficultyLevel;
 
 
     public void addObserver(GameObserver observer) {
@@ -35,7 +33,7 @@ public class GameModel {
         observers.remove(observer);
     }
 
-    public GameModel(DifficultyLevel difficultyLevel){
+    public GameModel(){
         initializeGameData();
     }
 
@@ -56,23 +54,6 @@ public class GameModel {
         return countries;
     }
 
-//    public void updateModel() {
-//        runCountries();
-//        runTransports();
-//        dayCounter++;
-//        updateGlobalStats();
-//
-//        notifyDayUpdate();
-//        notifyGlobalStatsUpdate();
-//
-//
-//        if(selectedCountry != null){
-//            notifySelectedCountryStatsUpdate();
-//        }
-//
-//    }
-
-
     public void updateModel() {
         simulationManager.runSimulationStep();
         dayCounter++;
@@ -90,9 +71,20 @@ public class GameModel {
     }
 
     private void updateGlobalStats() {
-        totalInfected = countries.stream().mapToInt(Country::getInfected).sum();
-        totalCured = countries.stream().mapToInt(Country::getRecovered).sum();
-        totalDead = countries.stream().mapToInt(Country::getDead).sum();
+        int tempInfected = 0;
+        int tempCured = 0;
+        int tempDead = 0;
+
+        for (Country c : countries){
+            tempInfected += c.getInfected();
+            tempCured += c.getRecovered();
+            tempDead += c.getDead();
+        }
+
+        totalInfected = tempInfected;
+        totalCured = tempCured;
+        totalDead = tempDead;
+
     }
 
     private void notifyDayUpdate() {
@@ -124,25 +116,20 @@ public class GameModel {
     private void notifySelectedCountryUpdate() {
         for (GameObserver observer : observers) {
             Country selectedCountry = this.selectedCountry;
-            System.out.println("SELECTED COUNTRY: " + selectedCountry.getName());
-            if (selectedCountry != null) {
-                observer.onSelectedCountryUpdate(
-                        selectedCountry.getName(),
-                        selectedCountry.getPopulation(),
-                        selectedCountry.getInfected(),
-                        selectedCountry.getRecovered(),
-                        selectedCountry.getDead()
-                );
-            }
+            observer.onSelectedCountryUpdate(
+                    selectedCountry.getName(),
+                    selectedCountry.getPopulation(),
+                    selectedCountry.getInfected(),
+                    selectedCountry.getRecovered(),
+                    selectedCountry.getDead()
+            );
         }
     }
 
     public void initializeGameData() {
-        System.out.println("GameSettings.getDifficultyLevel()"+GameSettings.getDifficultyLevel());
         dayCounter = 0;
         countries = GameDataInitializer.initializeCountries();
         transports = GameDataInitializer.initializeTransports(countries);
-
 
         virus = GameDataInitializer.initializeVirus(GameSettings.getDifficultyLevel());
 
@@ -154,60 +141,5 @@ public class GameModel {
 
         simulationManager = new GameSimulationManager(countries, transports);
 
-//        System.out.println("POZIOM TRUNOSC: " + GameSettings.getDifficultyLevel());
     }
-
-    private void runCountries() {
-        List<Thread> countryThreads = new ArrayList<>();
-
-        for (Country country : countries) {
-            Thread thread = new Thread(() -> {
-                try {
-                    country.simulateInfectionSpread();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            countryThreads.add(thread);
-            thread.start();
-        }
-
-        for (Thread thread : countryThreads) {
-            try {
-                thread.join(); // Czekaj na zakończenie wątku
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                System.err.println("Wątek synchronizacji kraju został przerwany: " + e.getMessage());
-            }
-        }
-    }
-
-    private void runTransports() {
-        List<Thread> transportThreads = new ArrayList<>();
-
-        for (Transport transport : transports) {
-            Thread thread = new Thread(() -> {
-                try {
-                    transport.run();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            transportThreads.add(thread);
-            thread.start();
-        }
-
-        for (Thread thread : transportThreads) {
-            try {
-                thread.join(); // Czekaj na zakończenie wątku
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                System.err.println("Wątek synchronizacji transportu został przerwany: " + e.getMessage());
-            }
-        }
-    }
-
-
-
-
 }

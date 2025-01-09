@@ -26,7 +26,7 @@ public class GameDataInitializer {
                 CountryColor.RUSSIA);
         Country kazakhstan = new Country(
                 "Kazakhstan",
-                1000000,
+                19_000_000,
                 mapPadding,
                 russia.getMapObjectY() + russia.getHeight() + countrySpacing,
                 200 - countrySpacing,
@@ -34,7 +34,7 @@ public class GameDataInitializer {
                 CountryColor.KAZAKHSTAN);
         Country mongolia = new Country(
                 "Mongolia",
-                1000000,
+                3_400_000,
                 kazakhstan.getMapObjectX() + kazakhstan.getWidth() + countrySpacing,
                 russia.getMapObjectY() + russia.getHeight() + countrySpacing,
                 250 - countrySpacing,
@@ -57,7 +57,7 @@ public class GameDataInitializer {
                 CountryColor.JAPAN);
         Country iran = new Country(
                 "Iran",
-                126000000,
+                89_200_200,
                 mapPadding,
                 kazakhstan.getMapObjectY() + kazakhstan.getHeight() + countrySpacing,
                 150 - countrySpacing,
@@ -65,7 +65,7 @@ public class GameDataInitializer {
                 CountryColor.IRAN);
         Country pakistan = new Country(
                 "Pakistan",
-                126000000,
+                248_000_000,
                 iran.getMapObjectX() + iran.getWidth() + countrySpacing,
                 kazakhstan.getMapObjectY() + kazakhstan.getHeight() + countrySpacing,
                 50 - countrySpacing,
@@ -73,7 +73,7 @@ public class GameDataInitializer {
                 CountryColor.MALAYSIA);
         Country india = new Country(
                 "Indie",
-                1300000000,
+                1_428_600_000,
                 pakistan.getMapObjectX() + pakistan.getWidth() + countrySpacing,
                 kazakhstan.getMapObjectY() + kazakhstan.getHeight() + countrySpacing,
                 150 - countrySpacing,
@@ -81,7 +81,7 @@ public class GameDataInitializer {
                 CountryColor.INDIA);
         Country vietnam = new Country(
                 "Wietnam",
-                126000000,
+                99_500_000,
                 india.getMapObjectX() + india.getWidth() + countrySpacing,
                 kazakhstan.getMapObjectY() + kazakhstan.getHeight() + countrySpacing,
                 50 - countrySpacing,
@@ -89,13 +89,12 @@ public class GameDataInitializer {
                 CountryColor.VIETNAM);
         Country indonesia = new Country(
                 "Indonesia",
-                126000000,
+                277_500_000,
                 300,
                 india.getMapObjectY() + india.getHeight() + 25 + countrySpacing,
                 250 - countrySpacing,
                 50 - countrySpacing,
                 CountryColor.INDONESIA);
-
         countries.add(russia);
         countries.add(china);
         countries.add(kazakhstan);
@@ -106,7 +105,6 @@ public class GameDataInitializer {
         countries.add(pakistan);
         countries.add(indonesia);
         countries.add(vietnam);
-
         return countries;
     }
 
@@ -118,7 +116,6 @@ public class GameDataInitializer {
         if (russia != null && china != null) {
             Transport rusChinaRailway =new Transport(russia, china, 1000, TransportType.RAILWAY);
             transports.add(rusChinaRailway);
-
 //            rusChinaRailway.enable();
         }
         return transports;

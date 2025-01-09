@@ -5,26 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf8b1bbb-2aac-429d-bb3f-be35e3a40fd1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/game/GameDataInitializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game/GameSimulationManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game/ScreenManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/game/GameObserver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/GameSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameSettings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/AppController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/game/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/map/MapController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/map/MapController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/GameDataInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameDataInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/GameSimulationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameSimulationManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/game/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/game/GameModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/game/Transport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/game/Transport.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/map/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/map/Country.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/game/GameCountryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameCountryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/game/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/game/GameHeaderView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameHeaderView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/game/GameSidebarView.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/game/GameStatisticsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameStatisticsView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/game/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/general/SelectDifficultyLevelView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/general/SelectDifficultyLevelView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/map/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/map/MapView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +69,9 @@
       <updated>1734863381251</updated>
       <workItem from="1734863382424" duration="51599000" />
       <workItem from="1735380588844" duration="56893000" />
-      <workItem from="1736271886462" duration="6659000" />
+      <workItem from="1736271886462" duration="7410000" />
+      <workItem from="1736351779605" duration="6224000" />
+      <workItem from="1736448329282" duration="958000" />
     </task>
     <servers />
   </component>

@@ -18,10 +18,11 @@ public class Country extends MapObject {
     private final Map<Integer, Integer> infectedMap = new HashMap<>();
     private Random random = new Random();
     private final CountryColor color;
-
     // VIRUS
-
     private Virus virus;
+    //
+    private final Object lock = new Object();
+
 
     public Country(String name, int population, int mapX, int mapY, int width, int height,CountryColor color) {
         super(mapX, mapY, width, height);
@@ -45,17 +46,17 @@ public class Country extends MapObject {
         return name;
     }
 
-    public int getPopulation() {
-        return population;
-    }
+//    public int getPopulation() {
+//        return population;
+//    }
 
     public int getRecovered() {
         return recovered;
     }
 
-    public int getInfected() {
-        return infected;
-    }
+//    public int getInfected() {
+//        return infected;
+//    }
 
     public int getDead() {
         return dead;
@@ -135,33 +136,57 @@ public class Country extends MapObject {
         dayCounter++;
     }
 
-    // Population adjustment
-    //OSOBY PRZYBYWAJACE MOGA BYC CHORE
-    public synchronized void increasePopulation(int value) {
-        this.population += value;
-        this.susceptible += value;
-    }
-
-    //OSOBY WYJEZDZAJACE MOGA CHORE
-    public synchronized void decreasePopulation(int value) {
-        int decreaseAmount = Math.min(value, population);
-        this.population -= decreaseAmount;
-        System.out.println("Value: "+value );
-
-        if (susceptible >= decreaseAmount) {
-            this.susceptible -= decreaseAmount;
-        } else {
-            int remaining = decreaseAmount - susceptible;
-            this.susceptible = 0;
-            if (infected >= remaining) {
-                this.infected -= remaining;
-            } else {
-                int remainingAfterInfected = remaining - infected;
-                this.infected = 0;
-                this.recovered = Math.max(0, recovered - remainingAfterInfected);
-            }
+    public int getPopulation() {
+        synchronized (lock) {
+            return population;
         }
     }
+
+    public void adjustPopulation(int delta) {
+        synchronized (lock) {
+            population += delta;
+        }
+    }
+
+    public void adjustInfected(int delta) {
+        synchronized (lock) {
+            infected += delta;
+        }
+    }
+
+    public int getInfected() {
+        synchronized (lock) {
+            return infected;
+        }
+    }
+
+    // Population adjustment
+    //OSOBY PRZYBYWAJACE MOGA BYC CHORE
+//    public synchronized void increasePopulation(int value) {
+//        this.population += value;
+//        this.susceptible += value;
+//    }
+//
+//    //OSOBY WYJEZDZAJACE MOGA CHORE
+//    public synchronized void decreasePopulation(int value) {
+//        int decreaseAmount = Math.min(value, population);
+//        this.population -= decreaseAmount;
+//        System.out.println("Value: "+value );
+//
+//        if (susceptible >= decreaseAmount) {
+//            this.susceptible -= decreaseAmount;
+//        } else {
+//            int remaining = decreaseAmount - susceptible;
+//            this.susceptible = 0;
+//            if (infected >= remaining) {
+//                this.infected -= remaining;
+//            } else {
+//                int remainingAfterInfected = remaining - infected;
+//                this.infected = 0;
+//                this.recovered = Math.max(0, recovered - remainingAfterInfected);
+//            }
+//        }
+//    }
 
     // Helpers
     private int getRandomDays(int min, int max) {
