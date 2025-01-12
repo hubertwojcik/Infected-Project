@@ -33,7 +33,6 @@ public class Country extends MapObject {
         this.recovered = 0;
         this.dead = 0;
         this.color = color;
-
     }
 
     public CountryColor getColor() {
@@ -46,17 +45,9 @@ public class Country extends MapObject {
         return name;
     }
 
-//    public int getPopulation() {
-//        return population;
-//    }
-
     public int getRecovered() {
         return recovered;
     }
-
-//    public int getInfected() {
-//        return infected;
-//    }
 
     public int getDead() {
         return dead;
@@ -74,14 +65,6 @@ public class Country extends MapObject {
         return super.getMapObjectY();
     }
 
-    public int getMapObjectWidth() {
-        return super.getWidth();
-    }
-
-    public int getMapObjectHeight() {
-        return super.getHeight();
-    }
-
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
@@ -89,6 +72,14 @@ public class Country extends MapObject {
     public boolean isSelected() {
         return isSelected;
     }
+
+    public int getPopulation() {
+        synchronized (lock) {
+            return population;
+        }
+    }
+
+
 
     // VIRUS LOGIC
     public synchronized void simulateInfectionSpread() {
@@ -136,11 +127,7 @@ public class Country extends MapObject {
         dayCounter++;
     }
 
-    public int getPopulation() {
-        synchronized (lock) {
-            return population;
-        }
-    }
+
 
     public void adjustPopulation(int delta) {
         synchronized (lock) {

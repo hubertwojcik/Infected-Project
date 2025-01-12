@@ -3,7 +3,7 @@ package game;
 import enums.CountryColor;
 import enums.DifficultyLevel;
 import enums.TransportType;
-import models.game.Transport;
+import models.Transport.Transport;
 import models.game.Virus;
 import models.map.Country;
 

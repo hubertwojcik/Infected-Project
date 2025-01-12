@@ -3,6 +3,7 @@ package models.game;
 import game.GameDataInitializer;
 import game.GameSettings;
 import game.GameSimulationManager;
+import models.Transport.Transport;
 import models.map.Country;
 
 import java.util.ArrayList;
@@ -141,5 +142,9 @@ public class GameModel {
 
         simulationManager = new GameSimulationManager(countries, transports);
 
+    }
+
+    public List<Transport> getTransports() {
+        return transports;
     }
 }

@@ -3,13 +3,18 @@ package views.game;
 import game.GameSettings;
 import controllers.game.GameController;
 import controllers.map.MapController;
+import models.Transport.TransportObserver;
 import models.game.GameModel;
+import models.Transport.Transport;
 import views.map.MapView;
+import views.transport.TransportIconView;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
-public class GameView extends JPanel {
+public class GameView extends JPanel  {
     private final GameModel gameModel;
 
     // Komponenty widoku
@@ -17,6 +22,9 @@ public class GameView extends JPanel {
     private final GameStatisticsView statisticsPanel;
     private final GameCountryView gameCountryView;
     private final MapView mapView;
+
+    private Image transportImage;
+
 
     public GameView(GameController gameController, GameModel gameModel, MapController mapController) {
         this.gameModel = gameModel;
@@ -45,8 +53,10 @@ public class GameView extends JPanel {
 
         this.add(sidebarPanel, BorderLayout.EAST);
 
-        // Rejestracja obserwatorów
+
         registerObservers();
+
+
     }
 
     private void registerObservers() {
@@ -66,4 +76,14 @@ public class GameView extends JPanel {
                 JOptionPane.INFORMATION_MESSAGE
         );
     }
+
+
+
+
+
+
+
+
+
+
 }

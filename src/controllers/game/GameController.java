@@ -38,6 +38,7 @@ public class GameController implements Runnable{
         while (isRunning) {
             try {
                 gameModel.updateModel();
+                SwingUtilities.invokeLater(gameView::repaint);
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -50,6 +51,7 @@ public class GameController implements Runnable{
         resetGame();
         startGameLoop();
         gameModel.startNewGame();
+
         gameView.showGameStartAlert();
     }
 

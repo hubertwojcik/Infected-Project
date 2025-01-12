@@ -2,14 +2,18 @@ package views.map;
 
 import game.GameSettings;
 import controllers.map.MapController;
+import models.Transport.Transport;
 import models.map.Country;
 import models.game.GameModel;
+import views.transport.TransportIconView;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,13 +22,18 @@ public class MapView extends JPanel {
     private final MapController mapController;
 
     private final Map<Country, JPanel> countryPanels = new HashMap<>();
+    private final Map<Transport, TransportIconView> transportIcons = new HashMap<>();
 
+    private Image transportImage;
 
     public MapView(GameModel gameModel,MapController mapController){
         this.gameModel = gameModel;
         this.mapController = mapController;
         this.setLayout(null);
+
         initializeCountries();
+
+        loadTransportImage();
 
 
         Color oceanColor = new Color(0, 51, 102, 255); // Alpha 255 = pełna nieprzezroczystość
@@ -36,10 +45,12 @@ public class MapView extends JPanel {
 
             @Override
             public void componentResized(ComponentEvent e) {
-                System.out.println("DUPA");
                 scaleMap();
             }
         });
+
+        initializeTransportIcons();
+
     }
 
     public void initializeCountries(){
@@ -73,10 +84,6 @@ public class MapView extends JPanel {
 
         selectedCountry.setSelected(true);
 
-//        countryPanels.forEach((country, panel) -> {
-//            panel.setBackground(country.isSelected() ? Color.RED : Color.GREEN);
-//        });
-
         mapController.handleMapClick(selectedCountry.getMapObjectPosition());
         revalidate();
         repaint();
@@ -105,5 +112,33 @@ public class MapView extends JPanel {
     }
 
 
+    private void loadTransportImage() {
+        try {
+            transportImage = ImageIO.read(getClass().getResource("/plane.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+//
+private void initializeTransportIcons() {
+    for (Transport transport : gameModel.getTransports()) {
+        TransportIconView transportIcon = new TransportIconView(transport, transportImage, 3000); // 3 sekundy na przelot
+        this.add(transportIcon);
+        transportIcons.put(transport, transportIcon);
+
+        // Umieść ikonę transportu na wierzchu
+        this.setComponentZOrder(transportIcon, 0);
+
+        // Start animacji
+        transportIcon.startAnimation();
+    }
+}
+
+
+//    @Override
+//    protected void paintComponent(Graphics g) {
+//        super.paintComponent(g);
+//        // Możesz dodać inne elementy graficzne
+//    }
 
 }
