@@ -4,7 +4,7 @@ import models.Coordinates;
 
 import java.util.Random;
 
-public class MapObject {
+public abstract class MapObject {
     private final int mapObjectX,mapObjectY;
     private final int mapObjectWidth,mapObjectHeight;
 

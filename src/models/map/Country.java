@@ -3,10 +3,11 @@ package models.map;
 import java.awt.*;
 import java.util.*;
 
+
 import models.game.Virus;
 import enums.CountryColor;
 
-public class Country extends MapObject {
+public class Country extends MapObject   {
     private String name;
     private int population;
     private boolean isSelected;
@@ -22,6 +23,10 @@ public class Country extends MapObject {
     private Virus virus;
     //
     private final Object lock = new Object();
+    //
+    private  double gdp;
+    private double gpdGrowth;
+
 
 
     public Country(String name, int population, int mapX, int mapY, int width, int height,CountryColor color) {
@@ -57,13 +62,6 @@ public class Country extends MapObject {
         return new Point(getMapObjectX(), getMapObjectY());
     }
 
-    public int getMapObjectX() {
-        return super.getMapObjectX();
-    }
-
-    public int getMapObjectY() {
-        return super.getMapObjectY();
-    }
 
     public void setSelected(boolean selected) {
         isSelected = selected;
