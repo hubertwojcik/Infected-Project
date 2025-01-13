@@ -1,7 +1,7 @@
 package game;
 
 import models.Transport.Transport;
-import models.map.Country;
+import models.country.Country;
 
 import java.util.ArrayList;
 import java.util.List;

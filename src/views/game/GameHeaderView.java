@@ -35,7 +35,7 @@ public class GameHeaderView extends JPanel implements GameObserver {
     }
 
     @Override
-    public void onSelectedCountryUpdate(String countryName, int population, int infected, int cured, int dead) {
+    public void onSelectedCountryUpdate(String countryName, int population, int infected, int cured, int dead,double infectedRate,double recoveryRestinatce, double moratyliRate) {
 
     }
 

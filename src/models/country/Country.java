@@ -1,7 +1,7 @@
-package models.map;
+package models.country;
 
-import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 
 import interfaces.Upgrade;
@@ -24,6 +24,10 @@ public class Country extends CountryCoordinates {
     private final CountryColor color;
     // VIRUS
     private Virus virus;
+    private double infectionRate;
+    private double recoveryRate;
+
+    private double mortalityRate;
     //
     private final Object lock = new Object();
     //
@@ -31,8 +35,6 @@ public class Country extends CountryCoordinates {
     private double gpdGrowth;
     //UPGRADES
     private final Map<Upgrade, Boolean> upgrades = new HashMap<>();
-
-
 
 
     public Country(String name, int population, int mapX, int mapY, int width, int height,CountryColor color,String capital, int capitalX,int capitalY) {
@@ -47,10 +49,24 @@ public class Country extends CountryCoordinates {
         this.color = color;
     }
 
+    public void initializeUpgrades(List<Upgrade> upgradesList) {
+        for (Upgrade upgrade : upgradesList) {
+            upgrades.put(upgrade, false);
+        }
+    }
+
+    public boolean isUpgradeAvailable(Upgrade upgrade){
+        return upgrades.getOrDefault(upgrade,false);
+    }
+
     public CountryColor getColor() {
         return color;
     }
 
+
+    public Map<Upgrade, Boolean> getUpgrades() {
+        return upgrades;
+    }
 
     // Getters
     public String getName() {
@@ -63,10 +79,6 @@ public class Country extends CountryCoordinates {
 
     public int getDead() {
         return dead;
-    }
-
-    public Point getMapObjectPosition() {
-        return new Point(getCountryXCoordinate(), getCountryYCoordinate());
     }
 
 
@@ -95,10 +107,6 @@ public class Country extends CountryCoordinates {
 //DOSTOWAC SAM KONIEC< ZEBY NIE ZOSTAWAL 1!!!!!
         if (virus == null || population <= 0) return;
 
-        double infectionRate = virus.getInfectionRate();
-        double recoveryRate = 1 - virus.getRecoveryResistance();
-        double mortalityRate = virus.getMortalityRate();
-
         double potentialInfections = infectionRate * susceptible * infected / population;
         int newInfections = (int) Math.max(1, Math.min(Math.ceil(potentialInfections), susceptible));
         System.out.println("NAMe: "+name+" | New infections: "+newInfections);
@@ -112,7 +120,7 @@ public class Country extends CountryCoordinates {
         if (todayInfected > 0) {
             int recoveriesToday = (int) (todayInfected * recoveryRate);
             int deathsToday = todayInfected - recoveriesToday;
-
+            System.out.println("recoveryRate: " + recoveryRate);
             infected -= todayInfected;
             recovered += recoveriesToday;
             dead += deathsToday;
@@ -152,11 +160,66 @@ public class Country extends CountryCoordinates {
         }
     }
 
+    public void applyUpgrade(Upgrade upgrade, String effectKey, double effectValue ) {
+        switch (effectKey) {
+            case "Zaraźliwość":
+                modifyInfectionRate(effectValue);
+                break;
+            case "Zdrowienie":
+                modifyRecoveryRate(effectValue);
+                break;
+            case "Śmiertelność":
+                modifyMortalityRate(effectValue);
+                break;
+            case "PKB":
+                modifyGPD(effectValue);
+                break;
+            default:
+                throw new IllegalArgumentException("Nieznany efekt: " + effectKey);
+        }
+
+        upgrades.put(upgrade, true);
+
+    }
+    public void modifyInfectionRate(double modifier){
+        this.infectionRate += modifier;
+        this.infectionRate = Math.max(0, this.infectionRate);
+        System.out.println("DASDASD" + this.infectionRate);
+    }
+
+    public void modifyRecoveryRate(double modifier){
+        this.recoveryRate += modifier;
+        this.recoveryRate = Math.min(1, this.recoveryRate);
+    }
+
+    public void modifyMortalityRate(double modifier){
+        this.mortalityRate += modifier;
+        this.mortalityRate = Math.max(0, this.mortalityRate);
+    }
+
+    public void modifyGPD(double modifier){
+        this.gdp += this.gdp*modifier;
+    }
+
 
     public int getInfected() {
         synchronized (lock) {
             return infected;
         }
+    }
+
+
+    public double getMortalityRate() {
+        return mortalityRate;
+    }
+
+    //TODO
+    public double getRecoverRate() {
+        return recoveryRate;
+    }
+
+    public double getInfectionRate() {
+        return infectionRate;
     }
 
     public Virus getVirus() {
@@ -175,6 +238,9 @@ public class Country extends CountryCoordinates {
         if (this.virus == null && virus != null) {
             this.virus = virus;
             this.infected = infectedPersons;
+            this.infectionRate = virus.getInfectionRate();
+            this.recoveryRate = virus.getRecoveryRate();
+            this.mortalityRate = virus.getMortalityRate();
         }
     }
 }

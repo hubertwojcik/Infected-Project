@@ -3,7 +3,7 @@ package views.map;
 import game.GameSettings;
 import controllers.map.MapController;
 import models.Transport.Transport;
-import models.map.Country;
+import models.country.Country;
 import models.game.GameModel;
 import views.transport.TransportIconView;
 
@@ -40,16 +40,14 @@ public class MapView extends JPanel {
 
         this.setBackground(oceanColor);
 
-
+        initializeTransportIcons();
         this.addComponentListener(new ComponentAdapter() {
-
             @Override
             public void componentResized(ComponentEvent e) {
                 scaleMap();
             }
         });
-
-        initializeTransportIcons();
+        System.out.println("KQWKEKQWKEKQWEKQWKE");
 
     }
 
@@ -98,7 +96,7 @@ public class MapView extends JPanel {
 
         selectedCountry.setSelected(true);
 
-        mapController.handleMapClick(selectedCountry.getMapObjectPosition());
+        mapController.handleMapClick(selectedCountry.getCountryPosition());
         revalidate();
         repaint();
     }
@@ -107,6 +105,7 @@ public class MapView extends JPanel {
         double scaleX = (double) getWidth() / GameSettings.mapWidth;
         double scaleY = (double) getHeight() / GameSettings.windowHeight;
 
+        // Scale countries
         for (Map.Entry<Country, JPanel> entry : countryPanels.entrySet()) {
             Country country = entry.getKey();
             JPanel countryPanel = entry.getValue();
@@ -118,12 +117,30 @@ public class MapView extends JPanel {
                 int scaledHeight = (int) (country.getCountryHeight() * scaleY);
 
                 countryPanel.setBounds(scaledX, scaledY, scaledWidth, scaledHeight);
+
+                // Scale capital position
+                Component[] components = countryPanel.getComponents();
+                for (Component component : components) {
+                    if (component instanceof JPanel) { // Assuming the capital is added as a JPanel
+                        JPanel capital = (JPanel) component;
+                        int capitalX = (int) (country.getCountryCapitalRelativeXCoordinate() * scaleX);
+                        int capitalY = (int) (country.getCountryCapitalRelativeYCoordinate() * scaleY);
+                        capital.setBounds(capitalX, capitalY, 10, 10); // Maintain fixed size for the capital
+                    }
+                }
             }
+        }
+
+        // Scale transport icons
+        for (TransportIconView transportIcon : transportIcons.values()) {
+            transportIcon.scale(scaleX, scaleY);
         }
 
         revalidate();
         repaint();
     }
+
+
 
 
     private void loadTransportImage() {

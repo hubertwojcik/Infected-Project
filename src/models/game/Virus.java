@@ -3,7 +3,7 @@ package models.game;
 public class Virus {
     private String name;
     private double infectionRate;
-    private double recoveryResistance;
+    private double recoveryRate;
     private double mortalityRate;
     private int incubationPeriod;
 
@@ -12,7 +12,7 @@ public class Virus {
     public Virus(String name, double infectionRate, double recoveryResistance, double mortalityRate,int incubationPeriod) {
         this.name = name;
         this.infectionRate = infectionRate;
-        this.recoveryResistance = recoveryResistance;
+        this.recoveryRate = recoveryResistance;
         this.mortalityRate = mortalityRate;
         this.incubationPeriod = incubationPeriod;
 
@@ -26,8 +26,8 @@ public class Virus {
         return infectionRate;
     }
 
-    public double getRecoveryResistance() {
-        return recoveryResistance;
+    public double getRecoveryRate() {
+        return recoveryRate;
     }
 
     public double getMortalityRate() {
@@ -40,6 +40,6 @@ public class Virus {
 
     public void mutate() {
         this.infectionRate *= 1.05;
-        this.recoveryResistance *= 1.05;
+        this.recoveryRate *= 1.05;
     }
 }

@@ -1,7 +1,7 @@
 package models.ugrades;
 
 import interfaces.Upgrade;
-import models.map.Country;
+import models.country.Country;
 
 import java.util.Map;
 
@@ -20,11 +20,20 @@ public class Lockdown implements Upgrade {
 
     @Override
     public Map<String, Double> getEffects() {
-        return null;
+        return Map.of(
+                "Zaraźliwość", -0.20,
+                "Zdrowienie", 0.0,
+                "Śmiertelność", 0.0,
+                "PKB", -0.05
+        );
     }
 
     @Override
     public void applyUpgrade(Country country) {
-
+        for (Map.Entry<String,Double> effect : getEffects().entrySet()){
+            String effectKey =effect.getKey();
+            double effectValue = effect.getValue();
+            country.applyUpgrade(this,effectKey,effectValue);
+        }
     }
 }

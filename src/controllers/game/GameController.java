@@ -1,9 +1,6 @@
 package controllers.game;
 import controllers.AppController;
 import controllers.map.MapController;
-import enums.DifficultyLevel;
-import game.GameSettings;
-import models.map.Country;
 import models.game.GameModel;
 import views.game.GameView;
 

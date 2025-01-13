@@ -4,7 +4,7 @@ import game.GameDataInitializer;
 import game.GameSettings;
 import game.GameSimulationManager;
 import models.Transport.Transport;
-import models.map.Country;
+import models.country.Country;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +108,10 @@ public class GameModel {
                         selectedCountry.getPopulation(),
                         selectedCountry.getInfected(),
                         selectedCountry.getRecovered(),
-                        selectedCountry.getDead()
+                        selectedCountry.getDead(),
+                        selectedCountry.getInfectionRate(),
+                        selectedCountry.getRecoverRate(),
+                        selectedCountry.getMortalityRate()
                 );
             }
         }
@@ -122,7 +125,10 @@ public class GameModel {
                     selectedCountry.getPopulation(),
                     selectedCountry.getInfected(),
                     selectedCountry.getRecovered(),
-                    selectedCountry.getDead()
+                    selectedCountry.getDead(),
+                    selectedCountry.getInfectionRate(),
+                    selectedCountry.getRecoverRate(),
+                    selectedCountry.getMortalityRate()
             );
         }
     }

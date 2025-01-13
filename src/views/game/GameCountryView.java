@@ -1,10 +1,13 @@
 package views.game;
 
+import interfaces.Upgrade;
+import models.country.Country;
 import models.game.GameObserver;
-import models.map.Country;
 import models.game.GameModel;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.Map;
 
 public class GameCountryView extends JPanel implements GameObserver {
     private final GameModel gameModel;
@@ -13,62 +16,175 @@ public class GameCountryView extends JPanel implements GameObserver {
     private JLabel infectedLabel;
     private JLabel recoveredLabel;
     private JLabel deadLabel;
+    private JPanel upgradesPanel;
+    private JLabel infectedRateLabel;
+    private JLabel recoveryResistanceLabel;
+    private JLabel mortalityRateLabel;
+
 
     public GameCountryView(GameModel gameModel) {
         this.gameModel = gameModel;
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout());
+        this.setBackground(Color.white);
 
         // Nagłówek kraju
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+        headerPanel.setBackground(Color.white);
+
         countryLabel = new JLabel("No country selected");
-        countryLabel.setAlignmentX(CENTER_ALIGNMENT);
-        this.add(countryLabel);
+        countryLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        countryLabel.setForeground(new Color(50, 50, 50));
+        headerPanel.add(countryLabel);
 
-        // Tabela z danymi
+        this.add(headerPanel, BorderLayout.NORTH);
 
+        // Dane dynamiczne (statystyki kraju)
+        JPanel statsPanel = new JPanel();
+        statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
+        statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        statsPanel.setBackground(Color.WHITE);
 
+        // Dodanie wierszy statystyk
+        statsPanel.add(createAlignedRow("Populacja:", populationLabel = createStyledLabel("0")));
+        statsPanel.add(createAlignedRow("Zarażeni:", infectedLabel = createStyledLabel("0")));
+        statsPanel.add(createAlignedRow("Ozdrowieni:", recoveredLabel = createStyledLabel("0")));
+        statsPanel.add(createAlignedRow("Martwi:", deadLabel = createStyledLabel("0")));
+        statsPanel.add(createAlignedRow("Zarażalność:", infectedRateLabel = createStyledLabel("0")));
+        statsPanel.add(createAlignedRow("Oporność na leczenie:", recoveryResistanceLabel = createStyledLabel("0")));
+        statsPanel.add(createAlignedRow("Śmiertelność:", mortalityRateLabel = createStyledLabel("0")));
 
-        // Nagłówki kolumn
+        // Dodanie statsPanel bez przewijania
+        JPanel statsContainer = new JPanel(new BorderLayout());
+        statsContainer.add(statsPanel, BorderLayout.CENTER);
+        statsContainer.setPreferredSize(new Dimension(300, 250)); // Ograniczona wysokość
+        this.add(statsContainer, BorderLayout.CENTER);
 
+        // Ulepszenia
+        upgradesPanel = new JPanel();
+        upgradesPanel.setLayout(new BoxLayout(upgradesPanel, BoxLayout.Y_AXIS));
+        upgradesPanel.setPreferredSize(new Dimension(300, 1535));
 
-        // Dane dynamiczne
-        populationLabel = new JLabel("Population: ");
-        infectedLabel = new JLabel("Infected: ", SwingConstants.CENTER);
-        recoveredLabel = new JLabel("Recovered: ", SwingConstants.CENTER);
-        deadLabel = new JLabel("Dead: ", SwingConstants.CENTER);
+        JScrollPane upgradesScrollPane = new JScrollPane(upgradesPanel);
+        upgradesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        upgradesScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        upgradesScrollPane.setPreferredSize(new Dimension(300, 300));
 
-        this.add(populationLabel);
-        this.add(infectedLabel);
-        this.add(recoveredLabel);
-        this.add(deadLabel);
-
-
+        this.add(upgradesScrollPane, BorderLayout.SOUTH);
     }
 
-
-
     @Override
-    public void onSelectedCountryUpdate(String countryName, int population, int infected, int cured, int dead) {
+    public void onSelectedCountryUpdate(String countryName, int population, int infected, int cured, int dead, double infectedRate,double recoveryRestinatce, double moratyliRate) {
         if (countryName == null) {
             SwingUtilities.invokeLater(() -> this.setVisible(false));
         } else {
             SwingUtilities.invokeLater(() -> {
                 this.setVisible(true);
-                countryLabel.setText("Country: " + countryName);
-                populationLabel.setText("Populacja: " + population);
-                infectedLabel.setText("Infected: " + infected);
-                recoveredLabel.setText("Cured: " + cured);
-                deadLabel.setText("Dead: " + dead);
+                countryLabel.setText(countryName);
+                populationLabel.setText(""+population);
+                infectedLabel.setText("" + infected);
+                recoveredLabel.setText("" + cured);
+                deadLabel.setText("" + dead);
+                infectedRateLabel.setText("" +  Math.round(infectedRate * 100.0) / 100.0);
+                recoveryResistanceLabel.setText(""+  Math.round(recoveryRestinatce * 100.0) / 100.0);
+                mortalityRateLabel.setText("" + Math.round(moratyliRate * 100.0) / 100.0);
+
+
+                Country selectedCountry = gameModel.getSelectedCountry();
+                if (selectedCountry != null) {
+                    updateUpgradesPanel(selectedCountry.getUpgrades());
+                }
             });
         }
     }
 
     @Override
     public void onGlobalStatsUpdate(int infected, int cured, int dead) {
-
     }
 
     @Override
     public void onDayUpdate(int dayCounter) {
+    }
 
+    private void updateUpgradesPanel(Map<Upgrade, Boolean> upgrades) {
+        upgradesPanel.removeAll();
+
+        for (Map.Entry<Upgrade, Boolean> entry : upgrades.entrySet()) {
+            Upgrade upgrade = entry.getKey();
+            boolean isBought = entry.getValue();
+
+            JPanel upgradePanel = new JPanel();
+            upgradePanel.setBackground(Color.white);
+            upgradePanel.setLayout(new BoxLayout(upgradePanel, BoxLayout.Y_AXIS));
+            upgradePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            upgradePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 130));
+
+            JLabel upgradeLabel = new JLabel(upgrade.getName());
+            upgradeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            upgradeLabel.setFont(new Font("Arial", Font.BOLD, 14));
+
+            JPanel detailsPanel = new JPanel();
+            detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
+            detailsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            detailsPanel.setOpaque(false);
+
+            for (Map.Entry<String, Double> effect : upgrade.getEffects().entrySet()) {
+                JLabel effectLabel = new JLabel(effect.getKey() + ": " + effect.getValue());
+                effectLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+                detailsPanel.add(effectLabel);
+            }
+
+            JButton buyButton = new JButton("Kup");
+            buyButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+            if (isBought) {
+                buyButton.setEnabled(false);
+                buyButton.setText("Kupione");
+            }
+
+            buyButton.addActionListener(e -> {
+                Country selectedCountry = gameModel.getSelectedCountry();
+                if (selectedCountry == null) return;
+
+//                if (selectedCountry.getGdp() >= upgrade.getCost()) {
+                upgrade.applyUpgrade(selectedCountry);
+                buyButton.setEnabled(false);
+                buyButton.setText("Kupione");
+                JOptionPane.showMessageDialog(this, "Kupiono ulepszenie: " + upgrade.getName());
+//                } else {
+//                    JOptionPane.showMessageDialog(this, "Nie stać Cię na to ulepszenie!", "Błąd", JOptionPane.ERROR_MESSAGE);
+//                }
+            });
+
+            upgradePanel.add(upgradeLabel);
+            upgradePanel.add(detailsPanel);
+            upgradePanel.add(Box.createVerticalStrut(10)); // Odstęp
+            upgradePanel.add(buyButton);
+
+            upgradesPanel.add(upgradePanel);
+        }
+
+        upgradesPanel.revalidate();
+        upgradesPanel.repaint();
+    }
+
+    private JPanel createAlignedRow(String labelText, JLabel valueLabel) {
+        JPanel rowPanel = new JPanel();
+        rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5)); // Wyrównanie do lewej z odstępami
+        rowPanel.setBackground(Color.WHITE);
+
+        JLabel label = new JLabel(labelText);
+        label.setFont(new Font("Arial", Font.BOLD, 14));
+
+        rowPanel.add(label);
+        rowPanel.add(valueLabel);
+        return rowPanel;
+    }
+
+    private JLabel createStyledLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setFont(new Font("Arial", Font.PLAIN, 14));
+        return label;
     }
 }

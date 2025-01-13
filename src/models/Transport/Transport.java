@@ -3,7 +3,7 @@ package models.Transport;
 import enums.TransportType;
 import models.PeopleTransport;
 import models.game.Virus;
-import models.map.Country;
+import models.country.Country;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -44,7 +44,7 @@ public class Transport  {
                     Virus virus = new Virus(
                             fromCountry.getVirus().getName(),
                             fromCountry.getVirus().getInfectionRate(),
-                            fromCountry.getVirus().getRecoveryResistance(),
+                            fromCountry.getVirus().getRecoveryRate(),
                             fromCountry.getVirus().getMortalityRate(),
                             fromCountry.getVirus().getIncubationPeriod()
                             );

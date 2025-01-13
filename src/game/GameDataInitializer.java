@@ -3,9 +3,12 @@ package game;
 import enums.CountryColor;
 import enums.DifficultyLevel;
 import enums.TransportType;
+import interfaces.Upgrade;
 import models.Transport.Transport;
+import models.country.Country;
 import models.game.Virus;
-import models.map.Country;
+import models.country.CountryFactory;
+import models.ugrades.UpgradeFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +24,8 @@ public class GameDataInitializer {
                 144000000,
                 mapPadding,
                 mapPadding,
-                GameSettings.mapWidth - 2 * mapPadding - countrySpacing,
-                100 - countrySpacing,
+                1000,
+                200 - countrySpacing,
                 CountryColor.RUSSIA,
                 "Moskwa",
                 50,
@@ -33,8 +36,8 @@ public class GameDataInitializer {
                 19_000_000,
                 mapPadding,
                 russia.getCountryYCoordinate() + russia.getCountryHeight() + countrySpacing,
+                400 - countrySpacing,
                 200 - countrySpacing,
-                150 - countrySpacing,
                 CountryColor.KAZAKHSTAN,
                 "Astana",
                 (200 - countrySpacing) / 2,
@@ -45,7 +48,7 @@ public class GameDataInitializer {
                 3_400_000,
                 kazakhstan.getCountryXCoordinate() + kazakhstan.getCountryWidth() + countrySpacing,
                 russia.getCountryYCoordinate() + russia.getCountryHeight() + countrySpacing,
-                250 - countrySpacing,
+                450 - countrySpacing,
                 50 - countrySpacing,
                 CountryColor.MONGOLIA,
                 "Ułan batun",
@@ -56,20 +59,20 @@ public class GameDataInitializer {
                 1400000000,
                 mapPadding + kazakhstan.getCountryWidth() + countrySpacing,
                 mongolia.getCountryYCoordinate() + mongolia.getCountryHeight() + countrySpacing,
-                250 - countrySpacing,
-                100 - countrySpacing,
+                450 - countrySpacing,
+                150 - countrySpacing,
                 CountryColor.CHINA,
                 "Pekin",
-                250 - countrySpacing - 20,
+                450 - countrySpacing - 20,
                 40
                 );
         Country japan = new Country(
                 "Japonia",
                 126000000,
                 china.getCountryXCoordinate() + china.getCountryWidth() + 50 + countrySpacing,
-                150,
+                250,
                 50 - countrySpacing,
-                200 - countrySpacing,
+                250 - countrySpacing,
                 CountryColor.JAPAN,
                 "Tokio",
                 50-countrySpacing - 15,
@@ -80,7 +83,7 @@ public class GameDataInitializer {
                 89_200_200,
                 mapPadding,
                 kazakhstan.getCountryYCoordinate() + kazakhstan.getCountryHeight() + countrySpacing,
-                150 - countrySpacing,
+                200 - countrySpacing,
                 125 - countrySpacing,
                 CountryColor.IRAN,
                 "Teheran",
@@ -93,7 +96,7 @@ public class GameDataInitializer {
                 248_000_000,
                 iran.getCountryXCoordinate() + iran.getCountryWidth() + countrySpacing,
                 kazakhstan.getCountryYCoordinate() + kazakhstan.getCountryHeight() + countrySpacing,
-                50 - countrySpacing,
+                150 - countrySpacing,
                 125 - countrySpacing,
                 CountryColor.MALAYSIA,
                 "Islamabad",
@@ -105,7 +108,7 @@ public class GameDataInitializer {
                 1_428_600_000,
                 pakistan.getCountryXCoordinate() + pakistan.getCountryWidth() + countrySpacing,
                 kazakhstan.getCountryYCoordinate() + kazakhstan.getCountryHeight() + countrySpacing,
-                150 - countrySpacing,
+                350 - countrySpacing,
                 200 - countrySpacing,
                 CountryColor.INDIA,
                 "Nowe Dheli",
@@ -117,7 +120,7 @@ public class GameDataInitializer {
                 99_500_000,
                 india.getCountryXCoordinate() + india.getCountryWidth() + countrySpacing,
                 kazakhstan.getCountryYCoordinate() + kazakhstan.getCountryHeight() + countrySpacing,
-                50 - countrySpacing,
+                150 - countrySpacing,
                 125 - countrySpacing,
                 CountryColor.VIETNAM,
                 "Laos",
@@ -126,9 +129,9 @@ public class GameDataInitializer {
         Country indonesia = new Country(
                 "Indonesia",
                 277_500_000,
-                300,
+                500,
                 india.getCountryYCoordinate() + india.getCountryHeight() + 25 + countrySpacing,
-                250 - countrySpacing,
+                350 - countrySpacing,
                 50 - countrySpacing,
                 CountryColor.INDONESIA,
                 "Dżakarta",
@@ -145,6 +148,14 @@ public class GameDataInitializer {
         countries.add(pakistan);
         countries.add(indonesia);
         countries.add(vietnam);
+
+//        List<Country> countries = CountryFactory.getCountries();
+//USE FACTORY
+        List<Upgrade> upgrades = UpgradeFactory.getUpgrades();
+
+        for(Country c : countries){
+            c.initializeUpgrades(upgrades);
+        }
         return countries;
     }
 
@@ -156,6 +167,8 @@ public class GameDataInitializer {
         Country japan = countries.stream().filter(c -> c.getName().equals("Japonia")).findFirst().orElse(null);
         if (russia != null && china != null && japan != null) {
             Transport chinaRusPlane =new Transport(china, russia, 1000, TransportType.AIR);
+            Transport rusChinaPlane = new Transport(russia, china, 700, TransportType.AIR);
+            transports.add(rusChinaPlane);
             transports.add(chinaRusPlane);
 
             Transport chinaJapanShip = new Transport(china,japan,300,TransportType.WATER);

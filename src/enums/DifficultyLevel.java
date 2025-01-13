@@ -1,9 +1,9 @@
 package enums;
 
 public enum DifficultyLevel {
-    EASY(0.05, 0.005, 0.001, 0.01, 5000),   // Wolna mutacja, mniejsze współczynniki
-    MEDIUM(0.1, 0.01, 0.002, 0.02, 3000),  // Średnia mutacja, umiarkowane współczynniki
-    HARD(0.2, 0.02, 0.004, 0.05, 1000);    // Szybka mutacja, wyższe współczynniki
+    EASY(0.1, 0.05, 0.995, 0.01, 5000),   // Wolna mutacja, mniejsze współczynniki
+    MEDIUM(0.2, 0.2, 0.8, 0.02, 3000),  // Średnia mutacja, umiarkowane współczynniki
+    HARD(0.25, 0.5, 0.5, 0.05, 1000);    // Szybka mutacja, wyższe współczynniki
 
     private final double mutationRate;
     private final double infectionRate;

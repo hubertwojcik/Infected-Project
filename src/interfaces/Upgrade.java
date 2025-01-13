@@ -1,6 +1,6 @@
 package interfaces;
 
-import models.map.Country;
+import models.country.Country;
 import java.util.Map;
 public interface Upgrade {
     String getName();

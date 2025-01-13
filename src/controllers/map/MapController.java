@@ -2,7 +2,7 @@ package controllers.map;
 
 
 import controllers.game.GameController;
-import models.map.Country;
+import models.country.Country;
 import models.game.GameModel;
 
 import java.awt.*;

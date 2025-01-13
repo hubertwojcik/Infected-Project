@@ -1,4 +1,6 @@
-package models.map;
+package models.country;
+
+import java.awt.*;
 
 public abstract class CountryCoordinates {
     private final int countryXCoordinate, countryYCoordinate,countryWidth, countryHeight, countryCapitalGlobalXCoordinate,countryCapitalGlobalYCoordinate,countryCapitalRelativeXCoordinate,countryCapitalRelativeYCoordinate;
@@ -45,4 +47,9 @@ public abstract class CountryCoordinates {
     public int getCountryCapitalRelativeYCoordinate() {
         return countryCapitalRelativeYCoordinate;
     }
+
+    public Point getCountryPosition() {
+        return new Point(countryXCoordinate, countryYCoordinate);
+    }
+
 }

@@ -10,10 +10,10 @@ public class TransportIconView extends JLabel {
     private int positionX;
     private int positionY;
 
-    private final int startX;
-    private final int startY;
-    private final int targetX;
-    private final int targetY;
+    private  int startX;
+    private  int startY;
+    private  int targetX;
+    private  int targetY;
 
     private boolean directionToTraget;
     private final int animationDuration; // czas animacji w milisekundach
@@ -78,6 +78,14 @@ public class TransportIconView extends JLabel {
         }).start();
     }
 
+
+    public void scale(double scaleX, double scaleY) {
+        // Skaluj pozycje startowe i docelowe
+        this.startX = (int) (transport.getFromCountry().getCountryCapitalGlobalXCoordinate() * scaleX) - (transportIconSize / 2);
+        this.startY = (int) (transport.getFromCountry().getCountryCapitalGlobalYCoordinate() * scaleY) - (transportIconSize / 2);
+        this.targetX = (int) (transport.getToCountry().getCountryCapitalGlobalXCoordinate() * scaleX) - (transportIconSize / 2);
+        this.targetY = (int) (transport.getToCountry().getCountryCapitalGlobalYCoordinate() * scaleY) - (transportIconSize / 2);
+    }
 
 
     public void updatePosition(int x, int y) {

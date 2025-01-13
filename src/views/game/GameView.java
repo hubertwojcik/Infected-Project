@@ -31,6 +31,7 @@ public class GameView extends JPanel  {
 
         this.setLayout(new BorderLayout());
 
+        this.setBackground(Color.WHITE);
         // HEADER
         gameHeaderView = new GameHeaderView(gameController, gameModel);
         this.add(gameHeaderView, BorderLayout.NORTH);
@@ -44,7 +45,7 @@ public class GameView extends JPanel  {
         sidebarPanel.setPreferredSize(new Dimension(GameSettings.sidebarWidht, 0));
         sidebarPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
 
-        statisticsPanel = new GameStatisticsView(gameModel);
+        statisticsPanel = new GameStatisticsView();
         sidebarPanel.add(statisticsPanel, BorderLayout.NORTH);
 
         gameCountryView = new GameCountryView(gameModel);
