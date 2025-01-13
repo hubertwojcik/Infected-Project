@@ -36,7 +36,7 @@ public class MapView extends JPanel {
         loadTransportImage();
 
 
-        Color oceanColor = new Color(0, 51, 102, 255); // Alpha 255 = pełna nieprzezroczystość
+        Color oceanColor = new Color(0, 51, 102, 255);
 
         this.setBackground(oceanColor);
 
@@ -53,18 +53,30 @@ public class MapView extends JPanel {
 
     }
 
-    public void initializeCountries(){
-        for( Country country : gameModel.getCountries()){
-            JPanel countryPanel = new JPanel();
-
+    public void initializeCountries() {
+        for (Country country : gameModel.getCountries()) {
+            JPanel countryPanel = new JPanel(null);
             countryPanel.setBackground(country.getColor().getColor());
             countryPanel.setBounds(
-                    country.getMapObjectX(),
-                    country.getMapObjectY(),
-                    country.getWidth(),
-                    country.getHeight()
+                    country.getCountryXCoordinate(),
+                    country.getCountryYCoordinate(),
+                    country.getCountryWidth(),
+                    country.getCountryHeight()
             );
             countryPanel.setToolTipText(country.getName());
+
+
+            JPanel capital = new JPanel();
+            capital.setBackground(Color.RED);
+            capital.setBounds(
+                    country.getCountryCapitalRelativeXCoordinate(),
+                    country.getCountryCapitalRelativeYCoordinate(),
+                    10,
+                    10
+            );
+            capital.setToolTipText(country.getCapital());
+            countryPanel.add(capital);
+
 
             countryPanel.addMouseListener(new MouseAdapter() {
                 @Override
@@ -73,13 +85,15 @@ public class MapView extends JPanel {
                 }
             });
 
+
             this.add(countryPanel);
             countryPanels.put(country, countryPanel);
         }
     }
 
+
     private void handleCountryClick(Country selectedCountry) {
-        System.out.println("HEHEHEHHEHE cOUNTRY CLICK");
+        System.out.println("Country click!");
         gameModel.getCountries().forEach(country -> country.setSelected(false));
 
         selectedCountry.setSelected(true);
@@ -98,10 +112,10 @@ public class MapView extends JPanel {
             JPanel countryPanel = entry.getValue();
 
             if (countryPanel != null) {
-                int scaledX = (int) (country.getMapObjectX() * scaleX);
-                int scaledY = (int) (country.getMapObjectY() * scaleY);
-                int scaledWidth = (int) (country.getWidth() * scaleX);
-                int scaledHeight = (int) (country.getHeight() * scaleY);
+                int scaledX = (int) (country.getCountryXCoordinate() * scaleX);
+                int scaledY = (int) (country.getCountryYCoordinate() * scaleY);
+                int scaledWidth = (int) (country.getCountryWidth() * scaleX);
+                int scaledHeight = (int) (country.getCountryHeight() * scaleY);
 
                 countryPanel.setBounds(scaledX, scaledY, scaledWidth, scaledHeight);
             }
@@ -122,7 +136,7 @@ public class MapView extends JPanel {
 //
 private void initializeTransportIcons() {
     for (Transport transport : gameModel.getTransports()) {
-        TransportIconView transportIcon = new TransportIconView(transport, transportImage, 3000); // 3 sekundy na przelot
+        TransportIconView transportIcon = new TransportIconView(transport, transport.getTransportImage(), 3000); // 3 sekundy na przelot
         this.add(transportIcon);
         transportIcons.put(transport, transportIcon);
 
@@ -135,10 +149,5 @@ private void initializeTransportIcons() {
 }
 
 
-//    @Override
-//    protected void paintComponent(Graphics g) {
-//        super.paintComponent(g);
-//        // Możesz dodać inne elementy graficzne
-//    }
 
 }

@@ -23,7 +23,7 @@ public class GameView extends JPanel  {
     private final GameCountryView gameCountryView;
     private final MapView mapView;
 
-    private Image transportImage;
+
 
 
     public GameView(GameController gameController, GameModel gameModel, MapController mapController) {

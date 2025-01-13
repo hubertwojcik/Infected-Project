@@ -32,10 +32,10 @@ public class MapController {
 
     private boolean isClickedPointCountry(Point point, Country country) {
         Rectangle countryBounds = new Rectangle(
-                country.getMapObjectX(),
-                country.getMapObjectY(),
-                country.getWidth(),
-                country.getHeight()
+                country.getCountryXCoordinate(),
+                country.getCountryYCoordinate(),
+                country.getCountryWidth(),
+                country.getCountryHeight()
         );
 
         return countryBounds.contains(point);

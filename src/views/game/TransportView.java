@@ -15,8 +15,8 @@ public class TransportView extends JPanel {
     public TransportView(Transport transport, Image transportImage) {
         this.transport = transport;
         this.transportImage = transportImage;
-        this.positionX = transport.getFromCountry().getMapObjectX();
-        this.positionY = transport.getFromCountry().getMapObjectY();
+        this.positionX = transport.getFromCountry().getCountryXCoordinate();
+        this.positionY = transport.getFromCountry().getCountryYCoordinate();
         this.setLayout(null);
         setOpaque(false);
 
@@ -24,8 +24,8 @@ public class TransportView extends JPanel {
     }
 
     public void animate() {
-        int targetX = transport.getToCountry().getMapObjectX();
-        int targetY = transport.getToCountry().getMapObjectY();
+        int targetX = transport.getToCountry().getCountryXCoordinate();
+        int targetY = transport.getToCountry().getCountryYCoordinate();
 
         int dx = targetX - positionX;
         int dy = targetY - positionY;

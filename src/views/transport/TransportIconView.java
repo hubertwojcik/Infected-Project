@@ -21,16 +21,18 @@ public class TransportIconView extends JLabel {
     private final int totalFrames;       // liczba wszystkich klatek
     private int currentFrame;            // obecna klatka
 
+    private final int transportIconSize = 20;
+
     public TransportIconView(Transport transport, Image transportImage, int animationDuration) {
         this.transport = transport;
         setIcon(new ImageIcon(transportImage));
-        setSize(30, 30);
+        setSize(transportIconSize, transportIconSize);
         setOpaque(false);
 
-        this.startX = transport.getFromCountry().getRandomLocationWithinCountry().x;
-        this.startY = transport.getFromCountry().getRandomLocationWithinCountry().y;
-        this.targetX = transport.getToCountry().getRandomLocationWithinCountry().x;
-        this.targetY = transport.getToCountry().getRandomLocationWithinCountry().y;
+        this.startX = transport.getFromCountry().getCountryCapitalGlobalXCoordinate() - (transportIconSize/  2);
+        this.startY = transport.getFromCountry().getCountryCapitalGlobalYCoordinate() - (transportIconSize/  2);
+        this.targetX = transport.getToCountry().getCountryCapitalGlobalXCoordinate() - (transportIconSize/  2);
+        this.targetY = transport.getToCountry().getCountryCapitalGlobalYCoordinate() - (transportIconSize/  2);
 
         this.positionX = startX;
         this.positionY = startY;
@@ -45,7 +47,7 @@ public class TransportIconView extends JLabel {
     }
     public void startAnimation() {
         new Thread(() -> {
-            while (true) { // Zapętlenie
+            while (true) {
                 double progress = (double) currentFrame / totalFrames; // Procent ukończenia
 
                 // Obliczenie pozycji na podstawie kierunku
@@ -76,12 +78,7 @@ public class TransportIconView extends JLabel {
         }).start();
     }
 
-    private void resetPosition() {
-        positionX = transport.getFromCountry().getMapObjectX();
-        positionY = transport.getFromCountry().getMapObjectY();
-        currentFrame = 0; // Restart animacji
-        SwingUtilities.invokeLater(() -> setLocation(positionX, positionY));
-    }
+
 
     public void updatePosition(int x, int y) {
         positionX = x;

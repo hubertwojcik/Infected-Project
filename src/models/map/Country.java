@@ -4,11 +4,14 @@ import java.awt.*;
 import java.util.*;
 
 
+import interfaces.Upgrade;
+import models.PeopleTransport;
 import models.game.Virus;
 import enums.CountryColor;
 
-public class Country extends MapObject   {
+public class Country extends CountryCoordinates {
     private String name;
+    private final String capital;
     private int population;
     private boolean isSelected;
     int infected = 0;
@@ -26,12 +29,16 @@ public class Country extends MapObject   {
     //
     private  double gdp;
     private double gpdGrowth;
+    //UPGRADES
+    private final Map<Upgrade, Boolean> upgrades = new HashMap<>();
 
 
 
-    public Country(String name, int population, int mapX, int mapY, int width, int height,CountryColor color) {
-        super(mapX, mapY, width, height);
+
+    public Country(String name, int population, int mapX, int mapY, int width, int height,CountryColor color,String capital, int capitalX,int capitalY) {
+        super(mapX, mapY, width, height, capitalX + mapX, capitalY + mapY, capitalX, capitalY);
         this.name = name;
+        this.capital = capital;
         this.population = population;
         this.susceptible = population;
         this.infected = 0;
@@ -59,7 +66,7 @@ public class Country extends MapObject   {
     }
 
     public Point getMapObjectPosition() {
-        return new Point(getMapObjectX(), getMapObjectY());
+        return new Point(getCountryXCoordinate(), getCountryYCoordinate());
     }
 
 
@@ -77,10 +84,15 @@ public class Country extends MapObject   {
         }
     }
 
+    public String getCapital() {
+        return capital;
+    }
+
 
 
     // VIRUS LOGIC
     public synchronized void simulateInfectionSpread() {
+//DOSTOWAC SAM KONIEC< ZEBY NIE ZOSTAWAL 1!!!!!
         if (virus == null || population <= 0) return;
 
         double infectionRate = virus.getInfectionRate();
@@ -127,17 +139,19 @@ public class Country extends MapObject   {
 
 
 
-    public void adjustPopulation(int delta) {
+    public void adjustPopulation(PeopleTransport payload, boolean isTransportToCountry) {
         synchronized (lock) {
-            population += delta;
+            if(isTransportToCountry){
+                this.infected += payload.infectedPeople;
+                this.population += payload.healthyPeople + payload.infectedPeople;
+            }else{
+                this.infected -= payload.infectedPeople;
+                this.population -= payload.healthyPeople + payload.infectedPeople;
+            }
+//            population += delta;
         }
     }
 
-    public void adjustInfected(int delta) {
-        synchronized (lock) {
-            infected += delta;
-        }
-    }
 
     public int getInfected() {
         synchronized (lock) {
@@ -145,33 +159,12 @@ public class Country extends MapObject   {
         }
     }
 
+    public Virus getVirus() {
+        return virus;
+    }
+
+
     // Population adjustment
-    //OSOBY PRZYBYWAJACE MOGA BYC CHORE
-//    public synchronized void increasePopulation(int value) {
-//        this.population += value;
-//        this.susceptible += value;
-//    }
-//
-//    //OSOBY WYJEZDZAJACE MOGA CHORE
-//    public synchronized void decreasePopulation(int value) {
-//        int decreaseAmount = Math.min(value, population);
-//        this.population -= decreaseAmount;
-//        System.out.println("Value: "+value );
-//
-//        if (susceptible >= decreaseAmount) {
-//            this.susceptible -= decreaseAmount;
-//        } else {
-//            int remaining = decreaseAmount - susceptible;
-//            this.susceptible = 0;
-//            if (infected >= remaining) {
-//                this.infected -= remaining;
-//            } else {
-//                int remainingAfterInfected = remaining - infected;
-//                this.infected = 0;
-//                this.recovered = Math.max(0, recovered - remainingAfterInfected);
-//            }
-//        }
-//    }
 
     // Helpers
     private int getRandomDays(int min, int max) {
