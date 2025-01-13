@@ -3,16 +3,16 @@ package views.game;
 import game.GameSettings;
 import controllers.game.GameController;
 import controllers.map.MapController;
-import models.Transport.TransportObserver;
-import models.game.GameModel;
-import models.Transport.Transport;
-import views.map.MapView;
-import views.transport.TransportIconView;
 
-import javax.imageio.ImageIO;
+import models.game.GameModel;
+
+import views.map.MapView;
+
+
+
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
+
 
 public class GameView extends JPanel  {
     private final GameModel gameModel;
