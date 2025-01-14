@@ -164,17 +164,69 @@ public class GameDataInitializer {
     public static List<Transport> initializeTransports(List<Country> countries) {
         List<Transport> transports = new ArrayList<>();
         Country russia = countries.stream().filter(c -> c.getName().equals("Rosja")).findFirst().orElse(null);
+        Country mongolia = countries.stream().filter(c -> c.getName().equals("Mongolia")).findFirst().orElse(null);
         Country china = countries.stream().filter(c -> c.getName().equals("Chiny")).findFirst().orElse(null);
         Country japan = countries.stream().filter(c -> c.getName().equals("Japonia")).findFirst().orElse(null);
-        if (russia != null && china != null && japan != null) {
+        Country kazakhstan = countries.stream().filter(c -> c.getName().equals("Kazakhstan")).findFirst().orElse(null);
+        Country iran = countries.stream().filter(c -> c.getName().equals("Iran")).findFirst().orElse(null);
+        Country pakistan = countries.stream().filter(c -> c.getName().equals("Pakistan")).findFirst().orElse(null);
+        Country india = countries.stream().filter(c -> c.getName().equals("Indie")).findFirst().orElse(null);
+        Country wietnam = countries.stream().filter(c -> c.getName().equals("Wietnam")).findFirst().orElse(null);
+        Country indonezja = countries.stream().filter(c -> c.getName().equals("Indonezja")).findFirst().orElse(null);
+
+
+
+        if (russia != null && china != null && japan != null && kazakhstan != null &&  iran != null && pakistan != null && india != null && wietnam != null && indonezja != null && mongolia != null) {
             Transport chinaRusPlane =new Transport(china, russia, 1000, TransportType.AIR);
             Transport rusChinaPlane = new Transport(russia, china, 700, TransportType.AIR);
             transports.add(rusChinaPlane);
             transports.add(chinaRusPlane);
 
+            Transport rusKazak = new Transport(russia,kazakhstan, 500, TransportType.RAILWAY);
+            Transport kazakRus = new Transport(kazakhstan,russia, 1500, TransportType.RAILWAY);
+            transports.add(rusKazak);
+            transports.add(kazakRus);
+
             Transport chinaJapanShip = new Transport(china,japan,300,TransportType.WATER);
+            Transport japanChinaShip = new Transport(japan,china,500,TransportType.WATER);
             transports.add(chinaJapanShip);
-//            rusChinaRailway.enable();
+            transports.add(japanChinaShip);
+
+            Transport kazakIran = new Transport(russia,iran, 500, TransportType.RAILWAY);
+            Transport iranKazak = new Transport(iran,russia, 350, TransportType.RAILWAY);
+            transports.add(kazakIran);
+            transports.add(iranKazak);
+
+            Transport iranPakistanAir = new Transport(iran,pakistan, 500, TransportType.AIR);
+            Transport pakistanIranAir = new Transport(pakistan,iran, 1500, TransportType.AIR);
+            transports.add(iranPakistanAir);
+            transports.add(pakistanIranAir);
+
+            Transport russiaIndiaAir = new Transport(russia,india, 3500, TransportType.AIR);
+            Transport indiaRussiaAir = new Transport(india,russia, 5000, TransportType.AIR);
+            transports.add(russiaIndiaAir);
+            transports.add(indiaRussiaAir);
+
+            Transport indiaIndoShip = new Transport(india,indonezja, 3500, TransportType.WATER);
+            Transport indonezjaIndiaShip = new Transport(indonezja,india, 3500, TransportType.WATER);
+            transports.add(indiaIndoShip);
+            transports.add(indonezjaIndiaShip);
+
+            Transport wietnamIndoShip = new Transport(wietnam,indonezja, 3500, TransportType.WATER);
+            Transport indoWietnamShip = new Transport(indonezja,wietnam, 3500, TransportType.WATER);
+            transports.add(wietnamIndoShip);
+            transports.add(indoWietnamShip);
+
+            Transport wietnamMongoSAir = new Transport(wietnam,mongolia, 3500, TransportType.AIR);
+            Transport mongoWietamAir = new Transport(mongolia,wietnam, 3500, TransportType.AIR);
+            transports.add(wietnamMongoSAir);
+            transports.add(mongoWietamAir);
+
+            Transport chinaIndiaAir = new Transport(china,india, 10000, TransportType.AIR);
+            Transport indiaChinaAir = new Transport(india,china, 12000, TransportType.AIR);
+            transports.add(chinaIndiaAir);
+            transports.add(indiaChinaAir);
+
         }
         return transports;
     }
