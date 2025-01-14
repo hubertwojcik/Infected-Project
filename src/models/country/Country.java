@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.List;
 
 
+import enums.DifficultyLevel;
+import game.GameSettings;
 import interfaces.Upgrade;
 import models.PeopleTransport;
 import models.game.Virus;
@@ -31,9 +33,10 @@ public class Country extends CountryCoordinates {
     //
     private final Object lock = new Object();
     //
-    private  double gdp;
+
     //UPGRADES
     private final Map<Upgrade, Boolean> upgrades = new HashMap<>();
+    private double countryPoints;
 
 
     public Country(String name, int population, int mapX, int mapY, int width, int height,CountryColor color,String capital, int capitalX,int capitalY) {
@@ -125,6 +128,7 @@ public class Country extends CountryCoordinates {
             dead += deathsToday;
 
             infectedMap.remove(dayCounter);
+            adjustCountryPoints(recoveriesToday);
         }
 
         susceptible = Math.max(0, susceptible);
@@ -144,6 +148,17 @@ public class Country extends CountryCoordinates {
         dayCounter++;
     }
 
+
+    private void adjustCountryPoints(int recoveredToday){
+        double points = (((double) recoveredToday) / population) * 100;
+        double multiplier = GameSettings.getDifficultyLevel().getScoreModifier();
+        double newPoints = points * multiplier;
+
+        double roundedPoints = Math.round(newPoints * 100.0) / 100.0;
+
+        this.countryPoints += roundedPoints;
+
+    }
 
 
     public void adjustPopulation(PeopleTransport payload, boolean isTransportToCountry) {
@@ -169,9 +184,6 @@ public class Country extends CountryCoordinates {
             case "Śmiertelność":
                 modifyMortalityRate(effectValue);
                 break;
-            case "PKB":
-                modifyGPD(effectValue);
-                break;
             default:
                 throw new IllegalArgumentException("Nieznany efekt: " + effectKey);
         }
@@ -193,10 +205,6 @@ public class Country extends CountryCoordinates {
     public void modifyMortalityRate(double modifier){
         this.mortalityRate += modifier;
         this.mortalityRate = Math.max(0, this.mortalityRate);
-    }
-
-    public void modifyGPD(double modifier){
-        this.gdp += this.gdp*modifier;
     }
 
 
@@ -237,6 +245,11 @@ public class Country extends CountryCoordinates {
             this.infectionRate = virus.getInfectionRate();
             this.recoveryRate = virus.getRecoveryRate();
             this.mortalityRate = virus.getMortalityRate();
-        }
+        };
+
+    }
+
+    public double getCountryPoints() {
+        return countryPoints;
     }
 }

@@ -6,7 +6,18 @@ import models.country.Country;
 import java.util.Map;
 
 public class SocialDistancing implements Upgrade {
-    private double cost = 5.0 ;
+    private final double cost;
+    private final Map<String, Double> effects;
+
+
+    public SocialDistancing(double cost, double infectivity, double recovery, double mortality) {
+        this.cost = cost;
+        this.effects = Map.of(
+                "Zaraźliwość", infectivity,
+                "Zdrowienie", recovery,
+                "Śmiertelność", mortality
+        );
+    }
 
     @Override
     public String getName() {
@@ -22,12 +33,7 @@ public class SocialDistancing implements Upgrade {
     @Override
     public Map<String, Double> getEffects() {
 
-        return Map.of(
-                "Zaraźliwość", -0.15,
-                "Zdrowienie", 0.0,
-                "Śmiertelność", 0.0,
-                "PKB", -0.03
-        );
+        return effects;
     }
 
     @Override

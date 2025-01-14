@@ -14,10 +14,9 @@ public class GameStatisticsView extends JPanel implements GameObserver {
     private final JLabel deadLabel;
 
     public GameStatisticsView() {
-        this.setLayout(new GridLayout(3, 1, 0, 5)); // Dodano odstęp pionowy 10
+        this.setLayout(new GridLayout(3, 1, 0, 5));
         this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
         this.setBackground(Color.white);
-
 
         this.add(createAlignedRow("Zarażeni:", infectedLabel = createStyledLabel("0")));
         this.add(createAlignedRow("Ozdrowieńcy:", curedLabel = createStyledLabel("0")));
@@ -25,10 +24,8 @@ public class GameStatisticsView extends JPanel implements GameObserver {
 
     }
 
-
-
     @Override
-    public void onSelectedCountryUpdate(String countryName, int population, int infected, int cured, int dead,double infectedRate,double recoveryRestinatce, double moratyliRate) {
+    public void onSelectedCountryUpdate(String countryName, double points,int population, int infected, int cured, int dead,double infectedRate,double recoveryRestinatce, double moratyliRate) {
     }
 
     @Override
@@ -50,7 +47,7 @@ public class GameStatisticsView extends JPanel implements GameObserver {
 
     private JPanel createAlignedRow(String labelText, JLabel valueLabel) {
         JPanel rowPanel = new JPanel();
-        rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5)); // Wyrównanie do lewej z odstępami
+        rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
         rowPanel.setBackground(Color.WHITE);
 
         JLabel label = new JLabel(labelText);

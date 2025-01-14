@@ -7,7 +7,19 @@ import java.util.Map;
 import java.util.Set;
 
 public class MassTesting implements Upgrade {
-    private double cost = 5;
+    private final double cost;
+    private final Map<String, Double> effects;
+
+
+    public MassTesting(double cost, double infectivity, double recovery, double mortality) {
+        this.cost = cost;
+        this.effects = Map.of(
+                "Zaraźliwość", infectivity,
+                "Zdrowienie", recovery,
+                "Śmiertelność", mortality
+        );
+    }
+
 
     @Override
     public String getName() {
@@ -21,12 +33,7 @@ public class MassTesting implements Upgrade {
 
     @Override
     public Map<String, Double> getEffects() {
-        return Map.of(
-                "Zaraźliwość", -0.10,
-                "Zdrowienie", 0.05,
-                "Śmiertelność", 0.0,
-                "PKB", -0.01
-        );
+        return effects;
     }
 
     @Override

@@ -105,6 +105,7 @@ public class GameModel {
             for (GameObserver observer : observers) {
                 observer.onSelectedCountryUpdate(
                         selectedCountry.getName(),
+                        selectedCountry.getCountryPoints(),
                         selectedCountry.getPopulation(),
                         selectedCountry.getInfected(),
                         selectedCountry.getRecovered(),
@@ -122,6 +123,7 @@ public class GameModel {
             Country selectedCountry = this.selectedCountry;
             observer.onSelectedCountryUpdate(
                     selectedCountry.getName(),
+                    selectedCountry.getCountryPoints(),
                     selectedCountry.getPopulation(),
                     selectedCountry.getInfected(),
                     selectedCountry.getRecovered(),

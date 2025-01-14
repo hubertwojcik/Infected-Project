@@ -11,15 +11,16 @@ import java.util.Map;
 
 public class GameCountryView extends JPanel implements GameObserver {
     private final GameModel gameModel;
-    private JLabel countryLabel;
-    private JLabel populationLabel;
-    private JLabel infectedLabel;
-    private JLabel recoveredLabel;
-    private JLabel deadLabel;
-    private JPanel upgradesPanel;
-    private JLabel infectedRateLabel;
-    private JLabel recoveryResistanceLabel;
-    private JLabel mortalityRateLabel;
+    private final JLabel countryLabel;
+    private final JLabel countryPointsLabel;
+    private final JLabel populationLabel;
+    private final JLabel infectedLabel;
+    private final JLabel recoveredLabel;
+    private final JLabel deadLabel;
+    private final JPanel upgradesPanel;
+    private final JLabel infectedRateLabel;
+    private final JLabel recoveryResistanceLabel;
+    private final JLabel mortalityRateLabel;
 
 
     public GameCountryView(GameModel gameModel) {
@@ -27,7 +28,6 @@ public class GameCountryView extends JPanel implements GameObserver {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.white);
 
-        // Nagłówek kraju
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
         headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
@@ -40,13 +40,13 @@ public class GameCountryView extends JPanel implements GameObserver {
 
         this.add(headerPanel, BorderLayout.NORTH);
 
-        // Dane dynamiczne (statystyki kraju)
+
         JPanel statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         statsPanel.setBackground(Color.WHITE);
 
-        // Dodanie wierszy statystyk
+        statsPanel.add(createAlignedRow("Punkty:", countryPointsLabel = createStyledLabel("0")));
         statsPanel.add(createAlignedRow("Populacja:", populationLabel = createStyledLabel("0")));
         statsPanel.add(createAlignedRow("Zarażeni:", infectedLabel = createStyledLabel("0")));
         statsPanel.add(createAlignedRow("Ozdrowieni:", recoveredLabel = createStyledLabel("0")));
@@ -55,13 +55,11 @@ public class GameCountryView extends JPanel implements GameObserver {
         statsPanel.add(createAlignedRow("Oporność na leczenie:", recoveryResistanceLabel = createStyledLabel("0")));
         statsPanel.add(createAlignedRow("Śmiertelność:", mortalityRateLabel = createStyledLabel("0")));
 
-        // Dodanie statsPanel bez przewijania
         JPanel statsContainer = new JPanel(new BorderLayout());
         statsContainer.add(statsPanel, BorderLayout.CENTER);
         statsContainer.setPreferredSize(new Dimension(300, 250)); // Ograniczona wysokość
         this.add(statsContainer, BorderLayout.CENTER);
 
-        // Ulepszenia
         upgradesPanel = new JPanel();
         upgradesPanel.setLayout(new BoxLayout(upgradesPanel, BoxLayout.Y_AXIS));
         upgradesPanel.setPreferredSize(new Dimension(300, 1535));
@@ -75,13 +73,14 @@ public class GameCountryView extends JPanel implements GameObserver {
     }
 
     @Override
-    public void onSelectedCountryUpdate(String countryName, int population, int infected, int cured, int dead, double infectedRate,double recoveryRestinatce, double moratyliRate) {
+    public void onSelectedCountryUpdate(String countryName, double countryPoints, int population, int infected, int cured, int dead, double infectedRate,double recoveryRestinatce, double moratyliRate) {
         if (countryName == null) {
             SwingUtilities.invokeLater(() -> this.setVisible(false));
         } else {
             SwingUtilities.invokeLater(() -> {
                 this.setVisible(true);
                 countryLabel.setText(countryName);
+                countryPointsLabel.setText("" + countryPoints);
                 populationLabel.setText(""+population);
                 infectedLabel.setText("" + infected);
                 recoveredLabel.setText("" + cured);
@@ -120,7 +119,7 @@ public class GameCountryView extends JPanel implements GameObserver {
             upgradePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             upgradePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 130));
 
-            JLabel upgradeLabel = new JLabel(upgrade.getName());
+            JLabel upgradeLabel = new JLabel(upgrade.getName()+ ": " + upgrade.getCost() +" pkt");
             upgradeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
             upgradeLabel.setFont(new Font("Arial", Font.BOLD, 14));
 
@@ -128,6 +127,7 @@ public class GameCountryView extends JPanel implements GameObserver {
             detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
             detailsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
             detailsPanel.setOpaque(false);
+
 
             for (Map.Entry<String, Double> effect : upgrade.getEffects().entrySet()) {
                 JLabel effectLabel = new JLabel(effect.getKey() + ": " + effect.getValue());
@@ -147,19 +147,19 @@ public class GameCountryView extends JPanel implements GameObserver {
                 Country selectedCountry = gameModel.getSelectedCountry();
                 if (selectedCountry == null) return;
 
-//                if (selectedCountry.getGdp() >= upgrade.getCost()) {
+                if (selectedCountry.getCountryPoints() >= upgrade.getCost()) {
                 upgrade.applyUpgrade(selectedCountry);
                 buyButton.setEnabled(false);
                 buyButton.setText("Kupione");
                 JOptionPane.showMessageDialog(this, "Kupiono ulepszenie: " + upgrade.getName());
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "Nie stać Cię na to ulepszenie!", "Błąd", JOptionPane.ERROR_MESSAGE);
-//                }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Nie stać Cię na to ulepszenie!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                }
             });
 
             upgradePanel.add(upgradeLabel);
             upgradePanel.add(detailsPanel);
-            upgradePanel.add(Box.createVerticalStrut(10)); // Odstęp
+            upgradePanel.add(Box.createVerticalStrut(10));
             upgradePanel.add(buyButton);
 
             upgradesPanel.add(upgradePanel);
@@ -171,7 +171,7 @@ public class GameCountryView extends JPanel implements GameObserver {
 
     private JPanel createAlignedRow(String labelText, JLabel valueLabel) {
         JPanel rowPanel = new JPanel();
-        rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5)); // Wyrównanie do lewej z odstępami
+        rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
         rowPanel.setBackground(Color.WHITE);
 
         JLabel label = new JLabel(labelText);

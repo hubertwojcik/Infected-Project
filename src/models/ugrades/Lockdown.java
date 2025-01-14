@@ -6,8 +6,19 @@ import models.country.Country;
 import java.util.Map;
 
 public class Lockdown implements Upgrade {
-    private double cost = 5;
+    private final double cost;
+    private final Map<String, Double> effects;
 
+
+
+    public Lockdown(double cost, double infectivity, double recovery, double mortality) {
+        this.cost = cost;
+        this.effects = Map.of(
+                "Zaraźliwość", infectivity,
+                "Zdrowienie", recovery,
+                "Śmiertelność", mortality
+        );
+    }
     @Override
     public String getName() {
         return "Pełny lockdow";
@@ -20,12 +31,7 @@ public class Lockdown implements Upgrade {
 
     @Override
     public Map<String, Double> getEffects() {
-        return Map.of(
-                "Zaraźliwość", -0.20,
-                "Zdrowienie", 0.0,
-                "Śmiertelność", 0.0,
-                "PKB", -0.05
-        );
+        return effects;
     }
 
     @Override

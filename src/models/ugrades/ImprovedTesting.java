@@ -6,7 +6,17 @@ import models.country.Country;
 import java.util.Map;
 
 public class ImprovedTesting implements Upgrade {
-    private double cost = 5;
+    private final double cost;
+    private final Map<String, Double> effects;
+
+    public ImprovedTesting(double cost, double infectivity, double recovery, double mortality) {
+        this.cost = cost;
+        this.effects = Map.of(
+                "Zaraźliwość", infectivity,
+                "Zdrowienie", recovery,
+                "Śmiertelność", mortality
+        );
+    }
 
     @Override
     public String getName() {
@@ -20,12 +30,7 @@ public class ImprovedTesting implements Upgrade {
 
     @Override
     public Map<String, Double> getEffects() {
-        return Map.of(
-                "Zaraźliwość", 0.05,
-                "Zdrowienie", 0.05,
-                "Śmiertelność", 0.0,
-                "PKB", -0.005
-        );
+        return effects;
     }
 
     @Override

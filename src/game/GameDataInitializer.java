@@ -127,7 +127,7 @@ public class GameDataInitializer {
                 (50 - countrySpacing) / 2,10
                 );
         Country indonesia = new Country(
-                "Indonesia",
+                "Indonezja",
                 277_500_000,
                 500,
                 india.getCountryYCoordinate() + india.getCountryHeight() + 25 + countrySpacing,
@@ -151,11 +151,12 @@ public class GameDataInitializer {
 
 //        List<Country> countries = CountryFactory.getCountries();
 //USE FACTORY
-        List<Upgrade> upgrades = UpgradeFactory.getUpgrades();
 
-        for(Country c : countries){
-            c.initializeUpgrades(upgrades);
+        for(Country country : countries){
+            List<Upgrade> upgrades = UpgradeFactory.getUpgradesForCountry(country);
+            country.initializeUpgrades(upgrades);
         }
+
         return countries;
     }
 

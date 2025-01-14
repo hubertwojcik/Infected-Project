@@ -6,11 +6,22 @@ import models.country.Country;
 import java.util.Map;
 
 public class ShipTransportDisable implements Upgrade {
-    private double cost = 5;
+    private final double cost;
+    private final Map<String, Double> effects;
 
+
+
+    public ShipTransportDisable(double cost, double infectivity, double recovery, double mortality) {
+        this.cost = cost;
+        this.effects = Map.of(
+                "Zaraźliwość", infectivity,
+                "Zdrowienie", recovery,
+                "Śmiertelność", mortality
+        );
+    }
     @Override
     public String getName() {
-        return "Wyłączenie transportu morskiego";
+        return "Wyłączenie statków";
     }
 
     @Override
@@ -20,12 +31,7 @@ public class ShipTransportDisable implements Upgrade {
 
     @Override
     public Map<String, Double> getEffects() {
-        return Map.of(
-                "Zaraźliwość", -0.05,
-                "Zdrowienie", 0.0,
-                "Śmiertelność", 0.0,
-                "PKB", -0.01
-        );
+        return effects;
     }
 
     @Override

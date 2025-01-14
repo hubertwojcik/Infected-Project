@@ -6,7 +6,18 @@ import models.country.Country;
 import java.util.Map;
 
 public class VaccineDevelopment implements Upgrade {
-    private double cost = 5;
+    private final double cost;
+    private final Map<String, Double> effects;
+
+
+    public VaccineDevelopment(double cost, double infectivity, double recovery, double mortality) {
+        this.cost = cost;
+        this.effects = Map.of(
+                "Zaraźliwość", infectivity,
+                "Zdrowienie", recovery,
+                "Śmiertelność", mortality
+        );
+    }
 
     @Override
     public String getName() {
@@ -21,12 +32,7 @@ public class VaccineDevelopment implements Upgrade {
     @Override
     public Map<String, Double> getEffects() {
 
-        return Map.of(
-                "Zaraźliwość", 0.0,
-                "Zdrowienie", 0.20,
-                "Śmiertelność", -0.10,
-                "PKB", -0.10
-        );
+        return effects;
     }
 
     @Override
