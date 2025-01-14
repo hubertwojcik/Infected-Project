@@ -5,11 +5,14 @@ import models.game.GameModel;
 import views.game.GameView;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class GameController implements Runnable{
+public class GameController implements Runnable, KeyListener {
     //MODELS
     private final GameModel gameModel;
     //CONTROLLERS
+    private final AppController appController;
     private  final MapController mapController;
     //VIEWS
     private  final GameView gameView;
@@ -18,11 +21,17 @@ public class GameController implements Runnable{
     private Thread gameThread;
 
     public GameController(AppController appController) {
+        this.appController = appController;
         //MODELS
         this.gameModel = new GameModel();
         //CONTROLLERS
         this.mapController = new MapController(gameModel,this);
         this.gameView = new GameView(this, gameModel,mapController);
+
+
+        gameView.addKeyListener(this);
+        gameView.setFocusable(true);
+        gameView.requestFocusInWindow();
 
     }
 
@@ -64,4 +73,23 @@ public class GameController implements Runnable{
         }
     }
 
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_Q) {
+            System.out.println("QHWEHQWEHQWHE");
+            resetGame();
+            gameThread.interrupt();
+            appController.showHomeView();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
 }

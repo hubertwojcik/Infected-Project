@@ -43,4 +43,9 @@ public class GameHeaderView extends JPanel implements GameObserver {
     public void onGlobalStatsUpdate(int infected, int cured, int dead) {
 
     }
+
+    @Override
+    public void onGameEnd() {
+
+    }
 }

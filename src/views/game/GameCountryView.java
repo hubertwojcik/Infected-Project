@@ -187,4 +187,9 @@ public class GameCountryView extends JPanel implements GameObserver {
         label.setFont(new Font("Arial", Font.PLAIN, 14));
         return label;
     }
+
+    @Override
+    public void onGameEnd() {
+
+    }
 }

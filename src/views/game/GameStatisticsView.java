@@ -43,6 +43,11 @@ public class GameStatisticsView extends JPanel implements GameObserver {
     public void onDayUpdate(int dayCounter) {
     }
 
+    @Override
+    public void onGameEnd() {
+
+    }
+
     private JPanel createAlignedRow(String labelText, JLabel valueLabel) {
         JPanel rowPanel = new JPanel();
         rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5)); // Wyrównanie do lewej z odstępami

@@ -2,6 +2,7 @@ package controllers;
 
 import controllers.game.GameController;
 import game.ScreenManager;
+import views.game.GameEndView;
 import views.game.GameFrame;
 import views.game.GameView;
 import views.general.HighScoresView;
@@ -45,6 +46,11 @@ public class AppController extends JPanel
         screenManager.showScreen("START");
     }
 
+
+    public void showGameEndView(){
+        screenManager.removeScreen("GAME_END");
+        screenManager.addScreen("GAME_END", new GameEndView());
+    }
 
     public void startNewGame() {
         GameController gameController = new GameController(this );

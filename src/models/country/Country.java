@@ -32,7 +32,6 @@ public class Country extends CountryCoordinates {
     private final Object lock = new Object();
     //
     private  double gdp;
-    private double gpdGrowth;
     //UPGRADES
     private final Map<Upgrade, Boolean> upgrades = new HashMap<>();
 
@@ -156,7 +155,6 @@ public class Country extends CountryCoordinates {
                 this.infected -= payload.infectedPeople;
                 this.population -= payload.healthyPeople + payload.infectedPeople;
             }
-//            population += delta;
         }
     }
 
@@ -226,8 +224,6 @@ public class Country extends CountryCoordinates {
         return virus;
     }
 
-
-    // Population adjustment
 
     // Helpers
     private int getRandomDays(int min, int max) {

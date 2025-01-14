@@ -133,6 +133,10 @@ public class GameModel {
         }
     }
 
+    private void notifyEndGame(){
+
+    }
+
     public void initializeGameData() {
         dayCounter = 0;
         countries = GameDataInitializer.initializeCountries();
@@ -152,5 +156,11 @@ public class GameModel {
 
     public List<Transport> getTransports() {
         return transports;
+    }
+
+
+    private void checkEndGameCondition(){
+            boolean allPeopleInfected = false;
+
     }
 }
