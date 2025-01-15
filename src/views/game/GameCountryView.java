@@ -7,6 +7,7 @@ import models.game.GameModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Map;
 
 public class GameCountryView extends JPanel implements GameObserver {
@@ -14,6 +15,7 @@ public class GameCountryView extends JPanel implements GameObserver {
     private final JLabel countryLabel;
     private final JLabel countryPointsLabel;
     private final JLabel populationLabel;
+    private final JLabel suspectibleLabel;
     private final JLabel infectedLabel;
     private final JLabel recoveredLabel;
     private final JLabel deadLabel;
@@ -48,16 +50,17 @@ public class GameCountryView extends JPanel implements GameObserver {
 
         statsPanel.add(createAlignedRow("Punkty:", countryPointsLabel = createStyledLabel("0")));
         statsPanel.add(createAlignedRow("Populacja:", populationLabel = createStyledLabel("0")));
+        statsPanel.add(createAlignedRow("Podatni:", suspectibleLabel = createStyledLabel("0")));
         statsPanel.add(createAlignedRow("Zarażeni:", infectedLabel = createStyledLabel("0")));
         statsPanel.add(createAlignedRow("Ozdrowieni:", recoveredLabel = createStyledLabel("0")));
         statsPanel.add(createAlignedRow("Martwi:", deadLabel = createStyledLabel("0")));
         statsPanel.add(createAlignedRow("Zarażalność:", infectedRateLabel = createStyledLabel("0")));
-        statsPanel.add(createAlignedRow("Oporność na leczenie:", recoveryResistanceLabel = createStyledLabel("0")));
+        statsPanel.add(createAlignedRow("Skuteczność leczenia:", recoveryResistanceLabel = createStyledLabel("0")));
         statsPanel.add(createAlignedRow("Śmiertelność:", mortalityRateLabel = createStyledLabel("0")));
 
         JPanel statsContainer = new JPanel(new BorderLayout());
         statsContainer.add(statsPanel, BorderLayout.CENTER);
-        statsContainer.setPreferredSize(new Dimension(300, 250)); // Ograniczona wysokość
+        statsContainer.setPreferredSize(new Dimension(300, 250));
         this.add(statsContainer, BorderLayout.CENTER);
 
         upgradesPanel = new JPanel();
@@ -73,7 +76,7 @@ public class GameCountryView extends JPanel implements GameObserver {
     }
 
     @Override
-    public void onSelectedCountryUpdate(String countryName, double countryPoints, int population, int infected, int cured, int dead, double infectedRate,double recoveryRestinatce, double moratyliRate) {
+    public void onSelectedCountryUpdate(String countryName, double countryPoints, int population,int suspectible, int infected, int cured, int dead, double infectedRate,double recoveryRestinatce, double moratyliRate) {
         if (countryName == null) {
             SwingUtilities.invokeLater(() -> this.setVisible(false));
         } else {
@@ -82,6 +85,7 @@ public class GameCountryView extends JPanel implements GameObserver {
                 countryLabel.setText(countryName);
                 countryPointsLabel.setText("" + countryPoints);
                 populationLabel.setText(""+population);
+                suspectibleLabel.setText(""+ suspectible);
                 infectedLabel.setText("" + infected);
                 recoveredLabel.setText("" + cured);
                 deadLabel.setText("" + dead);
@@ -128,7 +132,6 @@ public class GameCountryView extends JPanel implements GameObserver {
             detailsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
             detailsPanel.setOpaque(false);
 
-
             for (Map.Entry<String, Double> effect : upgrade.getEffects().entrySet()) {
                 JLabel effectLabel = new JLabel(effect.getKey() + ": " + effect.getValue());
                 effectLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -141,7 +144,11 @@ public class GameCountryView extends JPanel implements GameObserver {
             if (isBought) {
                 buyButton.setEnabled(false);
                 buyButton.setText("Kupione");
-            }
+            }else{
+                for (ActionListener al : buyButton.getActionListeners()) {
+                    buyButton.removeActionListener(al);
+                }
+
 
             buyButton.addActionListener(e -> {
                 Country selectedCountry = gameModel.getSelectedCountry();
@@ -152,10 +159,13 @@ public class GameCountryView extends JPanel implements GameObserver {
                 buyButton.setEnabled(false);
                 buyButton.setText("Kupione");
                 JOptionPane.showMessageDialog(this, "Kupiono ulepszenie: " + upgrade.getName());
+                    System.out.println("Dodaję upgrade: " + upgrade.getName() + " | Koszt: " + upgrade.getCost());
+
                 } else {
                     JOptionPane.showMessageDialog(this, "Nie stać Cię na to ulepszenie!", "Błąd", JOptionPane.ERROR_MESSAGE);
                 }
             });
+            }
 
             upgradePanel.add(upgradeLabel);
             upgradePanel.add(detailsPanel);
@@ -164,14 +174,13 @@ public class GameCountryView extends JPanel implements GameObserver {
 
             upgradesPanel.add(upgradePanel);
         }
-
-        upgradesPanel.revalidate();
-        upgradesPanel.repaint();
+//        upgradesPanel.revalidate();
+//        upgradesPanel.repaint();
     }
 
     private JPanel createAlignedRow(String labelText, JLabel valueLabel) {
         JPanel rowPanel = new JPanel();
-        rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+        rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         rowPanel.setBackground(Color.WHITE);
 
         JLabel label = new JLabel(labelText);

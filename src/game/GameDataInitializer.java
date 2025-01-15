@@ -178,7 +178,7 @@ public class GameDataInitializer {
 
         if (russia != null && china != null && japan != null && kazakhstan != null &&  iran != null && pakistan != null && india != null && wietnam != null && indonezja != null && mongolia != null) {
             Transport chinaRusPlane =new Transport(china, russia, 1000, TransportType.AIR);
-            Transport rusChinaPlane = new Transport(russia, china, 700, TransportType.AIR);
+            Transport rusChinaPlane = new Transport(russia, china, 1000, TransportType.AIR);
             transports.add(rusChinaPlane);
             transports.add(chinaRusPlane);
 
@@ -192,8 +192,8 @@ public class GameDataInitializer {
             transports.add(chinaJapanShip);
             transports.add(japanChinaShip);
 
-            Transport kazakIran = new Transport(russia,iran, 500, TransportType.RAILWAY);
-            Transport iranKazak = new Transport(iran,russia, 350, TransportType.RAILWAY);
+            Transport kazakIran = new Transport(kazakhstan,iran, 500, TransportType.RAILWAY);
+            Transport iranKazak = new Transport(iran,kazakhstan, 350, TransportType.RAILWAY);
             transports.add(kazakIran);
             transports.add(iranKazak);
 
@@ -226,6 +226,11 @@ public class GameDataInitializer {
             Transport indiaChinaAir = new Transport(india,china, 12000, TransportType.AIR);
             transports.add(chinaIndiaAir);
             transports.add(indiaChinaAir);
+
+            Transport japanIndoAir   = new Transport(japan,indonezja, 5000, TransportType.AIR);
+            Transport indoJapanAir  = new Transport(indonezja,japan, 2000, TransportType.AIR);
+            transports.add(japanIndoAir);
+            transports.add(indoJapanAir);
 
         }
         return transports;

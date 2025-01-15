@@ -50,6 +50,7 @@ public class AppController extends JPanel
     public void showGameEndView(){
         screenManager.removeScreen("GAME_END");
         screenManager.addScreen("GAME_END", new GameEndView());
+        screenManager.showScreen("GAME_END");
     }
 
     public void startNewGame() {

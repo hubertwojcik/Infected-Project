@@ -2,6 +2,7 @@ package controllers.game;
 import controllers.AppController;
 import controllers.map.MapController;
 import models.game.GameModel;
+import models.game.GameObserver;
 import views.game.GameView;
 
 import javax.swing.*;
@@ -33,6 +34,27 @@ public class GameController implements Runnable, KeyListener {
         gameView.setFocusable(true);
         gameView.requestFocusInWindow();
 
+        this.gameModel.addObserver(new GameObserver() {
+            @Override
+            public void onDayUpdate(int dayCounter) {
+
+            }
+
+            @Override
+            public void onGlobalStatsUpdate(int infected, int cured, int dead) {
+
+            }
+
+            @Override
+            public void onSelectedCountryUpdate(String countryName, double countryPoints, int population, int suspectible, int infected, int cured, int dead, double infectedRate, double recoveryRestinatce, double moratyliRate) {
+
+            }
+
+            @Override
+            public void onGameEnd() {
+                endGame();
+            }
+        });
     }
 
     public GameView getGameView() {
@@ -76,10 +98,7 @@ public class GameController implements Runnable, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_Q) {
-            System.out.println("QHWEHQWEHQWHE");
-            resetGame();
-            gameThread.interrupt();
-            appController.showHomeView();
+            stopGame();
         }
     }
 
@@ -91,5 +110,16 @@ public class GameController implements Runnable, KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
 
+    }
+
+    private void stopGame(){
+        resetGame();
+        gameThread.interrupt();
+        appController.showHomeView();
+    }
+
+    private void endGame(){
+        gameThread.interrupt();
+        appController.showGameEndView();
     }
 }

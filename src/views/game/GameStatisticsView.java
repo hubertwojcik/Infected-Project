@@ -25,7 +25,7 @@ public class GameStatisticsView extends JPanel implements GameObserver {
     }
 
     @Override
-    public void onSelectedCountryUpdate(String countryName, double points,int population, int infected, int cured, int dead,double infectedRate,double recoveryRestinatce, double moratyliRate) {
+    public void onSelectedCountryUpdate(String countryName, double points,int population,int suspectible, int infected, int cured, int dead,double infectedRate,double recoveryRestinatce, double moratyliRate) {
     }
 
     @Override

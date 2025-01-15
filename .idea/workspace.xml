@@ -6,7 +6,30 @@
   <component name="ChangeListManager">
     <list default="true" id="bf8b1bbb-2aac-429d-bb3f-be35e3a40fd1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/AppController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/game/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enums/DifficultyLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/DifficultyLevel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/GameDataInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameDataInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/GameSimulationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameSimulationManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/PeopleTransport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/PeopleTransport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Transport/Transport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Transport/Transport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/country/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/country/Country.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/game/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/game/GameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/game/GameObserver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/game/GameObserver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ugrades/FieldHospitals.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ugrades/FieldHospitals.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ugrades/ImprovedTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ugrades/ImprovedTesting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ugrades/Lockdown.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ugrades/Lockdown.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ugrades/MandatoryMasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ugrades/MandatoryMasks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ugrades/MassTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ugrades/MassTesting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ugrades/PlaneTransportDisable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ugrades/PlaneTransportDisable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ugrades/PublicAwarnessCampaign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ugrades/PublicAwarnessCampaign.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ugrades/ShipTransportDisable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ugrades/ShipTransportDisable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ugrades/SocialDistancing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ugrades/SocialDistancing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ugrades/TrainTransportDisable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ugrades/TrainTransportDisable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/ugrades/VaccineDevelopment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/ugrades/VaccineDevelopment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/game/GameCountryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameCountryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/game/GameHeaderView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameHeaderView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/game/GameStatisticsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameStatisticsView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +90,7 @@
       <workItem from="1736271886462" duration="7410000" />
       <workItem from="1736351779605" duration="6224000" />
       <workItem from="1736448329282" duration="48536000" />
-      <workItem from="1736871134601" duration="8820000" />
+      <workItem from="1736871134601" duration="42069000" />
     </task>
     <servers />
   </component>

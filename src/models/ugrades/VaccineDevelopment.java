@@ -14,7 +14,7 @@ public class VaccineDevelopment implements Upgrade {
         this.cost = cost;
         this.effects = Map.of(
                 "Zaraźliwość", infectivity,
-                "Zdrowienie", recovery,
+                "Skutecznośc leczenia", recovery,
                 "Śmiertelność", mortality
         );
     }
@@ -31,16 +31,19 @@ public class VaccineDevelopment implements Upgrade {
 
     @Override
     public Map<String, Double> getEffects() {
-
         return effects;
     }
 
     @Override
     public void applyUpgrade(Country country) {
+        country.buyUpgrade(this);
+
+
         for (Map.Entry<String,Double> effect : getEffects().entrySet()){
             String effectKey =effect.getKey();
             double effectValue = effect.getValue();
             country.applyUpgrade(this,effectKey,effectValue);
         }
+
     }
 }

@@ -24,6 +24,7 @@ public class GameModel {
     private Country selectedCountry;
     private  List<Transport> transports;
     private Virus virus;
+    private final Object lock = new Object();
 
 
     public void addObserver(GameObserver observer) {
@@ -55,15 +56,17 @@ public class GameModel {
         return countries;
     }
 
-    public void updateModel() {
-        simulationManager.runSimulationStep();
-        dayCounter++;
-        updateGlobalStats();
-        notifyDayUpdate();
-        notifyGlobalStatsUpdate();
-        if (selectedCountry != null) {
-            notifySelectedCountryStatsUpdate();
-        }
+    public synchronized void updateModel() {
+            simulationManager.runSimulationStep();
+            dayCounter++;
+            updateGlobalStats();
+            notifyDayUpdate();
+            notifyGlobalStatsUpdate();
+            if (selectedCountry != null) {
+                notifySelectedCountryStatsUpdate();
+            }
+
+            checkEndGameConditions();
     }
 
     public void startNewGame(){
@@ -107,6 +110,7 @@ public class GameModel {
                         selectedCountry.getName(),
                         selectedCountry.getCountryPoints(),
                         selectedCountry.getPopulation(),
+                        selectedCountry.getSusceptible(),
                         selectedCountry.getInfected(),
                         selectedCountry.getRecovered(),
                         selectedCountry.getDead(),
@@ -125,6 +129,7 @@ public class GameModel {
                     selectedCountry.getName(),
                     selectedCountry.getCountryPoints(),
                     selectedCountry.getPopulation(),
+                    selectedCountry.getSusceptible(),
                     selectedCountry.getInfected(),
                     selectedCountry.getRecovered(),
                     selectedCountry.getDead(),
@@ -136,7 +141,9 @@ public class GameModel {
     }
 
     private void notifyEndGame(){
-
+        for (GameObserver observer : observers) {
+            observer.onGameEnd();
+        }
     }
 
     public void initializeGameData() {
@@ -161,8 +168,26 @@ public class GameModel {
     }
 
 
-    private void checkEndGameCondition(){
-            boolean allPeopleInfected = false;
+    private void checkEndGameConditions(){
+        System.out.println("SPRAWDZANIE WARUNKU");
+            boolean allCountriesWonWithVirus = countries.stream().allMatch(c-> {
+
+                System.out.println("DEFATED:  " + c.getName() + " | " + c.isVirusDefated());
+                return c.isVirusDefated();
+            });
+
+            boolean allPeopleHealthy = countries.stream().allMatch(c->c.getInfected() < 1 && c.getSusceptible() >= 0
+            );
+
+            boolean allDiseasesStopSpreading = countries.stream().allMatch(c->c.getInfectionRate()  == 0
+
+            );
+
+            if(allCountriesWonWithVirus || allDiseasesStopSpreading || allPeopleHealthy){
+                notifyEndGame();
+            }
+
+
 
     }
 }

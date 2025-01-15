@@ -1,19 +1,12 @@
 package models;
 
 public class PeopleTransport {
-    public int infectedPeople;
-    public int healthyPeople;
 
-    public PeopleTransport(int infectedPeople, int healthyPeople){
-        this.healthyPeople = healthyPeople;
-        this.infectedPeople = infectedPeople;
-    }
+    public final int susceptiblePeople;
+    public final int recoveredPeople;
 
-    public int getHealthyPeople() {
-        return healthyPeople;
-    }
-
-    public int getInfectedPeople() {
-        return infectedPeople;
+    public PeopleTransport(int susceptiblePeople, int recoveredPeople) {
+        this.susceptiblePeople = susceptiblePeople;
+        this.recoveredPeople = recoveredPeople;
     }
 }
