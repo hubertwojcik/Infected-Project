@@ -1,7 +1,9 @@
 package controllers;
 
 import controllers.game.GameController;
+import controllers.game.GameEndController;
 import game.ScreenManager;
+import models.game.GameEndModel;
 import views.game.GameEndView;
 import views.game.GameFrame;
 import views.game.GameView;
@@ -47,13 +49,20 @@ public class AppController extends JPanel
     }
 
 
-    public void showGameEndView(){
+    public void showGameEndView(int duration, int recovered, int dead){
+        GameEndModel gameEndModel = new GameEndModel();
+        GameEndController gameEndController = new GameEndController(this,gameEndModel);
         screenManager.removeScreen("GAME_END");
-        screenManager.addScreen("GAME_END", new GameEndView());
+        screenManager.addScreen("GAME_END", new GameEndView(gameEndController,duration, recovered, dead));
         screenManager.showScreen("GAME_END");
     }
 
     public void startNewGame() {
+//        GameEndModel gameEndModel = new GameEndModel();
+//        GameEndController gameEndController = new GameEndController(this,gameEndModel);
+//        screenManager.removeScreen("GAME_END");
+//        screenManager.addScreen("GAME_END", new GameEndView(gameEndController,12, 32, 42));
+//        screenManager.showScreen("GAME_END");
         GameController gameController = new GameController(this );
         GameView gameView = gameController.getGameView();
 

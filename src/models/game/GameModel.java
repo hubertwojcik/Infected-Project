@@ -186,8 +186,13 @@ public class GameModel {
             if(allCountriesWonWithVirus || allDiseasesStopSpreading || allPeopleHealthy){
                 notifyEndGame();
             }
+    }
 
+    public int getTotalCured() {
+        return totalCured;
+    }
 
-
+    public int getTotalDead() {
+        return totalDead;
     }
 }

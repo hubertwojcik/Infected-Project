@@ -21,7 +21,7 @@ public class SocialDistancing implements Upgrade {
 
     @Override
     public String getName() {
-        return "Aplikacja dystansu społecznego";
+        return "Dystans społeczny";
     }
 
     @Override

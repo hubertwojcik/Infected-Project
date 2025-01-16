@@ -120,6 +120,6 @@ public class GameController implements Runnable, KeyListener {
 
     private void endGame(){
         gameThread.interrupt();
-        appController.showGameEndView();
+        appController.showGameEndView(gameModel.getDayCounter(), gameModel.getTotalCured(), gameModel.getTotalDead());
     }
 }
