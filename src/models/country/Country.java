@@ -16,18 +16,18 @@ import util.Helpers;
 import javax.swing.*;
 
 public class Country extends CountryCoordinates {
-    private GameModel gameModel;
+    private final GameModel gameModel;
     private final String name;
     private final String capital;
     private int population;
-    private boolean isSelected;
     int infected = 0;
     int recovered = 0;
     int dead = 0;
+    private boolean isSelected;
     private int susceptible;
     private int dayCounter = 0;
     private final Map<Integer, Integer> diseaseResultDayMap = new HashMap<>();
-    private Random random = new Random();
+    private final Random random = new Random();
     private final CountryColor color;
     // VIRUS
     private Virus virus;
@@ -39,12 +39,11 @@ public class Country extends CountryCoordinates {
 
 
     private boolean isVirusDefated = false;
-    //UPGRADES
+
     private final Map<Upgrade, Boolean> upgrades = new HashMap<>();
     private double countryPoints;
+
     private final double countryPointsGrow = 0.25;
-
-
 
     private final Object lock = new Object();
 
@@ -62,18 +61,6 @@ public class Country extends CountryCoordinates {
         this.color = color;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Country country = (Country) o;
-        return Objects.equals(name, country.name); // Porównanie na podstawie nazwy kraju
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name); // Generowanie hash na podstawie nazwy kraju
-    }
 
     public void initializeUpgrades(List<Upgrade> upgradesList) {
         for (Upgrade upgrade : upgradesList) {

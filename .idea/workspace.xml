@@ -5,23 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf8b1bbb-2aac-429d-bb3f-be35e3a40fd1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/StyledButton.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/StyledDetailLabel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/UpgradeInformations.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/HighScoresModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/AppController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/game/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/GameSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GameSettings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/game/GameCountryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameCountryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/country/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/country/Country.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/game/GameEndView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameEndView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/game/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/game/GameHeaderView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameHeaderView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/game/GameStatisticsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameStatisticsView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/game/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/game/GameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/general/HighScoresView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/general/HighScoresView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/general/SelectDifficultyLevelView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/general/SelectDifficultyLevelView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/general/StartGameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/general/StartGameView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +69,7 @@
       <workItem from="1736271886462" duration="7410000" />
       <workItem from="1736351779605" duration="6224000" />
       <workItem from="1736448329282" duration="48536000" />
-      <workItem from="1736871134601" duration="66888000" />
+      <workItem from="1736871134601" duration="68046000" />
     </task>
     <servers />
   </component>

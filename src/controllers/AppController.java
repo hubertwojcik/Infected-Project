@@ -63,16 +63,21 @@ public class AppController extends JPanel
     }
 
     public void startNewGame(DifficultyLevel difficultyLevel) {
-        GameSettings.setDifficultyLevel(difficultyLevel);
-
-        GameController gameController = new GameController(this );
-        GameView gameView = gameController.getGameView();
-
-        screenManager.removeScreen("GAME");
-        screenManager.addScreen("GAME", gameView);
-        screenManager.showScreen("GAME");
-
-        gameController.startNewGame();
+        GameEndModel gameEndModel = new GameEndModel();
+        GameEndController gameEndController = new GameEndController(this,gameEndModel);
+        screenManager.removeScreen("GAME_END");
+        screenManager.addScreen("GAME_END", new GameEndView(gameEndController,23, 41, 23));
+        screenManager.showScreen("GAME_END");
+//        GameSettings.setDifficultyLevel(difficultyLevel);
+//
+//        GameController gameController = new GameController(this );
+//        GameView gameView = gameController.getGameView();
+//
+//        screenManager.removeScreen("GAME");
+//        screenManager.addScreen("GAME", gameView);
+//        screenManager.showScreen("GAME");
+//
+//        gameController.startNewGame();
     }
 
 }

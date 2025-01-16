@@ -2,4 +2,5 @@
 2. Kafka - 1426511468 pkt
 3. Hubert - 363397596 pkt
 4. Kupa - 278929146 pkt
-5. Pipe - -878470680 pkt
+5. Bożydar - 0 pkt
+6. Pipe - -878470680 pkt

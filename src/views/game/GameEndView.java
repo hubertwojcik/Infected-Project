@@ -1,106 +1,92 @@
 package views.game;
 
+import components.GameResultLabel;
+import components.StyledButton;
 import controllers.game.GameEndController;
 import enums.DifficultyLevel;
 import game.GameSettings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
 
 public class GameEndView extends JPanel {
-    private final GameEndController gameEndController;
     private final JTextField nameInput;
-    private final int recovered;
 
-    DifficultyLevel difficultyLevel  = GameSettings.getDifficultyLevel();
-    Random r = new Random();
 
-    public GameEndView(GameEndController gameEndController,int days, int dead, int recovered) {
-        this.recovered  =recovered;
-        this.gameEndController = gameEndController;
+    DifficultyLevel difficultyLevel = GameSettings.getDifficultyLevel();
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setBackground(Color.WHITE);
+    public GameEndView(GameEndController gameEndController, int days, int dead, int recovered) {
+        this.setLayout(new GridBagLayout());
+        this.setBackground(GameSettings.mainBackgroundGrey);
 
-        // Komunikat końcowy
-        JLabel messageLabel = new JLabel("Gratulacje! Koniec gry!", SwingConstants.CENTER);
-        messageLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        messageLabel.setForeground(new Color(50, 50, 50));
-        messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 0, 10, 0); // Odstępy między elementami
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
 
-        // Sekcja statystyk gry
+        JLabel messageLabel = new GameResultLabel("Gratulacje! Koniec gry!", 24, true);
+
+        gbc.gridy = 0;
+        this.add(messageLabel, gbc);
+
         JPanel statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
-        statsPanel.setBackground(Color.WHITE);
-        statsPanel.setBorder(BorderFactory.createTitledBorder("Statystyki gry"));
-        statsPanel.setMaximumSize(new Dimension(400, 120));
-        statsPanel.setMinimumSize(new Dimension(400, 120));
-        statsPanel.setPreferredSize(new Dimension(400, 120));
+        statsPanel.setBackground(GameSettings.mainBackgroundGrey);
+        statsPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(0, 0, 1, 0, Color.WHITE),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)
+        ));
+        statsPanel.setMaximumSize(new Dimension(400, 150));
 
-        JLabel daysLabel = new JLabel("Dni: " + days);
-        JLabel deadLabel = new JLabel("Liczba martwych: " + dead);
-        JLabel recoveredLabel = new JLabel("Liczba uratowanych: " + recovered);
-        JLabel pointsMultiplierLabel = new JLabel("Mnożnik za poziom trudności: " + difficultyLevel.getScoreModifier() );
-        JLabel pointsLabel = new JLabel("Punkty: " + Math.round((recovered/1_000_000 * difficultyLevel.getScoreModifier())));
+        statsPanel.add(new GameResultLabel("Dni: " + days, 16, false));
+        statsPanel.add(new GameResultLabel("Liczba martwych: " + dead, 16, false));
+        statsPanel.add(new GameResultLabel("Liczba uratowanych: " + recovered, 16, false));
+        statsPanel.add(new GameResultLabel("Mnożnik za poziom trudności: " + difficultyLevel.getScoreModifier(), 16, false));
+        statsPanel.add(new GameResultLabel("Punkty: " + Math.round((recovered / 1_000_000 * difficultyLevel.getScoreModifier())), 16, false));
 
-
-        for (JLabel label : new JLabel[]{daysLabel, deadLabel, recoveredLabel, pointsMultiplierLabel,pointsLabel}) {
-            label.setFont(new Font("Arial", Font.PLAIN, 16));
-            label.setAlignmentX(Component.CENTER_ALIGNMENT);
-            statsPanel.add(label);
-        }
+        gbc.gridy = 1;
+        this.add(statsPanel, gbc);
 
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
-        inputPanel.setBackground(Color.WHITE);
-        inputPanel.setBorder(BorderFactory.createTitledBorder("Zapisz swoje wyniki"));
+        inputPanel.setBackground(GameSettings.mainBackgroundGrey);
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         inputPanel.setMaximumSize(new Dimension(400, 100));
-        inputPanel.setMinimumSize(new Dimension(400, 100));
-        inputPanel.setPreferredSize(new Dimension(400, 100));
 
-        JLabel nameLabel = new JLabel("Wpisz swoje imię:");
-        nameLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        inputPanel.add(new GameResultLabel("Wpisz swoje imię:", 16, false));
+        inputPanel.add(Box.createVerticalStrut(10));
 
         nameInput = new JTextField(20);
-        nameInput.setMaximumSize(new Dimension(200, 30));
+        nameInput.setMaximumSize(new Dimension(350, 60));
+        nameInput.setBackground(new Color(30, 30, 30));
+        nameInput.setForeground(Color.WHITE);
+        nameInput.setCaretColor(Color.WHITE);
+        nameInput.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         nameInput.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        inputPanel.add(Box.createVerticalStrut(10));
-        inputPanel.add(nameLabel);
-        inputPanel.add(Box.createVerticalStrut(10));
         inputPanel.add(nameInput);
 
-        // Przycisk zapisz
-        JButton saveButton = new JButton("Zapisz");
-        saveButton.setFont(new Font("Arial", Font.PLAIN, 16));
-        saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        saveButton.addActionListener(e -> onSaveButtonClick());
+        gbc.gridy = 2;
+        this.add(inputPanel, gbc);
 
+        JButton saveButton = new StyledButton("Zapisz", Color.GREEN, Color.WHITE);
+        saveButton.addActionListener(e -> {
+            String userName =nameInput.getText();
+            if(userName.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Proszę wprowadzić swoje imię.", "Błąd", JOptionPane.ERROR_MESSAGE);
 
-        this.add(Box.createVerticalStrut(20));
-        this.add(messageLabel);
-        this.add(Box.createVerticalStrut(20));
-        this.add(statsPanel);
-        this.add(Box.createVerticalStrut(20));
-        this.add(inputPanel);
-        this.add(Box.createVerticalStrut(20));
-        this.add(saveButton);
-        this.add(Box.createVerticalStrut(20));
+            }else{
+                gameEndController.onSaveResultClick(userName, ((int) Math.round(((double) (recovered) / 1_000_000 * difficultyLevel.getScoreModifier()))));
+                JOptionPane.showMessageDialog(this, "Dziękujemy, " + userName + "! Twoje wyniki zostały zapisane.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
+
+            }
+                    });
+
+        gbc.gridy = 3;
+        this.add(saveButton, gbc);
     }
 
 
-    private void onSaveButtonClick() {
-        String name = nameInput.getText();
-        if (name.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Proszę wprowadzić swoje imię.", "Błąd", JOptionPane.ERROR_MESSAGE);
-        } else {
-            gameEndController.onSaveResultClick(name,((int) Math.round(((double)(recovered) / 1_000_000 * difficultyLevel.getScoreModifier()))));
-            JOptionPane.showMessageDialog(this, "Dziękujemy, " + name + "! Twoje wyniki zostały zapisane.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
-
-        }
-    }
 
 
 }
