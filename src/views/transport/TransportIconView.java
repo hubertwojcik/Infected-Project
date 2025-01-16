@@ -1,11 +1,12 @@
 package views.transport;
 
 import models.Transport.Transport;
+import models.Transport.TransportOberver;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class TransportIconView extends JLabel {
+public class TransportIconView extends JLabel implements TransportOberver {
     private final Transport transport;
     private int positionX;
     private int positionY;
@@ -23,8 +24,11 @@ public class TransportIconView extends JLabel {
 
     private final int transportIconSize = 20;
 
+
     public TransportIconView(Transport transport, Image transportImage, int animationDuration) {
         this.transport = transport;
+        this.transport.addObserver(this); // Rejestracja jako obserwator
+
         setIcon(new ImageIcon(transportImage));
         setSize(transportIconSize, transportIconSize);
         setOpaque(false);
@@ -92,5 +96,11 @@ public class TransportIconView extends JLabel {
         positionX = x;
         positionY = y;
         setLocation(x, y);
+    }
+
+    @Override
+    public void onTransportStateChange(Transport transport) {
+        SwingUtilities.invokeLater(() -> this.setVisible(transport.isEnabled()));
+
     }
 }

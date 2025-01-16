@@ -1,5 +1,6 @@
 package models.game;
 
+import enums.TransportType;
 import game.GameDataInitializer;
 import game.GameSettings;
 import game.GameSimulationManager;
@@ -8,6 +9,7 @@ import models.country.Country;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GameModel {
     //OBSERVERS
@@ -24,7 +26,10 @@ public class GameModel {
     private Country selectedCountry;
     private  List<Transport> transports;
     private Virus virus;
-    private final Object lock = new Object();
+
+    public GameModel(){
+        initializeGameData();
+    }
 
 
     public void addObserver(GameObserver observer) {
@@ -35,8 +40,9 @@ public class GameModel {
         observers.remove(observer);
     }
 
-    public GameModel(){
-        initializeGameData();
+
+    public List<Country> getCountries(){
+        return countries;
     }
 
     public int getDayCounter() {
@@ -47,14 +53,44 @@ public class GameModel {
         return selectedCountry;
     }
 
+    public int getTotalCured() {
+        return totalCured;
+    }
+
+    public int getTotalDead() {
+        return totalDead;
+    }
+
+    public List<Transport> getTransports() {
+        return transports;
+    }
+
+
     public void setSelectedCountry(Country selectedCountry) {
         this.selectedCountry = selectedCountry;
         notifySelectedCountryUpdate();
     }
 
-    public List<Country> getCountries(){
-        return countries;
+
+    public void disableTransport(Country country, TransportType transportType){
+        System.out.println("Wylacz " + transportType + " w " + country.getName());
+        for(Transport transport : transports){
+            if ((transport.getFromCountry().getName().equals(country.getName()) ||
+                    transport.getToCountry().getName().equals(country.getName())) &&
+                    transport.getTransportType() == transportType) {
+                System.out.println(transport.getFromCountry().getName() + " to " + transport.getToCountry().getName());
+                transport.setEnabled(false);
+                notifyTransportUpdate(country,transportType, false);
+            }
+        }
     }
+
+    private void notifyTransportUpdate(Country country,TransportType transportType, boolean isEnabled){
+        for (GameObserver gameObserver : observers){
+            gameObserver.onTransportStateUpdate(country,transportType, isEnabled);
+        }
+    }
+
 
     public synchronized void updateModel() {
             simulationManager.runSimulationStep();
@@ -71,7 +107,22 @@ public class GameModel {
 
     public void startNewGame(){
         initializeGameData();
+    }
 
+    public void initializeGameData() {
+        dayCounter = 0;
+        countries = GameDataInitializer.initializeCountries(this);
+        transports = GameDataInitializer.initializeTransports(countries);
+
+        virus = GameDataInitializer.initializeVirus(GameSettings.getDifficultyLevel());
+
+        for(Country c : countries){
+            if(c.getName().equals("Chiny")){
+                c.setVirus(virus,1);
+            }
+        }
+
+        simulationManager = new GameSimulationManager(countries, transports);
     }
 
     private void updateGlobalStats() {
@@ -146,33 +197,10 @@ public class GameModel {
         }
     }
 
-    public void initializeGameData() {
-        dayCounter = 0;
-        countries = GameDataInitializer.initializeCountries();
-        transports = GameDataInitializer.initializeTransports(countries);
-
-        virus = GameDataInitializer.initializeVirus(GameSettings.getDifficultyLevel());
-
-        for(Country c : countries){
-            if(c.getName().equals("Chiny")){
-                c.setVirus(virus,1);
-            }
-        }
-
-        simulationManager = new GameSimulationManager(countries, transports);
-
-    }
-
-    public List<Transport> getTransports() {
-        return transports;
-    }
 
 
     private void checkEndGameConditions(){
-        System.out.println("SPRAWDZANIE WARUNKU");
             boolean allCountriesWonWithVirus = countries.stream().allMatch(c-> {
-
-                System.out.println("DEFATED:  " + c.getName() + " | " + c.isVirusDefated());
                 return c.isVirusDefated();
             });
 
@@ -188,11 +216,6 @@ public class GameModel {
             }
     }
 
-    public int getTotalCured() {
-        return totalCured;
-    }
 
-    public int getTotalDead() {
-        return totalDead;
-    }
+
 }

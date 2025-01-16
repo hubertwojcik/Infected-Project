@@ -4,15 +4,19 @@ import java.util.*;
 import java.util.List;
 
 
+import enums.TransportType;
 import game.GameSettings;
 import interfaces.Upgrade;
 import models.PeopleTransport;
+import models.game.GameModel;
 import models.game.Virus;
 import enums.CountryColor;
+import util.Helpers;
 
 import javax.swing.*;
 
 public class Country extends CountryCoordinates {
+    private GameModel gameModel;
     private final String name;
     private final String capital;
     private int population;
@@ -31,23 +35,23 @@ public class Country extends CountryCoordinates {
     private double recoveryRate;
 
     private double mortalityRate;
-    //
-//    private final Object lock = new Object();
+
+
 
     private boolean isVirusDefated = false;
-
     //UPGRADES
     private final Map<Upgrade, Boolean> upgrades = new HashMap<>();
     private double countryPoints;
-    private final double countryPointsGrow = 0.1;
+    private final double countryPointsGrow = 0.25;
 
 
-    // Dodatkowy lock, jeśli chcemy blokować manualnie w metodach getPopulation(), itp.
+
     private final Object lock = new Object();
 
 
-    public Country(String name, int population, int mapX, int mapY, int width, int height,CountryColor color,String capital, int capitalX,int capitalY) {
+    public Country(GameModel gameModel,String name, int population, int mapX, int mapY, int width, int height,CountryColor color,String capital, int capitalX,int capitalY) {
         super(mapX, mapY, width, height, capitalX + mapX, capitalY + mapY, capitalX, capitalY);
+        this.gameModel = gameModel;
         this.name = name;
         this.capital = capital;
         this.population = population;
@@ -56,6 +60,19 @@ public class Country extends CountryCoordinates {
         this.recovered = 0;
         this.dead = 0;
         this.color = color;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Country country = (Country) o;
+        return Objects.equals(name, country.name); // Porównanie na podstawie nazwy kraju
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name); // Generowanie hash na podstawie nazwy kraju
     }
 
     public void initializeUpgrades(List<Upgrade> upgradesList) {
@@ -159,7 +176,6 @@ public class Country extends CountryCoordinates {
             this.population += (susceptible + recovered);
             this.recovered += recovered;
         } else {
-            // Zabezpieczenie przed ujemnymi wartościami
             if (this.susceptible < susceptible) {
                 susceptible = this.susceptible;
             }
@@ -172,26 +188,14 @@ public class Country extends CountryCoordinates {
         }
     }
 
-//    public synchronized void handleImmigrationAndEmigration(PeopleTransport payload, boolean isTransportToCountry){
-//            int recovered = payload.recoveredPeople;
-//            int susceptible = payload.susceptiblePeople;
-//            if(isTransportToCountry){
-//                this.susceptible += susceptible;
-//                this.population += (susceptible + recovered);
-//                this.recovered += recovered;
-//            }else{
-//                this.susceptible -= susceptible;
-//                this.population -= (susceptible + recovered);
-//                this.recovered -= recovered;
-//            }
-//    }
+
 
     public synchronized void SIRModelDiseaseSpreadSimulation() {
-        countryPoints += Math.round(countryPointsGrow);
+        countryPoints += Helpers.roundToTwoDecimals(countryPointsGrow);
 
         if (virus == null || population <= 0) return;
 
-        // Sprawdzanie końca epidemii
+
         if ((infected == 0 && susceptible == 0 && diseaseResultDayMap.isEmpty()) || isVirusDefated) {
             return;
         }
@@ -211,7 +215,7 @@ public class Country extends CountryCoordinates {
                 adjustCountryPoints(recoveriesToday);
             }
 
-            // Gdy mapa wyników choroby jest pusta, epidemia się kończy
+
             if (diseaseResultDayMap.isEmpty()) {
                 infected = 0;
                 recovered += 1;
@@ -227,7 +231,6 @@ public class Country extends CountryCoordinates {
                 });
             }
 
-            // Zabezpieczenie wartości przed ujemnymi liczbami
             infected = Math.max(0, infected);
             recovered = Math.max(0, recovered);
             dead = Math.max(0, dead);
@@ -236,7 +239,6 @@ public class Country extends CountryCoordinates {
         } else {
             int newInfections;
 
-            // Gdy liczba podatnych jest mniejsza niż 10% populacji
             if (susceptible < (population * 0.1)) {
                 newInfections = (int) Math.min(Math.ceil(susceptible * 0.1), susceptible);
             } else {
@@ -244,18 +246,15 @@ public class Country extends CountryCoordinates {
                 newInfections = (int) Math.max(1, Math.min(Math.ceil(potentialInfections), susceptible));
             }
 
-            // Upewnij się, że newInfections nie przekracza dostępnej liczby podatnych
             newInfections = Math.min(newInfections, susceptible);
 
-            // Aktualizacja mapy choroby
             int recoverOrDeadDay = dayCounter + getRandomDays(14, 21);
             diseaseResultDayMap.put(recoverOrDeadDay, diseaseResultDayMap.getOrDefault(recoverOrDeadDay, 0) + newInfections);
 
-            // Aktualizacja zmiennych
+
             susceptible -= newInfections;
             infected += newInfections;
 
-            // Proces zdrowienia i śmiertelności
             if (todayInfected > 0) {
                 int recoveriesToday = Math.max(1, (int) (todayInfected * recoveryRate));
                 int deathsToday = todayInfected - recoveriesToday;
@@ -268,133 +267,36 @@ public class Country extends CountryCoordinates {
                 adjustCountryPoints(recoveriesToday);
             }
 
-            // Zabezpieczenie wartości przed ujemnymi liczbami
             susceptible = Math.max(0, susceptible);
             infected = Math.max(0, infected);
             recovered = Math.max(0, recovered);
             dead = Math.max(0, dead);
         }
-
-        // Debugging: Wyświetlanie stanu symulacji
-        System.out.println(
-                "Day: " + dayCounter +
-                        " | Susceptible: " + susceptible +
-                        " | Infected: " + infected +
-                        " | Recovered: " + recovered +
-                        " | Dead: " + dead +
-                        " | Infected Map: " + diseaseResultDayMap
-        );
+//
+//        System.out.println(
+//                "Day: " + dayCounter +
+//                        " | Susceptible: " + susceptible +
+//                        " | Infected: " + infected +
+//                        " | Recovered: " + recovered +
+//                        " | Dead: " + dead +
+//                        " | Infected Map: " + diseaseResultDayMap
+//        );
 
         dayCounter++;
     }
-
-//    public synchronized void SIRModelDiseaseSpreadSimulation() {
-//        countryPoints += Math.round(countryPointsGrow);
-//
-//        if (virus == null || population <= 0) return;
-//
-//
-//        if((infected == 0 && susceptible == 0 && diseaseResultDayMap.isEmpty()) || isVirusDefated){
-//            return;
-//        }
-//
-//        int todayInfected = diseaseResultDayMap.getOrDefault(dayCounter, 0);
-//
-//        if (susceptible < 1) {
-//            if (todayInfected > 0) {
-//                int recoveriesToday = Math.max(1, (int) (todayInfected * recoveryRate));
-//                int deathsToday = todayInfected - recoveriesToday;
-//
-//                infected -= todayInfected;
-//                recovered += recoveriesToday;
-//                dead += deathsToday;
-//                population -= deathsToday;
-//                diseaseResultDayMap.remove(dayCounter);
-//                adjustCountryPoints(recoveriesToday);
-//            }
-//
-//
-//            if (diseaseResultDayMap.isEmpty()) {
-//                infected = 0;
-//                recovered+= 1 ;
-//                adjustCountryPoints(1);
-//                SwingUtilities.invokeLater(() -> {
-//                    JOptionPane.showMessageDialog(
-//                            null,
-//                            name + " już po epidemii! Wszyscy ludzie posiadają odporność!",
-//                            "Epidemia zwalczona!",
-//                            JOptionPane.INFORMATION_MESSAGE
-//                    );
-//                });
-//            }
-//
-//            infected = Math.max(0, infected);
-//            recovered = Math.max(0, recovered);
-//            dead = Math.max(0, dead);
-//            susceptible = 0;
-//            isVirusDefated = true;
-//
-//        } else {
-//
-//            int newInfections;
-//            if (susceptible < (population * 0.1)) {
-//                newInfections = (int) Math.ceil(susceptible * 0.1);
-//            } else {
-//                double potentialInfections = infectionRate * susceptible * (((double) infected) / population);
-//                newInfections = (int) Math.max(1, Math.min(Math.ceil(potentialInfections), susceptible));
-//            }
-//
-//            int recoverOrDeadDay = dayCounter + getRandomDays(14, 21);
-//            diseaseResultDayMap.put(recoverOrDeadDay, diseaseResultDayMap.getOrDefault(recoverOrDeadDay, 0) + newInfections);
-//
-//            susceptible -= newInfections;
-//            infected += newInfections;
-//
-//
-//            if (todayInfected > 0) {
-//                int recoveriesToday = Math.max(1, (int) (todayInfected * recoveryRate));
-//                int deathsToday = todayInfected - recoveriesToday;
-//
-//                infected -= todayInfected;
-//                recovered += recoveriesToday;
-//                dead += deathsToday;
-//                population -= deathsToday;
-//                diseaseResultDayMap.remove(dayCounter);
-//                adjustCountryPoints(recoveriesToday);
-//            }
-//
-//            susceptible = Math.max(0, susceptible);
-//            infected = Math.max(0, infected);
-//            recovered = Math.max(0, recovered);
-//            dead = Math.max(0, dead);
-//        }
-//
-//
-//
-//            System.out.println(
-//                    "Day: " + dayCounter +
-//                            " | Susceptible: " + susceptible +
-//                            " | Infected: " + infected +
-//                            " | Recovered: " + recovered +
-//                            " | Dead: " + dead + " | Infceted Map: " + diseaseResultDayMap
-//            );
-//
-//        dayCounter++;
-//    }
-
 
 
     private void adjustCountryPoints(int recoveredToday){
         double points = (((double) recoveredToday) / population) * 100.0;
         double multiplier = GameSettings.getDifficultyLevel().getScoreModifier();
         double newPoints = points * multiplier;
-        double roundedPoints = Math.round(newPoints * 100.0) / 100.0;
+        double roundedPoints = Helpers.roundToTwoDecimals(newPoints);
         this.countryPoints += roundedPoints;
     }
 
 
     public void buyUpgrade(Upgrade upgrade) {
-        double cost = upgrade.getCost();
+        double cost = Helpers.roundToTwoDecimals(upgrade.getCost());
         if (countryPoints >= cost) {
             countryPoints -= cost;
         } else {
@@ -417,9 +319,13 @@ public class Country extends CountryCoordinates {
             default:
                 throw new IllegalArgumentException("Nieznany efekt: " + effectKey);
         }
-
-
     }
+
+    public void switchOfTransport(TransportType transportType){
+        System.out.println("SWITCH OFF + " + transportType);
+        gameModel.disableTransport(this,transportType);
+    }
+
     public void modifyInfectionRate(double modifier){
         this.infectionRate += modifier;
         this.infectionRate = Math.max(0, this.infectionRate);
@@ -437,13 +343,8 @@ public class Country extends CountryCoordinates {
     }
 
 
-
-
-
     private int getRandomDays(int min, int max) {
         return random.nextInt(max - min + 1) + min;
     }
-
-
 
 }

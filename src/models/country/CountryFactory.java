@@ -3,12 +3,13 @@ import enums.CountryColor;
 import game.GameSettings;
 
 import models.country.Country;
+import models.game.GameModel;
 
 
 import java.util.List;
 
 public class CountryFactory {
-    public static List<Country> getCountries() {
+    public static List<Country> getCountries(GameModel gameModel) {
         int mapPadding = 25;
         int countrySpacing = 2;
         int mapFrstStep = mapPadding;
@@ -69,16 +70,16 @@ public class CountryFactory {
         int indonesiaHeight = 50 - countrySpacing;
 
         return List.of(
-                new Country("Rosja", 144000000, russiaX, russiaY, russiaWidth, russiaHeight, CountryColor.RUSSIA, "Moskwa", 50, russiaHeight / 2),
-                new Country("Kazakhstan", 19000000, kazakhstanX, kazakhstanY, kazakhstanWidth, kazakhstanHeight, CountryColor.KAZAKHSTAN, "Astana", kazakhstanWidth / 2, 60),
-                new Country("Mongolia", 3400000, mongoliaX, mongoliaY, mongoliaWidth, mongoliaHeight, CountryColor.MONGOLIA, "Ułan Bator", mongoliaWidth / 2, 20),
-                new Country("Chiny", 1400000000, chinaX, chinaY, chinaWidth, chinaHeight, CountryColor.CHINA, "Pekin", chinaWidth - 20, 40),
-                new Country("Japonia", 126000000, japanX, japanY, japanWidth, japanHeight, CountryColor.JAPAN, "Tokio", japanWidth - 15, japanHeight / 2),
-                new Country("Iran", 89200200, iranX, iranY, iranWidth, iranHeight, CountryColor.IRAN, "Teheran", iranWidth / 2, 40),
-                new Country("Pakistan", 248000000, pakistanX, pakistanY, pakistanWidth, pakistanHeight, CountryColor.MALAYSIA, "Islamabad", pakistanWidth / 2, 20),
-                new Country("Indie", 1428600000, indiaX, indiaY, indiaWidth, indiaHeight, CountryColor.INDIA, "Nowe Delhi", indiaWidth / 2, 20),
-                new Country("Wietnam", 99500000, vietnamX, vietnamY, vietnamWidth, vietnamHeight, CountryColor.VIETNAM, "Laos", vietnamWidth / 2, 10),
-                new Country("Indonesia", 277500000, indonesiaX, indonesiaY, indonesiaWidth, indonesiaHeight, CountryColor.INDONESIA, "Dżakarta", indonesiaWidth / 2, 10)
+                new Country(gameModel,"Rosja", 144000000, russiaX, russiaY, russiaWidth, russiaHeight, CountryColor.RUSSIA, "Moskwa", 50, russiaHeight / 2),
+                new Country(gameModel,"Kazakhstan", 19000000, kazakhstanX, kazakhstanY, kazakhstanWidth, kazakhstanHeight, CountryColor.KAZAKHSTAN, "Astana", kazakhstanWidth / 2, 60),
+                new Country(gameModel,"Mongolia", 3400000, mongoliaX, mongoliaY, mongoliaWidth, mongoliaHeight, CountryColor.MONGOLIA, "Ułan Bator", mongoliaWidth / 2, 20),
+                new Country(gameModel,"Chiny", 1400000000, chinaX, chinaY, chinaWidth, chinaHeight, CountryColor.CHINA, "Pekin", chinaWidth - 20, 40),
+                new Country(gameModel,"Japonia", 126000000, japanX, japanY, japanWidth, japanHeight, CountryColor.JAPAN, "Tokio", japanWidth - 15, japanHeight / 2),
+                new Country(gameModel,"Iran", 89200200, iranX, iranY, iranWidth, iranHeight, CountryColor.IRAN, "Teheran", iranWidth / 2, 40),
+                new Country(gameModel,"Pakistan", 248000000, pakistanX, pakistanY, pakistanWidth, pakistanHeight, CountryColor.MALAYSIA, "Islamabad", pakistanWidth / 2, 20),
+                new Country(gameModel,"Indie", 1428600000, indiaX, indiaY, indiaWidth, indiaHeight, CountryColor.INDIA, "Nowe Delhi", indiaWidth / 2, 20),
+                new Country(gameModel,"Wietnam", 99500000, vietnamX, vietnamY, vietnamWidth, vietnamHeight, CountryColor.VIETNAM, "Laos", vietnamWidth / 2, 10),
+                new Country(gameModel,"Indonesia", 277500000, indonesiaX, indonesiaY, indonesiaWidth, indonesiaHeight, CountryColor.INDONESIA, "Dżakarta", indonesiaWidth / 2, 10)
         );
     };
 }

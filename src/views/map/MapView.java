@@ -1,10 +1,12 @@
 package views.map;
 
+import enums.TransportType;
 import game.GameSettings;
 import controllers.map.MapController;
 import models.Transport.Transport;
 import models.country.Country;
 import models.game.GameModel;
+import models.game.GameObserver;
 import views.transport.TransportIconView;
 
 import javax.imageio.ImageIO;
@@ -17,14 +19,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapView extends JPanel {
+public class MapView extends JPanel implements GameObserver {
+    private final Map<TransportType, Boolean> transportStates = new HashMap<>();
+
     private final GameModel gameModel;
     private final MapController mapController;
 
     private final Map<Country, JPanel> countryPanels = new HashMap<>();
     private final Map<Transport, TransportIconView> transportIcons = new HashMap<>();
 
-    private Image transportImage;
+    private  Image transportImage;
 
     public MapView(GameModel gameModel,MapController mapController){
         this.gameModel = gameModel;
@@ -131,7 +135,6 @@ public class MapView extends JPanel {
             }
         }
 
-        // Scale transport icons
         for (TransportIconView transportIcon : transportIcons.values()) {
             transportIcon.scale(scaleX, scaleY);
         }
@@ -153,18 +156,50 @@ public class MapView extends JPanel {
 //
 private void initializeTransportIcons() {
     for (Transport transport : gameModel.getTransports()) {
+
         TransportIconView transportIcon = new TransportIconView(transport, transport.getTransportImage(), 3000); // 3 sekundy na przelot
         this.add(transportIcon);
         transportIcons.put(transport, transportIcon);
 
-        // Umieść ikonę transportu na wierzchu
         this.setComponentZOrder(transportIcon, 0);
 
-        // Start animacji
         transportIcon.startAnimation();
     }
 }
 
+    @Override
+    public void onTransportStateUpdate(Country country,TransportType transportType, boolean isEnabled) {
+        SwingUtilities.invokeLater(() -> {
+            for (Map.Entry<Transport, TransportIconView> entry : transportIcons.entrySet()) {
+                Transport transport = entry.getKey();
+                TransportIconView iconView = entry.getValue();
 
 
+                if (transport.getTransportType() == transportType &&
+                        (transport.getFromCountry().getName().equals(country.getName()) ||
+                                transport.getToCountry().getName().equals(country.getName()))) {
+                    iconView.setVisible(isEnabled && transport.isEnabled());
+                }
+            }
+        });
+    }
+    @Override
+    public void onSelectedCountryUpdate(String countryName, double countryPoints, int population, int suspectible, int infected, int cured, int dead, double infectedRate, double recoveryRestinatce, double moratyliRate) {
+
+    }
+
+    @Override
+    public void onGlobalStatsUpdate(int infected, int cured, int dead) {
+
+    }
+
+    @Override
+    public void onDayUpdate(int dayCounter) {
+
+    }
+
+    @Override
+    public void onGameEnd() {
+
+    }
 }

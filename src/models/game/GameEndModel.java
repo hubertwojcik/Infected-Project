@@ -1,5 +1,7 @@
 package models.game;
 
+import util.Helpers;
+
 import java.io.*;
 import java.util.*;
 
@@ -19,7 +21,7 @@ public class GameEndModel {
                         String playerName = parts[0].replaceAll("^[0-9]+\\.\\s*", "").trim();
                         String scoreString = parts[1].replace(" pkt", "").trim();
 
-                        if (isNumeric(scoreString)) {
+                        if (Helpers.isStringNumberic(scoreString)) {
                             int playerScore = Integer.parseInt(scoreString);
                             scores.putIfAbsent(playerScore, new ArrayList<>());
                             scores.get(playerScore).add(playerName);
@@ -51,15 +53,5 @@ public class GameEndModel {
     }
 
 
-    private boolean isNumeric(String str) {
-        if (str == null || str.isEmpty()) {
-            return false;
-        }
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
+
 }

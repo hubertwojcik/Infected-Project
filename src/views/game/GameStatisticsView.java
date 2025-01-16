@@ -1,6 +1,8 @@
 package views.game;
 
 
+import enums.TransportType;
+import models.country.Country;
 import models.game.GameModel;
 import models.game.GameObserver;
 
@@ -42,6 +44,11 @@ public class GameStatisticsView extends JPanel implements GameObserver {
 
     @Override
     public void onGameEnd() {
+
+    }
+
+    @Override
+    public void onTransportStateUpdate(Country country, TransportType transportType, boolean isEnabled) {
 
     }
 

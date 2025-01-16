@@ -1,5 +1,6 @@
 package models.ugrades;
 
+import enums.TransportType;
 import interfaces.Upgrade;
 import models.country.Country;
 
@@ -42,6 +43,7 @@ public class PlaneTransportDisable implements Upgrade {
             String effectKey =effect.getKey();
             double effectValue = effect.getValue();
             country.applyUpgrade(this,effectKey,effectValue);
+            country.switchOfTransport(TransportType.AIR);
         }
     }
 }

@@ -1,9 +1,11 @@
 package views.game;
 
+import enums.TransportType;
 import interfaces.Upgrade;
 import models.country.Country;
 import models.game.GameObserver;
 import models.game.GameModel;
+import util.Helpers;
 
 import javax.swing.*;
 import java.awt.*;
@@ -83,15 +85,15 @@ public class GameCountryView extends JPanel implements GameObserver {
             SwingUtilities.invokeLater(() -> {
                 this.setVisible(true);
                 countryLabel.setText(countryName);
-                countryPointsLabel.setText("" + countryPoints);
+                countryPointsLabel.setText("" + Helpers.roundToTwoDecimals(countryPoints));
                 populationLabel.setText(""+population);
                 suspectibleLabel.setText(""+ suspectible);
                 infectedLabel.setText("" + infected);
                 recoveredLabel.setText("" + cured);
                 deadLabel.setText("" + dead);
-                infectedRateLabel.setText("" +  Math.round(infectedRate * 100.0) / 100.0);
-                recoveryResistanceLabel.setText(""+  Math.round(recoveryRestinatce * 100.0) / 100.0);
-                mortalityRateLabel.setText("" + Math.round(moratyliRate * 100.0) / 100.0);
+                infectedRateLabel.setText("" +  Helpers.roundToTwoDecimals(infectedRate) );
+                recoveryResistanceLabel.setText(""+  Helpers.roundToTwoDecimals(recoveryRestinatce));
+                mortalityRateLabel.setText("" + Helpers.roundToTwoDecimals(moratyliRate));
 
 
                 Country selectedCountry = gameModel.getSelectedCountry();
@@ -174,8 +176,8 @@ public class GameCountryView extends JPanel implements GameObserver {
 
             upgradesPanel.add(upgradePanel);
         }
-//        upgradesPanel.revalidate();
-//        upgradesPanel.repaint();
+
+
     }
 
     private JPanel createAlignedRow(String labelText, JLabel valueLabel) {
@@ -199,6 +201,11 @@ public class GameCountryView extends JPanel implements GameObserver {
 
     @Override
     public void onGameEnd() {
+
+    }
+
+    @Override
+    public void onTransportStateUpdate(Country country, TransportType transportType, boolean isEnabled) {
 
     }
 }

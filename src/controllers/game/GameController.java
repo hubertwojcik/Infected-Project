@@ -1,6 +1,8 @@
 package controllers.game;
 import controllers.AppController;
 import controllers.map.MapController;
+import enums.TransportType;
+import models.country.Country;
 import models.game.GameModel;
 import models.game.GameObserver;
 import views.game.GameView;
@@ -30,6 +32,7 @@ public class GameController implements Runnable, KeyListener {
         this.gameView = new GameView(this, gameModel,mapController);
 
 
+
         gameView.addKeyListener(this);
         gameView.setFocusable(true);
         gameView.requestFocusInWindow();
@@ -37,22 +40,23 @@ public class GameController implements Runnable, KeyListener {
         this.gameModel.addObserver(new GameObserver() {
             @Override
             public void onDayUpdate(int dayCounter) {
-
             }
 
             @Override
             public void onGlobalStatsUpdate(int infected, int cured, int dead) {
-
             }
 
             @Override
             public void onSelectedCountryUpdate(String countryName, double countryPoints, int population, int suspectible, int infected, int cured, int dead, double infectedRate, double recoveryRestinatce, double moratyliRate) {
-
             }
 
             @Override
             public void onGameEnd() {
                 endGame();
+            }
+
+            @Override
+            public void onTransportStateUpdate(Country country, TransportType transportType, boolean isEnabled) {
             }
         });
     }

@@ -6,20 +6,21 @@ import enums.TransportType;
 import interfaces.Upgrade;
 import models.Transport.Transport;
 import models.country.Country;
+import models.game.GameModel;
 import models.game.Virus;
-import models.country.CountryFactory;
 import models.ugrades.UpgradeFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameDataInitializer {
-    public static List<Country> initializeCountries() {
+    public static List<Country> initializeCountries(GameModel gameModel) {
         int mapPadding = 25;
         int countrySpacing = 2;
 
         List<Country> countries = new ArrayList<>();
         Country russia = new Country(
+                gameModel,
                 "Rosja",
                 144000000,
                 mapPadding,
@@ -32,6 +33,7 @@ public class GameDataInitializer {
                 (100 - countrySpacing)/2
                 );
         Country kazakhstan = new Country(
+                gameModel,
                 "Kazakhstan",
                 19_000_000,
                 mapPadding,
@@ -44,6 +46,7 @@ public class GameDataInitializer {
                 60
                 );
         Country mongolia = new Country(
+                gameModel,
                 "Mongolia",
                 3_400_000,
                 kazakhstan.getCountryXCoordinate() + kazakhstan.getCountryWidth() + countrySpacing,
@@ -55,7 +58,9 @@ public class GameDataInitializer {
                 (250 - countrySpacing ) / 2,
                 20
                 );
-        Country china = new Country("Chiny",
+        Country china = new Country(
+                gameModel,
+                "Chiny",
                 1400000000,
                 mapPadding + kazakhstan.getCountryWidth() + countrySpacing,
                 mongolia.getCountryYCoordinate() + mongolia.getCountryHeight() + countrySpacing,
@@ -67,6 +72,7 @@ public class GameDataInitializer {
                 40
                 );
         Country japan = new Country(
+                gameModel,
                 "Japonia",
                 126000000,
                 china.getCountryXCoordinate() + china.getCountryWidth() + 50 + countrySpacing,
@@ -79,6 +85,7 @@ public class GameDataInitializer {
                 (200 - countrySpacing) /2
         );
         Country iran = new Country(
+                gameModel,
                 "Iran",
                 89_200_200,
                 mapPadding,
@@ -92,6 +99,7 @@ public class GameDataInitializer {
 
                 );
         Country pakistan = new Country(
+                gameModel,
                 "Pakistan",
                 248_000_000,
                 iran.getCountryXCoordinate() + iran.getCountryWidth() + countrySpacing,
@@ -104,6 +112,7 @@ public class GameDataInitializer {
                 20
                 );
         Country india = new Country(
+                gameModel,
                 "Indie",
                 1_428_600_000,
                 pakistan.getCountryXCoordinate() + pakistan.getCountryWidth() + countrySpacing,
@@ -116,6 +125,7 @@ public class GameDataInitializer {
                 20
                 );
         Country vietnam = new Country(
+                gameModel,
                 "Wietnam",
                 99_500_000,
                 india.getCountryXCoordinate() + india.getCountryWidth() + countrySpacing,
@@ -127,6 +137,7 @@ public class GameDataInitializer {
                 (50 - countrySpacing) / 2,10
                 );
         Country indonesia = new Country(
+                gameModel,
                 "Indonezja",
                 277_500_000,
                 500,
@@ -149,8 +160,7 @@ public class GameDataInitializer {
         countries.add(indonesia);
         countries.add(vietnam);
 
-//        List<Country> countries = CountryFactory.getCountries();
-//USE FACTORY
+
 
         for(Country country : countries){
             List<Upgrade> upgrades = UpgradeFactory.getUpgradesForCountry(country);
@@ -187,6 +197,11 @@ public class GameDataInitializer {
             transports.add(rusKazak);
             transports.add(kazakRus);
 
+            Transport rusMongoliaRail = new Transport(russia,mongolia, 500, TransportType.RAILWAY);
+            Transport mongRussRail = new Transport(mongolia,russia, 1500, TransportType.RAILWAY);
+            transports.add(rusMongoliaRail);
+            transports.add(mongRussRail);
+
             Transport chinaJapanShip = new Transport(china,japan,300,TransportType.WATER);
             Transport japanChinaShip = new Transport(japan,china,500,TransportType.WATER);
             transports.add(chinaJapanShip);
@@ -201,6 +216,16 @@ public class GameDataInitializer {
             Transport pakistanIranAir = new Transport(pakistan,iran, 1500, TransportType.AIR);
             transports.add(iranPakistanAir);
             transports.add(pakistanIranAir);
+
+            Transport pakistanIndiaRail = new Transport(pakistan,india, 2500, TransportType.RAILWAY);
+            Transport indiaPakistanRail = new Transport(india,pakistan, 3500, TransportType.RAILWAY);
+            transports.add(pakistanIndiaRail);
+            transports.add(indiaPakistanRail);
+
+            Transport chinaWietnamRail = new Transport(china,wietnam, 3500, TransportType.RAILWAY);
+            Transport wietnamChinaRail = new Transport(wietnam,china, 2500, TransportType.RAILWAY);
+            transports.add(chinaWietnamRail);
+            transports.add(wietnamChinaRail);
 
             Transport russiaIndiaAir = new Transport(russia,india, 3500, TransportType.AIR);
             Transport indiaRussiaAir = new Transport(india,russia, 5000, TransportType.AIR);

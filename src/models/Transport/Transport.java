@@ -9,6 +9,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Transport  {
     private final Country fromCountry;
@@ -16,6 +18,7 @@ public class Transport  {
     private final int dailyFlow;
     private final TransportType transportType;
     private boolean isEnabled;
+    private final List<TransportOberver> observers = new ArrayList<>();
 
     public Transport(Country fromCountry, Country toCountry, int dailyFlow, TransportType transportType) {
         this.fromCountry = fromCountry;
@@ -25,6 +28,45 @@ public class Transport  {
         this.isEnabled = true;
 
     }
+
+    public void addObserver(TransportOberver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(TransportOberver observer) {
+        observers.remove(observer);
+    }
+
+
+    private void notifyObservers() {
+        for (TransportOberver observer : observers) {
+            observer.onTransportStateChange(this);
+        }
+    }
+
+    public Country getToCountry() {
+        return toCountry;
+    }
+
+    public Country getFromCountry() {
+        return fromCountry;
+    }
+
+    public TransportType getTransportType() {
+        return transportType;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean value){
+        this.isEnabled =  value;
+        notifyObservers();
+
+    }
+
+
 
     public void executeTransport() {
         synchronized (fromCountry) {
@@ -41,6 +83,7 @@ public class Transport  {
      * zdarzają się wielowątkowe wywołania transportów.
      */
     public void executeTransportSafely() {
+        if(!isEnabled) return;
         // Prosty sposób: porównujemy nazwy krajów i decydujemy, w jakiej kolejności je blokować
         Country firstLock, secondLock;
         if (fromCountry.getName().compareTo(toCountry.getName()) < 0) {
@@ -113,158 +156,11 @@ public class Transport  {
         }
     }
 
-//
-//        // 1) Obliczamy odsetek zakażonych i wyleczonych w kraju źródłowym
-//        double infectedRate  = (double) fromCountry.getInfected()  / (double) fromCountry.getPopulation();
-//        double recoveredRate = (double) fromCountry.getRecovered() / (double) fromCountry.getPopulation();
-//
-//        // 2) Liczymy liczbę zainfekowanych i wyleczonych w transporcie
-//        int infectedPeopleInTransport  = (int) Math.round(flow * infectedRate);
-//        int infectedPeople = Math.min(fromCountry)
-//        int recoveredInTransport       = (int) Math.round(flow * recoveredRate);
-//
-//        // 3) Reszta to zdrowi (podatni)
-//        int healthyPeopleInTransport = flow - infectedPeopleInTransport - recoveredInTransport;
-//
-//        // W razie błędów zaokrągleń: korygujemy do zera i zmniejszamy recoveredInTransport
-//        if (healthyPeopleInTransport < 0) {
-//            healthyPeopleInTransport = 0;
-//            int usedSlots = infectedPeopleInTransport;
-//            // Tyle "zajęli" zainfekowani
-//            int leftForRecovered = flow - usedSlots;
-//            if (leftForRecovered < 0) {
-//                // W skrajnym wypadku coś się "wysypało" – wtedy zero wyleczonych
-//                leftForRecovered = 0;
-//            }
-//            recoveredInTransport = Math.min(recoveredInTransport, leftForRecovered);
-//        }
-//
-//        // 4) Zdejmujemy tych ludzi z kraju źródłowego
-//        PeopleTransport fromCountryPayload = new PeopleTransport(
-//                infectedPeopleInTransport,
-//                healthyPeopleInTransport,
-//                recoveredInTransport
-//        );
-//        fromCountry.adjustPopulation(fromCountryPayload, false);
-//
-//        // 5) Jeśli w kraju docelowym nie było wirusa, a teraz go przywozimy:
-//        boolean newVirusArrives = (toCountry.getVirus() == null
-//                && infectedPeopleInTransport > 0);
-//
-//        if (newVirusArrives) {
-//            // a) Tworzymy kopię wirusa w kraju docelowym
-//            Virus newVirusCopy = new Virus(
-//                    fromCountry.getVirus().getName(),
-//                    fromCountry.getVirus().getInfectionRate(),
-//                    fromCountry.getVirus().getRecoveryRate(),
-//                    fromCountry.getVirus().getMortalityRate(),
-//                    fromCountry.getVirus().getIncubationPeriod()
-//            );
-//
-//            // b) Ustawiamy wirusa z tyloma zainfekowanymi, ilu przyjechało
-//            toCountry.setVirus(newVirusCopy, 0);
-//
-//            // c) Komunikat – "Nowe ognisko!"
-//            SwingUtilities.invokeLater(() -> {
-//                JOptionPane.showMessageDialog(
-//                        null,
-//                        "Nowe ognisko wirusa wykryte w kraju: " + toCountry.getName(),
-//                        "Nowe ognisko",
-//                        JOptionPane.WARNING_MESSAGE
-//                );
-//            });
-//            System.out.println("=======================");
-//            System.out.println("=======================");
-//            System.out.println("Transfer inf: " + infectedPeopleInTransport + " | " +"Healthy: " + healthyPeopleInTransport + " | " + "Recovered: " + recoveredInTransport);
-//            System.out.println("=======================");
-//            System.out.println("=======================");
-//
-//            // d) Do docelowego kraju przenosimy *tylko* healthy i recovered,
-//            //    bo infectedPeopleInTransport zostało już doliczone w setVirus(...).
-//            PeopleTransport toCountryPayload = new PeopleTransport(
-//                    infectedPeopleInTransport,
-//                    healthyPeopleInTransport,
-//                    recoveredInTransport
-//            );
-////            toCountry.transferVirus(newVirusCopy, toCountryPayload);
-//            toCountry.adjustPopulation(toCountryPayload, true);
-//
-//        } else {
-//            // 6) Normalna sytuacja: przenosimy wszystkich (infected, healthy, recovered)
-//            PeopleTransport toCountryPayload = new PeopleTransport(
-//                    infectedPeopleInTransport,
-//                    healthyPeopleInTransport,
-//                    recoveredInTransport
-//            );
-//            toCountry.adjustPopulation(toCountryPayload, true);
-//        }
-//    }
-//
-
-//    public void executeTransport() {
-//        synchronized (fromCountry) {
-//            synchronized (toCountry) {
-//                int flow = Math.min(dailyFlow, fromCountry.getPopulation());
-//
-//                double countryInfectedRate = ((double) fromCountry.getInfected()) / ((double )fromCountry.getPopulation());
-//
-//                int infectedPeopleIntransport =  (int ) (flow * countryInfectedRate);
-//                int healthyPeopleInTransport = flow - infectedPeopleIntransport;
-//
-//                if(toCountry.getInfected() == 0 && infectedPeopleIntransport > 0 && toCountry.getVirus() == null){
-//                    PeopleTransport fromCountryPayload = new PeopleTransport(infectedPeopleIntransport,healthyPeopleInTransport);
-//                    fromCountry.adjustPopulation(fromCountryPayload,false);
-//
-//                    Virus virus = new Virus(
-//                            fromCountry.getVirus().getName(),
-//                            fromCountry.getVirus().getInfectionRate(),
-//                            fromCountry.getVirus().getRecoveryRate(),
-//                            fromCountry.getVirus().getMortalityRate(),
-//                            fromCountry.getVirus().getIncubationPeriod()
-//                            );
-//                    toCountry.setVirus(virus, fromCountryPayload.infectedPeople);
-//
-//                    SwingUtilities.invokeLater(() -> {
-//                        JOptionPane.showMessageDialog(
-//                                null,
-//                                "Nowe ognisko wirusa wykryte w kraju: " + toCountry.getName(),
-//                                "Nowe ognisko",
-//                                JOptionPane.WARNING_MESSAGE
-//                        );
-//                    });
-//
-//                    PeopleTransport toCountryPayload = new PeopleTransport(0,healthyPeopleInTransport);
-//                    toCountry.adjustPopulation(toCountryPayload,true);
-//
-//                }else{
-//                    PeopleTransport fromCountryPayload = new PeopleTransport(infectedPeopleIntransport,healthyPeopleInTransport);
-//                    fromCountry.adjustPopulation(fromCountryPayload,false);
-//                    toCountry.adjustPopulation(fromCountryPayload,true);
-//                }
-//
-//            }
-//        }
-//    }
 
 
 
 
 
-    public Country getToCountry() {
-        return toCountry;
-    }
-
-    public Country getFromCountry() {
-        return fromCountry;
-    }
-
-    public TransportType getTransportType() {
-        return transportType;
-    }
-
-    public boolean isEnabled() {
-        return isEnabled;
-    }
 
     public Image getTransportImage() {
         try {

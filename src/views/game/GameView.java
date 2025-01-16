@@ -39,6 +39,7 @@ public class GameView extends JPanel  {
         // MAP
         mapView = new MapView(gameModel, mapController);
         this.add(mapView, BorderLayout.CENTER);
+        gameModel.addObserver(mapView);
 
         // SIDEBAR
         JPanel sidebarPanel = new JPanel(new BorderLayout());
