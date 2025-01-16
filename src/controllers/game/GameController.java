@@ -16,7 +16,6 @@ public class GameController implements Runnable, KeyListener {
     private final GameModel gameModel;
     //CONTROLLERS
     private final AppController appController;
-    private  final MapController mapController;
     //VIEWS
     private  final GameView gameView;
     //LOOP
@@ -28,8 +27,8 @@ public class GameController implements Runnable, KeyListener {
         //MODELS
         this.gameModel = new GameModel();
         //CONTROLLERS
-        this.mapController = new MapController(gameModel,this);
-        this.gameView = new GameView(this, gameModel,mapController);
+        MapController mapController = new MapController(gameModel,this);
+        this.gameView = new GameView( gameModel,mapController);
 
 
 
@@ -101,7 +100,7 @@ public class GameController implements Runnable, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_Q) {
+        if (e.isControlDown() &&e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_Q) {
             stopGame();
         }
     }

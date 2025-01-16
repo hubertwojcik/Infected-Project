@@ -2,6 +2,8 @@ package game;
 
 import enums.DifficultyLevel;
 
+import java.awt.*;
+
 public class GameSettings {
     private static GameSettings instance;
     public static int simulationInterval = 1000;
@@ -10,6 +12,7 @@ public class GameSettings {
     public static int sidebarWidht = 300;
     public static int mapWidth = windowWidth - sidebarWidht;
     private static DifficultyLevel difficultyLevel = DifficultyLevel.EASY;
+    public static Color mainBackgroundGrey = new Color(40,40,40);
 
     private static double scaleX = 1.0;
     private static double scaleY = 1.0;

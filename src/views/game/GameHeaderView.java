@@ -1,7 +1,9 @@
 package views.game;
 
+import components.StyledDetailLabel;
 import controllers.game.GameController;
 import enums.TransportType;
+import game.GameSettings;
 import models.country.Country;
 import models.game.GameModel;
 import models.game.GameObserver;
@@ -12,28 +14,31 @@ import java.awt.*;
 public class GameHeaderView extends JPanel implements GameObserver {
     private final GameModel gameModel;
 
-    private JLabel gameDateLabel;
+    private final StyledDetailLabel gameDateLabel;
 
-    public GameHeaderView(GameController gameController, GameModel gameModel){
+    public GameHeaderView(GameModel gameModel) {
         this.gameModel = gameModel;
 
-        this.setBackground(Color.WHITE);
+        this.setBackground(GameSettings.mainBackgroundGrey);
         this.setLayout(new BorderLayout());
-        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.setPreferredSize(new Dimension(0, 30));
 
-        gameDateLabel = new JLabel("");
-        gameDateLabel.setHorizontalAlignment(JLabel.CENTER);
-        this.add(gameDateLabel,BorderLayout.CENTER);
+
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        centerPanel.setOpaque(false); // Transparentne tło
+
+        gameDateLabel = new StyledDetailLabel("Dzień epidemii:", "", Color.WHITE, Color.WHITE);
+
+        centerPanel.add(gameDateLabel);
+
+        this.add(centerPanel, BorderLayout.CENTER);
     }
 
-    public void updateGameDateLabel() {
 
-    }
 
     @Override
     public void onDayUpdate(int dayCounter) {
-        gameDateLabel.setText("Dzień epidemii: " + gameModel.getDayCounter());
+        gameDateLabel.setValue("" + gameModel.getDayCounter());
     }
 
     @Override

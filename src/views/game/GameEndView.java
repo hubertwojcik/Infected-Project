@@ -10,20 +10,21 @@ import java.util.Random;
 
 public class GameEndView extends JPanel {
     private final GameEndController gameEndController;
-    private JLabel messageLabel;
-    private JTextField nameInput;
-    private JButton saveButton;
+    private final JTextField nameInput;
+    private final int recovered;
+
     DifficultyLevel difficultyLevel  = GameSettings.getDifficultyLevel();
     Random r = new Random();
 
     public GameEndView(GameEndController gameEndController,int days, int dead, int recovered) {
+        this.recovered  =recovered;
         this.gameEndController = gameEndController;
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(Color.WHITE);
 
         // Komunikat końcowy
-        messageLabel = new JLabel("Gratulacje! Koniec gry!", SwingConstants.CENTER);
+        JLabel messageLabel = new JLabel("Gratulacje! Koniec gry!", SwingConstants.CENTER);
         messageLabel.setFont(new Font("Arial", Font.BOLD, 24));
         messageLabel.setForeground(new Color(50, 50, 50));
         messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -41,7 +42,7 @@ public class GameEndView extends JPanel {
         JLabel deadLabel = new JLabel("Liczba martwych: " + dead);
         JLabel recoveredLabel = new JLabel("Liczba uratowanych: " + recovered);
         JLabel pointsMultiplierLabel = new JLabel("Mnożnik za poziom trudności: " + difficultyLevel.getScoreModifier() );
-        JLabel pointsLabel = new JLabel("Punkty: " + (recovered * difficultyLevel.getScoreModifier()));
+        JLabel pointsLabel = new JLabel("Punkty: " + Math.round((recovered/1_000_000 * difficultyLevel.getScoreModifier())));
 
 
         for (JLabel label : new JLabel[]{daysLabel, deadLabel, recoveredLabel, pointsMultiplierLabel,pointsLabel}) {
@@ -72,7 +73,7 @@ public class GameEndView extends JPanel {
         inputPanel.add(nameInput);
 
         // Przycisk zapisz
-        saveButton = new JButton("Zapisz");
+        JButton saveButton = new JButton("Zapisz");
         saveButton.setFont(new Font("Arial", Font.PLAIN, 16));
         saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         saveButton.addActionListener(e -> onSaveButtonClick());
@@ -95,7 +96,7 @@ public class GameEndView extends JPanel {
         if (name.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Proszę wprowadzić swoje imię.", "Błąd", JOptionPane.ERROR_MESSAGE);
         } else {
-            gameEndController.onSaveResultClick(name,20 + r.nextInt());
+            gameEndController.onSaveResultClick(name,((int) Math.round(((double)(recovered) / 1_000_000 * difficultyLevel.getScoreModifier()))));
             JOptionPane.showMessageDialog(this, "Dziękujemy, " + name + "! Twoje wyniki zostały zapisane.", "Informacja", JOptionPane.INFORMATION_MESSAGE);
 
         }

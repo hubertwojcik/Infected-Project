@@ -1,9 +1,9 @@
 package views.game;
 
-
+import components.StyledDetailLabel;
 import enums.TransportType;
+import game.GameSettings;
 import models.country.Country;
-import models.game.GameModel;
 import models.game.GameObserver;
 
 import javax.swing.*;
@@ -11,35 +11,44 @@ import java.awt.*;
 
 public class GameStatisticsView extends JPanel implements GameObserver {
 
-    private final JLabel infectedLabel;
-    private final JLabel curedLabel;
-    private final JLabel deadLabel;
+    private final StyledDetailLabel infectedLabel;
+    private final StyledDetailLabel curedLabel;
+    private final StyledDetailLabel deadLabel;
 
     public GameStatisticsView() {
-        this.setLayout(new GridLayout(3, 1, 0, 5));
-        this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
-        this.setBackground(Color.white);
+        this.setLayout(new GridLayout(3, 1, 0, 10));
+        this.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(0, 0, 1, 0, Color.WHITE),
+                BorderFactory.createEmptyBorder(10, 0, 10, 0)
+        ));        this.setBackground(GameSettings.mainBackgroundGrey);
 
-        this.add(createAlignedRow("Zarażeni:", infectedLabel = createStyledLabel("0")));
-        this.add(createAlignedRow("Ozdrowieńcy:", curedLabel = createStyledLabel("0")));
-        this.add(createAlignedRow("Martwi:", deadLabel = createStyledLabel("0")));
+        infectedLabel = new StyledDetailLabel("Zarażeni:", "0", Color.WHITE, Color.CYAN);
+        curedLabel = new StyledDetailLabel("Ozdrowieńcy:", "0", Color.WHITE, Color.GREEN);
+        deadLabel = new StyledDetailLabel("Martwi:", "0", Color.WHITE, Color.RED);
 
-    }
-
-    @Override
-    public void onSelectedCountryUpdate(String countryName, double points,int population,int suspectible, int infected, int cured, int dead,double infectedRate,double recoveryRestinatce, double moratyliRate) {
+        this.add(infectedLabel);
+        this.add(curedLabel);
+        this.add(deadLabel);
     }
 
     @Override
     public void onGlobalStatsUpdate(int infected, int cured, int dead) {
-        SwingUtilities.invokeLater(()->{});
-            infectedLabel.setText("" + infected);
-            curedLabel.setText("" + cured);
-            deadLabel.setText("" + dead);
+        SwingUtilities.invokeLater(() -> {
+            infectedLabel.setValue(String.valueOf(infected));
+            curedLabel.setValue(String.valueOf(cured));
+            deadLabel.setValue(String.valueOf(dead));
+        });
     }
 
     @Override
+    public void onSelectedCountryUpdate(String countryName, double points, int population, int suspectible, int infected, int cured, int dead, double infectedRate, double recoveryRestinatce, double moratyliRate) {
+
+    }
+
+
+    @Override
     public void onDayUpdate(int dayCounter) {
+
     }
 
     @Override
@@ -50,24 +59,5 @@ public class GameStatisticsView extends JPanel implements GameObserver {
     @Override
     public void onTransportStateUpdate(Country country, TransportType transportType, boolean isEnabled) {
 
-    }
-
-    private JPanel createAlignedRow(String labelText, JLabel valueLabel) {
-        JPanel rowPanel = new JPanel();
-        rowPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-        rowPanel.setBackground(Color.WHITE);
-
-        JLabel label = new JLabel(labelText);
-        label.setFont(new Font("Arial", Font.BOLD, 14));
-
-        rowPanel.add(label);
-        rowPanel.add(valueLabel);
-        return rowPanel;
-    }
-
-    private JLabel createStyledLabel(String text) {
-        JLabel label = new JLabel(text);
-        label.setFont(new Font("Arial", Font.PLAIN, 14));
-        return label;
     }
 }

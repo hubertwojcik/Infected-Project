@@ -17,7 +17,6 @@ import java.awt.*;
 public class GameView extends JPanel  {
     private final GameModel gameModel;
 
-    // Komponenty widoku
     private final GameHeaderView gameHeaderView;
     private final GameStatisticsView statisticsPanel;
     private final GameCountryView gameCountryView;
@@ -26,23 +25,23 @@ public class GameView extends JPanel  {
 
 
 
-    public GameView(GameController gameController, GameModel gameModel, MapController mapController) {
+    public GameView( GameModel gameModel, MapController mapController) {
         this.gameModel = gameModel;
 
         this.setLayout(new BorderLayout());
 
-        this.setBackground(Color.WHITE);
-        // HEADER
-        gameHeaderView = new GameHeaderView(gameController, gameModel);
+        this.setBackground(GameSettings.mainBackgroundGrey);
+
+        gameHeaderView = new GameHeaderView( gameModel);
         this.add(gameHeaderView, BorderLayout.NORTH);
 
-        // MAP
         mapView = new MapView(gameModel, mapController);
         this.add(mapView, BorderLayout.CENTER);
         gameModel.addObserver(mapView);
 
-        // SIDEBAR
+
         JPanel sidebarPanel = new JPanel(new BorderLayout());
+        sidebarPanel.setBackground(GameSettings.mainBackgroundGrey);
         sidebarPanel.setPreferredSize(new Dimension(GameSettings.sidebarWidht, 0));
         sidebarPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
 
@@ -55,10 +54,7 @@ public class GameView extends JPanel  {
 
         this.add(sidebarPanel, BorderLayout.EAST);
 
-
         registerObservers();
-
-
     }
 
     private void registerObservers() {

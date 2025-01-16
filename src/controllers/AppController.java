@@ -2,7 +2,10 @@ package controllers;
 
 import controllers.game.GameController;
 import controllers.game.GameEndController;
+import enums.DifficultyLevel;
+import game.GameSettings;
 import game.ScreenManager;
+import models.HighScoresModel;
 import models.game.GameEndModel;
 import views.game.GameEndView;
 import views.game.GameFrame;
@@ -20,6 +23,7 @@ public class AppController extends JPanel
     public GameFrame gameFrame;
     private final ScreenManager screenManager;
 
+
     public AppController() {
         gameFrame = new GameFrame();
         screenManager = new ScreenManager(gameFrame);
@@ -32,7 +36,6 @@ public class AppController extends JPanel
     private void initializeScreens() {
         screenManager.addScreen("START", new StartGameView(this));
         screenManager.addScreen("SELECT_DIFFICULTY", new SelectDifficultyLevelView(this));
-        screenManager.addScreen("HIGH_SCORES", new HighScoresView(this));
     }
 
 
@@ -41,6 +44,8 @@ public class AppController extends JPanel
     }
 
     public void showHighScoresView() {
+        HighScoresModel highScoresModel  = new HighScoresModel();
+        screenManager.addScreen("HIGH_SCORES", new HighScoresView(this,highScoresModel));
         screenManager.showScreen("HIGH_SCORES");
     }
 
@@ -57,12 +62,9 @@ public class AppController extends JPanel
         screenManager.showScreen("GAME_END");
     }
 
-    public void startNewGame() {
-//        GameEndModel gameEndModel = new GameEndModel();
-//        GameEndController gameEndController = new GameEndController(this,gameEndModel);
-//        screenManager.removeScreen("GAME_END");
-//        screenManager.addScreen("GAME_END", new GameEndView(gameEndController,12, 32, 42));
-//        screenManager.showScreen("GAME_END");
+    public void startNewGame(DifficultyLevel difficultyLevel) {
+        GameSettings.setDifficultyLevel(difficultyLevel);
+
         GameController gameController = new GameController(this );
         GameView gameView = gameController.getGameView();
 

@@ -16,6 +16,7 @@ public class GameFrame extends JFrame {
         this.setLayout(new CardLayout());
 
 
+
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e){
