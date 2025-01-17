@@ -1,7 +1,6 @@
 package views.game;
 
-import game.GameSettings;
-import controllers.game.GameController;
+import util.GameSettings;
 import controllers.map.MapController;
 
 import models.game.GameModel;
@@ -21,8 +20,6 @@ public class GameView extends JPanel  {
     private final GameStatisticsView statisticsPanel;
     private final GameCountryView gameCountryView;
     private final MapView mapView;
-
-
 
 
     public GameView( GameModel gameModel, MapController mapController) {
@@ -66,13 +63,16 @@ public class GameView extends JPanel  {
 
 
     public void showGameStartAlert() {
-        JOptionPane.showMessageDialog(
-                this,
-                "W prowincji Huber wybuchła pozornie niewinna epidemia.\n" +
-                        "Rozprzestrzenia się szybciej, niż ktokolwiek mógł przypuszczać.",
-                "Początek epidemii",
-                JOptionPane.INFORMATION_MESSAGE
-        );
+        SwingUtilities.invokeLater(()->{
+            JOptionPane.showMessageDialog(
+                    this,
+                    "W prowincji Huber wybuchła pozornie niewinna epidemia.\n" +
+                            "Rozprzestrzenia się szybciej, niż ktokolwiek mógł przypuszczać.",
+                    "Początek epidemii",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
+
     }
 
 

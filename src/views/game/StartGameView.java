@@ -1,9 +1,8 @@
-package views.general;
+package views.game;
 
 import components.StyledButton;
 import controllers.AppController;
-import enums.DifficultyLevel;
-import game.GameSettings;
+import util.GameSettings;
 
 
 import javax.swing.*;

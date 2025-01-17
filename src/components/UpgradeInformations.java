@@ -1,6 +1,6 @@
 package components;
 
-import game.GameSettings;
+import util.GameSettings;
 import interfaces.Upgrade;
 
 import javax.swing.*;

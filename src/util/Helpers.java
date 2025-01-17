@@ -1,6 +1,7 @@
 package util;
 
 public class Helpers {
+
     public static double roundToTwoDecimals(double value){
         return Math.round(value * 100) / 100.0;
     }

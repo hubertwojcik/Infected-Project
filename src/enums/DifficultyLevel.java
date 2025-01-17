@@ -1,9 +1,9 @@
 package enums;
 
 public enum DifficultyLevel {
-    EASY(0.1, 0.05, 0.995, 0.01, 5000,0.5),
-    MEDIUM(0.2, 0.2, 0.8, 0.02, 3000,1.0),
-    HARD(0.5, 0.5, 0.5, 0.05, 1000, 1.5);
+    EASY(0.1, 0.05, 0.995, 0.01, 20,0.5),
+    MEDIUM(0.2, 0.2, 0.8, 0.02, 15,1.0),
+    HARD(0.5, 0.5, 0.5, 0.05, 10, 1.5);
 
     private final double mutationRate;
     private final double infectionRate;
@@ -44,5 +44,6 @@ public enum DifficultyLevel {
     public double getScoreModifier() {
         return scoreModifier;
     }
+
 }
 

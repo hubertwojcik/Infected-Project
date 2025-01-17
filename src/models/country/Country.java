@@ -3,49 +3,39 @@ package models.country;
 import java.util.*;
 import java.util.List;
 
-
 import enums.TransportType;
-import game.GameSettings;
+import util.GameSettings;
 import interfaces.Upgrade;
-import models.PeopleTransport;
+import models.Transport.PeopleTransport;
 import models.game.GameModel;
 import models.game.Virus;
 import enums.CountryColor;
 import util.Helpers;
 
-import javax.swing.*;
 
 public class Country extends CountryCoordinates {
     private final GameModel gameModel;
     private final String name;
     private final String capital;
+    private double countryPoints;
+    private final CountryColor color;
+    private final double countryPointsGrow = 0.25;
     private int population;
-    int infected = 0;
-    int recovered = 0;
-    int dead = 0;
+    private int infected = 0;
+    private int recovered = 0;
+    private int dead = 0;
     private boolean isSelected;
     private int susceptible;
     private int dayCounter = 0;
     private final Map<Integer, Integer> diseaseResultDayMap = new HashMap<>();
-    private final Random random = new Random();
-    private final CountryColor color;
-    // VIRUS
     private Virus virus;
     private double infectionRate;
     private double recoveryRate;
-
     private double mortalityRate;
-
-
-
     private boolean isVirusDefated = false;
-
     private final Map<Upgrade, Boolean> upgrades = new HashMap<>();
-    private double countryPoints;
-
-    private final double countryPointsGrow = 0.25;
-
     private final Object lock = new Object();
+    private final Random random = new Random();
 
 
     public Country(GameModel gameModel,String name, int population, int mapX, int mapY, int width, int height,CountryColor color,String capital, int capitalX,int capitalY) {
@@ -78,7 +68,6 @@ public class Country extends CountryCoordinates {
         return upgrades;
     }
 
-    // Getters
     public String getName() {
         return name;
     }
@@ -139,6 +128,14 @@ public class Country extends CountryCoordinates {
         return susceptible;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public  synchronized int getDayCounter() {
+        return dayCounter;
+    }
+
     public boolean isVirusDefated() {
         return isVirusDefated;
     }
@@ -158,10 +155,11 @@ public class Country extends CountryCoordinates {
     public synchronized void handleImmigrationAndEmigration(PeopleTransport payload, boolean isTransportToCountry) {
         int recovered = payload.recoveredPeople;
         int susceptible = payload.susceptiblePeople;
+
         if (isTransportToCountry) {
-            this.susceptible += susceptible;
-            this.population += (susceptible + recovered);
-            this.recovered += recovered;
+            this.susceptible = Math.max(0, this.susceptible + susceptible);
+            this.population = Math.max(0, this.population + (susceptible + recovered));
+            this.recovered = Math.max(0, this.recovered + recovered);
         } else {
             if (this.susceptible < susceptible) {
                 susceptible = this.susceptible;
@@ -169,19 +167,16 @@ public class Country extends CountryCoordinates {
             if (this.recovered < recovered) {
                 recovered = this.recovered;
             }
-            this.susceptible -= susceptible;
-            this.population -= (susceptible + recovered);
-            this.recovered -= recovered;
+            this.susceptible = Math.max(0, this.susceptible - susceptible);
+            this.population = Math.max(0, this.population - (susceptible + recovered));
+            this.recovered = Math.max(0, this.recovered - recovered);
         }
     }
 
-
-
     public synchronized void SIRModelDiseaseSpreadSimulation() {
-        countryPoints += Helpers.roundToTwoDecimals(countryPointsGrow);
+        increaseCountryPoints(countryPointsGrow);
 
         if (virus == null || population <= 0) return;
-
 
         if ((infected == 0 && susceptible == 0 && diseaseResultDayMap.isEmpty()) || isVirusDefated) {
             return;
@@ -194,38 +189,24 @@ public class Country extends CountryCoordinates {
                 int recoveriesToday = Math.max(1, (int) (todayInfected * recoveryRate));
                 int deathsToday = todayInfected - recoveriesToday;
 
-                infected -= todayInfected;
-                recovered += recoveriesToday;
-                dead += deathsToday;
-                population -= deathsToday;
+                infected = Math.max(0, infected - todayInfected);
+                recovered = Math.max(0, recovered + recoveriesToday);
+                dead = Math.max(0, dead + deathsToday);
+                population = Math.max(0, population - deathsToday);
                 diseaseResultDayMap.remove(dayCounter);
                 adjustCountryPoints(recoveriesToday);
             }
 
-
             if (diseaseResultDayMap.isEmpty()) {
                 infected = 0;
-                recovered += 1;
+                recovered = Math.max(0, recovered + 1);
                 adjustCountryPoints(1);
                 isVirusDefated = true;
-                SwingUtilities.invokeLater(() -> {
-                    JOptionPane.showMessageDialog(
-                            null,
-                            name + " już po epidemii! Wszyscy ludzie posiadają odporność!",
-                            "Epidemia zwalczona!",
-                            JOptionPane.INFORMATION_MESSAGE
-                    );
-                });
             }
 
-            infected = Math.max(0, infected);
-            recovered = Math.max(0, recovered);
-            dead = Math.max(0, dead);
-            susceptible = 0;
-
+            susceptible = Math.max(0, susceptible);
         } else {
             int newInfections;
-
             if (susceptible < (population * 0.1)) {
                 newInfections = (int) Math.min(Math.ceil(susceptible * 0.1), susceptible);
             } else {
@@ -238,47 +219,32 @@ public class Country extends CountryCoordinates {
             int recoverOrDeadDay = dayCounter + getRandomDays(14, 21);
             diseaseResultDayMap.put(recoverOrDeadDay, diseaseResultDayMap.getOrDefault(recoverOrDeadDay, 0) + newInfections);
 
-
-            susceptible -= newInfections;
-            infected += newInfections;
+            susceptible = Math.max(0, susceptible - newInfections);
+            infected = Math.max(0, infected + newInfections);
 
             if (todayInfected > 0) {
                 int recoveriesToday = Math.max(1, (int) (todayInfected * recoveryRate));
                 int deathsToday = todayInfected - recoveriesToday;
 
-                infected -= todayInfected;
-                recovered += recoveriesToday;
-                dead += deathsToday;
-                population -= deathsToday;
+                infected = Math.max(0, infected - todayInfected);
+                recovered = Math.max(0, recovered + recoveriesToday);
+                dead = Math.max(0, dead + deathsToday);
+                population = Math.max(0, population - deathsToday);
                 diseaseResultDayMap.remove(dayCounter);
                 adjustCountryPoints(recoveriesToday);
             }
-
-            susceptible = Math.max(0, susceptible);
-            infected = Math.max(0, infected);
-            recovered = Math.max(0, recovered);
-            dead = Math.max(0, dead);
         }
-//
-//        System.out.println(
-//                "Day: " + dayCounter +
-//                        " | Susceptible: " + susceptible +
-//                        " | Infected: " + infected +
-//                        " | Recovered: " + recovered +
-//                        " | Dead: " + dead +
-//                        " | Infected Map: " + diseaseResultDayMap
-//        );
 
         dayCounter++;
     }
-
 
     private void adjustCountryPoints(int recoveredToday){
         double points = (((double) recoveredToday) / population) * 100.0;
         double multiplier = GameSettings.getDifficultyLevel().getScoreModifier();
         double newPoints = points * multiplier;
         double roundedPoints = Helpers.roundToTwoDecimals(newPoints);
-        this.countryPoints += roundedPoints;
+        increaseCountryPoints(roundedPoints);
+
     }
 
 
@@ -286,8 +252,6 @@ public class Country extends CountryCoordinates {
         double cost = Helpers.roundToTwoDecimals(upgrade.getCost());
         if (countryPoints >= cost) {
             countryPoints -= cost;
-        } else {
-            throw new IllegalStateException("Niewystarczająca liczba punktów do zakupu ulepszenia.");
         }
     }
 
@@ -303,20 +267,16 @@ public class Country extends CountryCoordinates {
             case "Śmiertelność":
                 modifyMortalityRate(effectValue);
                 break;
-            default:
-                throw new IllegalArgumentException("Nieznany efekt: " + effectKey);
         }
     }
 
     public void switchOfTransport(TransportType transportType){
-        System.out.println("SWITCH OFF + " + transportType);
         gameModel.disableTransport(this,transportType);
     }
 
     public void modifyInfectionRate(double modifier){
         this.infectionRate += modifier;
         this.infectionRate = Math.max(0, this.infectionRate);
-        System.out.println("DASDASD" + this.infectionRate);
     }
 
     public void modifyRecoveryRate(double modifier){
@@ -330,8 +290,14 @@ public class Country extends CountryCoordinates {
     }
 
 
+
     private int getRandomDays(int min, int max) {
         return random.nextInt(max - min + 1) + min;
     }
 
+
+
+    private synchronized void increaseCountryPoints(double pointsToAdd) {
+        this.countryPoints = Math.min(GameSettings.maxCountryPoints, this.countryPoints + pointsToAdd);
+    }
 }

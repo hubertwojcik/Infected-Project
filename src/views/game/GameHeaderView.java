@@ -1,12 +1,11 @@
 package views.game;
 
 import components.StyledDetailLabel;
-import controllers.game.GameController;
 import enums.TransportType;
-import game.GameSettings;
+import util.GameSettings;
 import models.country.Country;
 import models.game.GameModel;
-import models.game.GameObserver;
+import interfaces.GameObserver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +24,7 @@ public class GameHeaderView extends JPanel implements GameObserver {
 
 
         JPanel centerPanel = new JPanel(new GridBagLayout());
-        centerPanel.setOpaque(false); // Transparentne tło
+        centerPanel.setOpaque(false);
 
         gameDateLabel = new StyledDetailLabel("Dzień epidemii:", "", Color.WHITE, Color.WHITE);
 

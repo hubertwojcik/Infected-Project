@@ -2,9 +2,9 @@ package views.game;
 
 import components.GameResultLabel;
 import components.StyledButton;
-import controllers.game.GameEndController;
+import controllers.gameEnd.GameEndController;
 import enums.DifficultyLevel;
-import game.GameSettings;
+import util.GameSettings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +20,7 @@ public class GameEndView extends JPanel {
         this.setBackground(GameSettings.mainBackgroundGrey);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 0, 10, 0); // Odstępy między elementami
+        gbc.insets = new Insets(10, 0, 10, 0);
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
 

@@ -1,33 +1,31 @@
 package controllers;
 
 import controllers.game.GameController;
-import controllers.game.GameEndController;
+import controllers.gameEnd.GameEndController;
 import enums.DifficultyLevel;
-import game.GameSettings;
-import game.ScreenManager;
-import models.HighScoresModel;
+import util.GameSettings;
+import util.ViewsManager;
+import models.highScores.HighScoresModel;
 import models.game.GameEndModel;
 import views.game.GameEndView;
 import views.game.GameFrame;
 import views.game.GameView;
-import views.general.HighScoresView;
-import views.general.SelectDifficultyLevelView;
-import views.general.StartGameView;
+import views.highScores.HighScoresView;
+import views.selectDifficulty.SelectDifficultyLevelView;
+import views.game.StartGameView;
 
 import javax.swing.*;
 
 
 public class AppController extends JPanel
 {
-    //VIEWS
     public GameFrame gameFrame;
-    private final ScreenManager screenManager;
+    private final ViewsManager screenManager;
 
 
     public AppController() {
         gameFrame = new GameFrame();
-        screenManager = new ScreenManager(gameFrame);
-
+        screenManager = new ViewsManager(gameFrame);
         initializeScreens();
 
         gameFrame.setVisible(true);
@@ -63,21 +61,17 @@ public class AppController extends JPanel
     }
 
     public void startNewGame(DifficultyLevel difficultyLevel) {
-        GameEndModel gameEndModel = new GameEndModel();
-        GameEndController gameEndController = new GameEndController(this,gameEndModel);
-        screenManager.removeScreen("GAME_END");
-        screenManager.addScreen("GAME_END", new GameEndView(gameEndController,23, 41, 23));
-        screenManager.showScreen("GAME_END");
-//        GameSettings.setDifficultyLevel(difficultyLevel);
-//
-//        GameController gameController = new GameController(this );
-//        GameView gameView = gameController.getGameView();
-//
-//        screenManager.removeScreen("GAME");
-//        screenManager.addScreen("GAME", gameView);
-//        screenManager.showScreen("GAME");
-//
-//        gameController.startNewGame();
+
+        GameSettings.setDifficultyLevel(difficultyLevel);
+
+        GameController gameController = new GameController(this );
+        GameView gameView = gameController.getGameView();
+
+        screenManager.removeScreen("GAME");
+        screenManager.addScreen("GAME", gameView);
+        screenManager.showScreen("GAME");
+
+        gameController.startNewGame();
     }
 
 }

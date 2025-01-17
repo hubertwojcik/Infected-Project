@@ -1,4 +1,4 @@
-package models.game;
+package interfaces;
 
 
 import enums.TransportType;

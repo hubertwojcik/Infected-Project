@@ -1,26 +1,22 @@
 package models.game;
 
 import enums.TransportType;
-import game.GameDataInitializer;
-import game.GameSettings;
-import game.GameSimulationManager;
+import util.GameDataInitializer;
+import util.GameSettings;
+import util.GameLogicSynchronizer;
+import interfaces.GameObserver;
 import models.Transport.Transport;
 import models.country.Country;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class GameModel {
-    //OBSERVERS
     private final List<GameObserver> observers = new ArrayList<>();
-    private GameSimulationManager simulationManager;
-
-    //GAME DATA
+    private GameLogicSynchronizer simulationManager;
     private int totalInfected;
     private int totalCured;
     private int totalDead;
-
     private int dayCounter = 0;
     private  List<Country> countries;
     private Country selectedCountry;
@@ -68,17 +64,15 @@ public class GameModel {
 
     public void setSelectedCountry(Country selectedCountry) {
         this.selectedCountry = selectedCountry;
-        notifySelectedCountryUpdate();
+        updateSelectedCountryInformation();
     }
 
 
     public void disableTransport(Country country, TransportType transportType){
-        System.out.println("Wylacz " + transportType + " w " + country.getName());
         for(Transport transport : transports){
             if ((transport.getFromCountry().getName().equals(country.getName()) ||
                     transport.getToCountry().getName().equals(country.getName())) &&
                     transport.getTransportType() == transportType) {
-                System.out.println(transport.getFromCountry().getName() + " to " + transport.getToCountry().getName());
                 transport.setEnabled(false);
                 notifyTransportUpdate(country,transportType, false);
             }
@@ -93,13 +87,13 @@ public class GameModel {
 
 
     public synchronized void updateModel() {
-            simulationManager.runSimulationStep();
+            simulationManager.simulateGameLogic();
             dayCounter++;
             updateGlobalStats();
-            notifyDayUpdate();
+            updateDayCount();
             notifyGlobalStatsUpdate();
             if (selectedCountry != null) {
-                notifySelectedCountryStatsUpdate();
+                updateSelectedCountryData();
             }
 
             checkEndGameConditions();
@@ -122,7 +116,7 @@ public class GameModel {
             }
         }
 
-        simulationManager = new GameSimulationManager(countries, transports);
+        simulationManager = new GameLogicSynchronizer(countries, transports);
     }
 
     private void updateGlobalStats() {
@@ -130,19 +124,18 @@ public class GameModel {
         int tempCured = 0;
         int tempDead = 0;
 
-        for (Country c : countries){
+        for (Country c : countries) {
             tempInfected += c.getInfected();
             tempCured += c.getRecovered();
             tempDead += c.getDead();
         }
 
-        totalInfected = tempInfected;
-        totalCured = tempCured;
-        totalDead = tempDead;
-
+        totalInfected = Math.max(0, tempInfected);
+        totalCured = Math.max(0, tempCured);
+        totalDead = Math.max(0, tempDead);
     }
 
-    private void notifyDayUpdate() {
+    private void updateDayCount() {
         for (GameObserver observer : observers) {
             observer.onDayUpdate(dayCounter);
         }
@@ -154,7 +147,7 @@ public class GameModel {
         }
     }
 
-    private void notifySelectedCountryStatsUpdate() {
+    private void updateSelectedCountryData() {
         if (selectedCountry != null) {
             for (GameObserver observer : observers) {
                 observer.onSelectedCountryUpdate(
@@ -173,7 +166,7 @@ public class GameModel {
         }
     }
 
-    private void notifySelectedCountryUpdate() {
+    private void updateSelectedCountryInformation() {
         for (GameObserver observer : observers) {
             Country selectedCountry = this.selectedCountry;
             observer.onSelectedCountryUpdate(
@@ -191,7 +184,7 @@ public class GameModel {
         }
     }
 
-    private void notifyEndGame(){
+    private void endGame(){
         for (GameObserver observer : observers) {
             observer.onGameEnd();
         }
@@ -212,7 +205,7 @@ public class GameModel {
             );
 
             if(allCountriesWonWithVirus || allDiseasesStopSpreading || allPeopleHealthy){
-                notifyEndGame();
+                endGame();
             }
     }
 

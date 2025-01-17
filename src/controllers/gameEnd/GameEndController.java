@@ -1,12 +1,9 @@
-package controllers.game;
+package controllers.gameEnd;
 
 import controllers.AppController;
 import models.game.GameEndModel;
 
-import java.io.*;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
+
 
 public class GameEndController {
     private final AppController appController;
@@ -23,6 +20,7 @@ public class GameEndController {
             appController.showHighScoresView();
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Zapis wyniku sięnie powiódł");
         }
     }
 }

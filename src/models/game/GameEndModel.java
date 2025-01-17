@@ -26,7 +26,7 @@ public class GameEndModel {
                             scores.putIfAbsent(playerScore, new ArrayList<>());
                             scores.get(playerScore).add(playerName);
                         } else {
-                            System.err.println("Pominięto niepoprawną linię: " + line);
+                            System.err.println("Niepoprawna linia: " + line);
                         }
                     } else {
                         System.err.println("Niepoprawny format linii: " + line);
@@ -49,7 +49,6 @@ public class GameEndModel {
             }
         }
 
-        System.out.println("Plik zapisany w: " + file.getAbsolutePath());
     }
 
 

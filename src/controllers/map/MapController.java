@@ -1,7 +1,5 @@
 package controllers.map;
 
-
-import controllers.game.GameController;
 import models.country.Country;
 import models.game.GameModel;
 
@@ -9,25 +7,22 @@ import java.awt.*;
 
 public class MapController {
     private final GameModel gameModel;
-    private final GameController gameController;
 
 
-    public MapController(GameModel gameModel,GameController gameController)
+    public MapController(GameModel gameModel)
     {
         this.gameModel = gameModel;
-        this.gameController = gameController;
-
     }
 
     public void handleMapClick(Point point) {
         for (Country country : gameModel.getCountries()) {
             if (isClickedPointCountry(point, country)) {
-                gameModel.setSelectedCountry(country); // Powiadamia obserwatorów
+                gameModel.setSelectedCountry(country);
                 System.out.println(country.getName());
                 return;
             }
         }
-        gameModel.setSelectedCountry(null); // Brak wybranego kraju
+        gameModel.setSelectedCountry(null);
     }
 
     private boolean isClickedPointCountry(Point point, Country country) {

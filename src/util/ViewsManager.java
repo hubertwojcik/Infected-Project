@@ -1,15 +1,15 @@
-package game;
+package util;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ScreenManager {
+public class ViewsManager {
     private final JFrame frame;
     private final Map<String,JPanel> screens = new HashMap<>();
 
-    public ScreenManager(JFrame frame) {
+    public ViewsManager(JFrame frame) {
         this.frame = frame;
         this.frame.setLayout(new CardLayout());
     }

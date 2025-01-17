@@ -62,7 +62,6 @@ public class UpgradeFactory {
                 upgrades.add(new MandatoryMasks(8, -0.18, 0.00, 0.00));
                 upgrades.add(new PlaneTransportDisable(12, -0.08, 0.00, 0.00));
                 upgrades.add(new PublicAwarnessCampaign(6, -0.12, 0.00, 0.00));
-                upgrades.add(new ShipTransportDisable(10, -0.07, 0.00, 0.00));
                 upgrades.add(new SocialDistancing(12, -0.20, 0.00, 0.00));
                 upgrades.add(new TrainTransportDisable(11, -0.10, 0.00, 0.00));
                 upgrades.add(new VaccineDevelopment(14, 0.00, 0.18, -0.18));

@@ -1,9 +1,9 @@
-package views.general;
+package views.selectDifficulty;
 
 import components.StyledButton;
 import enums.DifficultyLevel;
 import controllers.AppController;
-import game.GameSettings;
+import util.GameSettings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,6 +58,5 @@ public class SelectDifficultyLevelView extends JPanel {
 
         this.add(containerPanel, gbc);
     }
-
 
 }

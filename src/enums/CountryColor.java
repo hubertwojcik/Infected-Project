@@ -12,7 +12,7 @@ public enum CountryColor {
     IRAN(new Color(138, 43, 226)),
     JAPAN(new Color(173, 216, 230)),
     VIETNAM(new Color(255, 127, 80)),
-    MALAYSIA(new Color(255, 182, 193)),
+    PAKISTAN(new Color(255, 182, 193)),
     DEFAULT(Color.GRAY);
 
     private final Color color;

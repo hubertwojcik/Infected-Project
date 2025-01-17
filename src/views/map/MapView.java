@@ -1,12 +1,12 @@
 package views.map;
 
 import enums.TransportType;
-import game.GameSettings;
+import util.GameSettings;
 import controllers.map.MapController;
 import models.Transport.Transport;
 import models.country.Country;
 import models.game.GameModel;
-import models.game.GameObserver;
+import interfaces.GameObserver;
 import views.transport.TransportIconView;
 
 import javax.imageio.ImageIO;
@@ -20,15 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapView extends JPanel implements GameObserver {
-    private final Map<TransportType, Boolean> transportStates = new HashMap<>();
-
     private final GameModel gameModel;
     private final MapController mapController;
 
     private final Map<Country, JPanel> countryPanels = new HashMap<>();
     private final Map<Transport, TransportIconView> transportIcons = new HashMap<>();
 
-    private  Image transportImage;
 
     public MapView(GameModel gameModel,MapController mapController){
         this.gameModel = gameModel;
@@ -37,7 +34,7 @@ public class MapView extends JPanel implements GameObserver {
 
         initializeCountries();
 
-        loadTransportImage();
+
 
 
         Color oceanColor = new Color(0, 51, 102, 255);
@@ -51,7 +48,7 @@ public class MapView extends JPanel implements GameObserver {
                 scaleMap();
             }
         });
-        System.out.println("KQWKEKQWKEKQWEKQWKE");
+
 
     }
 
@@ -79,14 +76,12 @@ public class MapView extends JPanel implements GameObserver {
             capital.setToolTipText(country.getCapital());
             countryPanel.add(capital);
 
-
             countryPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(java.awt.event.MouseEvent e) {
                     handleCountryClick(country);
                 }
             });
-
 
             this.add(countryPanel);
             countryPanels.put(country, countryPanel);
@@ -95,7 +90,6 @@ public class MapView extends JPanel implements GameObserver {
 
 
     private void handleCountryClick(Country selectedCountry) {
-        System.out.println("Country click!");
         gameModel.getCountries().forEach(country -> country.setSelected(false));
 
         selectedCountry.setSelected(true);
@@ -109,7 +103,6 @@ public class MapView extends JPanel implements GameObserver {
         double scaleX = (double) getWidth() / GameSettings.mapWidth;
         double scaleY = (double) getHeight() / GameSettings.windowHeight;
 
-        // Scale countries
         for (Map.Entry<Country, JPanel> entry : countryPanels.entrySet()) {
             Country country = entry.getKey();
             JPanel countryPanel = entry.getValue();
@@ -122,14 +115,14 @@ public class MapView extends JPanel implements GameObserver {
 
                 countryPanel.setBounds(scaledX, scaledY, scaledWidth, scaledHeight);
 
-                // Scale capital position
-                Component[] components = countryPanel.getComponents();
-                for (Component component : components) {
-                    if (component instanceof JPanel) { // Assuming the capital is added as a JPanel
-                        JPanel capital = (JPanel) component;
+
+                Component[] countrCapitalComponent = countryPanel.getComponents();
+                for (Component capitalComponent : countrCapitalComponent) {
+                    if (capitalComponent instanceof JPanel) {
+                        JPanel capital = (JPanel) capitalComponent;
                         int capitalX = (int) (country.getCountryCapitalRelativeXCoordinate() * scaleX);
                         int capitalY = (int) (country.getCountryCapitalRelativeYCoordinate() * scaleY);
-                        capital.setBounds(capitalX, capitalY, 10, 10); // Maintain fixed size for the capital
+                        capital.setBounds(capitalX, capitalY, 10, 10);
                     }
                 }
             }
@@ -146,18 +139,12 @@ public class MapView extends JPanel implements GameObserver {
 
 
 
-    private void loadTransportImage() {
-        try {
-            transportImage = ImageIO.read(getClass().getResource("/plane.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-//
+
+
 private void initializeTransportIcons() {
     for (Transport transport : gameModel.getTransports()) {
 
-        TransportIconView transportIcon = new TransportIconView(transport, transport.getTransportImage(), 3000); // 3 sekundy na przelot
+        TransportIconView transportIcon = new TransportIconView(transport, transport.getTransportImage());
         this.add(transportIcon);
         transportIcons.put(transport, transportIcon);
 

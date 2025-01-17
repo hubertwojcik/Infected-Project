@@ -3,16 +3,15 @@ package views.game;
 import components.StyledDetailLabel;
 import components.UpgradeInformations;
 import enums.TransportType;
-import game.GameSettings;
+import util.GameSettings;
 import interfaces.Upgrade;
 import models.country.Country;
-import models.game.GameObserver;
+import interfaces.GameObserver;
 import models.game.GameModel;
 import util.Helpers;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.Map;
 
 public class GameCountryView extends JPanel implements GameObserver {
@@ -34,7 +33,7 @@ public class GameCountryView extends JPanel implements GameObserver {
         this.setLayout(new BorderLayout());
         this.setBackground(GameSettings.mainBackgroundGrey);
 
-        // Header panel
+
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
         headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 10));
@@ -47,10 +46,10 @@ public class GameCountryView extends JPanel implements GameObserver {
 
         this.add(headerPanel, BorderLayout.NORTH);
 
-        // Stats panel
+
         JPanel statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
-        statsPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.WHITE)); // Border tylko na dole
+        statsPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.WHITE));
         statsPanel.setBackground(GameSettings.mainBackgroundGrey);
 
         countryPointsLabel = new StyledDetailLabel("Punkty:", "0", Color.WHITE, Color.WHITE);
@@ -78,17 +77,19 @@ public class GameCountryView extends JPanel implements GameObserver {
         statsContainer.setPreferredSize(new Dimension(300, 250));
         this.add(statsContainer, BorderLayout.CENTER);
 
-        // Upgrades panel
+
         upgradesPanel = new JPanel();
         upgradesPanel.setLayout(new BoxLayout(upgradesPanel, BoxLayout.Y_AXIS));
-        upgradesPanel.setPreferredSize(new Dimension(300, 1535));
+        upgradesPanel.setPreferredSize(new Dimension(300, 2000));
 
         JScrollPane upgradesScrollPane = new JScrollPane(upgradesPanel);
         upgradesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         upgradesScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        upgradesScrollPane.setPreferredSize(new Dimension(300, 300));
+        upgradesScrollPane.setPreferredSize(new Dimension(300, 350));
 
         this.add(upgradesScrollPane, BorderLayout.SOUTH);
+
+
     }
 
     @Override
@@ -140,69 +141,6 @@ public class GameCountryView extends JPanel implements GameObserver {
             Upgrade upgrade = entry.getKey();
             boolean isBought = entry.getValue();
 
-//            // Główny panel ulepszenia
-//            JPanel upgradePanel = new JPanel();
-//            upgradePanel.setBackground(GameSettings.mainBackgroundGrey);
-//            upgradePanel.setLayout(new BoxLayout(upgradePanel, BoxLayout.Y_AXIS));
-//            upgradePanel.setBorder(BorderFactory.createCompoundBorder(
-//                    BorderFactory.createMatteBorder(0, 0, 1, 0, Color.WHITE), // Border tylko na dole
-//                    BorderFactory.createEmptyBorder(10, 10, 10, 10) // Padding wewnętrzny
-//            ));
-//            upgradePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
-//
-//            // Panel 1: Nazwa ulepszenia
-//            JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-//            namePanel.setBackground(GameSettings.mainBackgroundGrey);
-//
-//            JLabel upgradeLabel = new JLabel(upgrade.getName());
-//            upgradeLabel.setFont(new Font("Arial", Font.BOLD, 16));
-//            upgradeLabel.setForeground(Color.WHITE);
-//            namePanel.add(upgradeLabel);
-//
-//            // Panel 2: Szczegóły i efekty
-//            JPanel detailsPanel = new JPanel();
-//            detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
-//            detailsPanel.setBackground(GameSettings.mainBackgroundGrey);
-//
-//            for (Map.Entry<String, Double> effect : upgrade.getEffects().entrySet()) {
-//                StyledDetailLabel effectLabel = new StyledDetailLabel(
-//                        effect.getKey(),
-//                        String.valueOf(effect.getValue()),
-//                        Color.WHITE,
-//                        Color.WHITE
-//                );
-//                detailsPanel.add(effectLabel);
-//            }
-//
-//            // Panel 3: Przycisk "Kup"
-//            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-//            buttonPanel.setBackground(GameSettings.mainBackgroundGrey);
-//
-//            JButton buyButton = new JButton(isBought ? "Aktywne" : "Kup");
-//            buyButton.setEnabled(!isBought);
-//            buyButton.addActionListener(e -> {
-//                Country selectedCountry = gameModel.getSelectedCountry();
-//                if (selectedCountry == null) return;
-//
-//                if (selectedCountry.getCountryPoints() >= upgrade.getCost()) {
-//                    upgrade.applyUpgrade(selectedCountry);
-//                    buyButton.setEnabled(false);
-//                    buyButton.setText("Kupione");
-//                    JOptionPane.showMessageDialog(this, "Kupiono ulepszenie: " + upgrade.getName());
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "Zbyt mało punktów!", "Błąd", JOptionPane.ERROR_MESSAGE);
-//                }
-//            });
-//
-//            buttonPanel.add(buyButton);
-//
-//            // Dodanie paneli do upgradePanel
-//            upgradePanel.add(namePanel);
-//            upgradePanel.add(Box.createVerticalStrut(10)); // Odstęp między panelami
-//            upgradePanel.add(detailsPanel);
-//            upgradePanel.add(Box.createVerticalStrut(10)); // Odstęp między panelami
-//            upgradePanel.add(buttonPanel);
-
             UpgradeInformations upgradeInformation = new UpgradeInformations(upgrade, isBought, () -> {
                 Country selectedCountry = gameModel.getSelectedCountry();
                 if (selectedCountry == null) return;
@@ -218,6 +156,8 @@ public class GameCountryView extends JPanel implements GameObserver {
 
             upgradesPanel.add(upgradeInformation);
         }
+        upgradesPanel.revalidate();
+        upgradesPanel.repaint();
     }
 
 }

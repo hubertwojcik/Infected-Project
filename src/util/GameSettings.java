@@ -1,4 +1,4 @@
-package game;
+package util;
 
 import enums.DifficultyLevel;
 
@@ -13,11 +13,11 @@ public class GameSettings {
     public static int mapWidth = windowWidth - sidebarWidht;
     private static DifficultyLevel difficultyLevel = DifficultyLevel.EASY;
     public static Color mainBackgroundGrey = new Color(40,40,40);
+    public static int maxCountryPoints = 25;
 
     private static double scaleX = 1.0;
     private static double scaleY = 1.0;
 
-    //TODO SINGELOTTON PATTERN
     public static GameSettings getInstance() {
         if (instance == null) {
             instance = new GameSettings();

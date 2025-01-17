@@ -1,37 +1,36 @@
-package game;
+package util;
 
 import models.Transport.Transport;
 import models.country.Country;
 
 import java.util.ArrayList;
 import java.util.List;
-public class GameSimulationManager {
+public class GameLogicSynchronizer {
     private final List<Country> countries;
     private final List<Transport> transports;
 
-    // Można np. przyjąć jedną globalną blokadę dla transportu:
+
     private final Object transportLock = new Object();
 
-    public GameSimulationManager(List<Country> countries, List<Transport> transports) {
+    public GameLogicSynchronizer(List<Country> countries, List<Transport> transports) {
         this.countries = countries;
         this.transports = transports;
     }
 
-    public void runSimulationStep() {
-        runTransportPhase();
-
-        runDiseaseSpreadPhase();
+    public void simulateGameLogic() {
+        simulateTransportation();
+        simulateDiseaseSpreading();
     }
 
-    private void runTransportPhase() {
+    private void simulateTransportation() {
         synchronized (transportLock) {
             for (Transport transport : transports) {
-                transport.executeTransportSafely();
+                transport.transportPeoplWithSync();
             }
         }
     }
 
-    private void runDiseaseSpreadPhase() {
+    private void simulateDiseaseSpreading() {
         List<Thread> threads = new ArrayList<>();
         for (Country country : countries) {
             Thread thread = new Thread(() -> {
@@ -49,9 +48,11 @@ public class GameSimulationManager {
                 thread.join();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                System.err.println("Simulation thread interrupted: " + e.getMessage());
+                System.err.println("Błąd, symulacja została przerwana: " + e.getMessage());
             }
         }
     }
+
+
 }
 

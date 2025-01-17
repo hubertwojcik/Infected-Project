@@ -1,4 +1,4 @@
-package game;
+package util;
 
 import enums.CountryColor;
 import enums.DifficultyLevel;
@@ -106,7 +106,7 @@ public class GameDataInitializer {
                 kazakhstan.getCountryYCoordinate() + kazakhstan.getCountryHeight() + countrySpacing,
                 150 - countrySpacing,
                 125 - countrySpacing,
-                CountryColor.MALAYSIA,
+                CountryColor.PAKISTAN,
                 "Islamabad",
                 (50 - countrySpacing) /2,
                 20
@@ -262,10 +262,8 @@ public class GameDataInitializer {
     }
 
     public static Virus initializeVirus(DifficultyLevel difficultyLevel) {
-
-
         return new Virus(
-                "SUPER VIRUS",
+                "GUI VIRUS",
                 difficultyLevel.getInfectionRate(),
                 difficultyLevel.getDeathRate(),
                 difficultyLevel.getRecoveryRate(),

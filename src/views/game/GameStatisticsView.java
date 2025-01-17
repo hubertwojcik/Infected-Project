@@ -2,9 +2,9 @@ package views.game;
 
 import components.StyledDetailLabel;
 import enums.TransportType;
-import game.GameSettings;
+import util.GameSettings;
 import models.country.Country;
-import models.game.GameObserver;
+import interfaces.GameObserver;
 
 import javax.swing.*;
 import java.awt.*;

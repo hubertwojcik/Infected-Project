@@ -4,7 +4,8 @@ import controllers.map.MapController;
 import enums.TransportType;
 import models.country.Country;
 import models.game.GameModel;
-import models.game.GameObserver;
+import interfaces.GameObserver;
+import util.GameSettings;
 import views.game.GameView;
 
 import javax.swing.*;
@@ -12,25 +13,19 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class GameController implements Runnable, KeyListener {
-    //MODELS
     private final GameModel gameModel;
-    //CONTROLLERS
     private final AppController appController;
-    //VIEWS
     private  final GameView gameView;
-    //LOOP
     private boolean isRunning;
     private Thread gameThread;
 
     public GameController(AppController appController) {
         this.appController = appController;
-        //MODELS
         this.gameModel = new GameModel();
-        //CONTROLLERS
-        MapController mapController = new MapController(gameModel,this);
+
+        MapController mapController = new MapController(gameModel);
+
         this.gameView = new GameView( gameModel,mapController);
-
-
 
         gameView.addKeyListener(this);
         gameView.setFocusable(true);
@@ -40,20 +35,16 @@ public class GameController implements Runnable, KeyListener {
             @Override
             public void onDayUpdate(int dayCounter) {
             }
-
             @Override
             public void onGlobalStatsUpdate(int infected, int cured, int dead) {
             }
-
             @Override
             public void onSelectedCountryUpdate(String countryName, double countryPoints, int population, int suspectible, int infected, int cured, int dead, double infectedRate, double recoveryRestinatce, double moratyliRate) {
             }
-
             @Override
             public void onGameEnd() {
                 endGame();
             }
-
             @Override
             public void onTransportStateUpdate(Country country, TransportType transportType, boolean isEnabled) {
             }
@@ -70,7 +61,7 @@ public class GameController implements Runnable, KeyListener {
             try {
                 gameModel.updateModel();
                 SwingUtilities.invokeLater(gameView::repaint);
-                Thread.sleep(1000);
+                Thread.sleep(GameSettings.simulationInterval);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;

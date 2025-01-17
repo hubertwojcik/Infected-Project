@@ -1,9 +1,9 @@
-package views.general;
+package views.highScores;
 
 import components.StyledButton;
 import controllers.AppController;
-import game.GameSettings;
-import models.HighScoresModel;
+import util.GameSettings;
+import models.highScores.HighScoresModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,8 +39,8 @@ public class HighScoresView extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane(scoresList);
         scrollPane.setPreferredSize(new Dimension(350, 200));
-        scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Brak obramowania
-        scrollPane.getViewport().setBackground(GameSettings.mainBackgroundGrey); // Tło scrolla
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.getViewport().setBackground(GameSettings.mainBackgroundGrey);
 
         gbc.gridy = 1;
         this.add(scrollPane, gbc);

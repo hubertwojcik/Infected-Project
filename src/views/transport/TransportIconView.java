@@ -1,12 +1,12 @@
 package views.transport;
 
 import models.Transport.Transport;
-import models.Transport.TransportOberver;
+
 
 import javax.swing.*;
 import java.awt.*;
 
-public class TransportIconView extends JLabel implements TransportOberver {
+public class TransportIconView extends JLabel  {
     private final Transport transport;
     private int positionX;
     private int positionY;
@@ -17,17 +17,15 @@ public class TransportIconView extends JLabel implements TransportOberver {
     private  int targetY;
 
     private boolean directionToTraget;
-    private final int animationDuration; // czas animacji w milisekundach
-    private final int frameRate;         // liczba klatek na sekundę
-    private final int totalFrames;       // liczba wszystkich klatek
-    private int currentFrame;            // obecna klatka
-
+    private final int animationDuration = 3000;
+    private final int frameRate;
+    private final int totalFrames;
+    private int currentFrame;
     private final int transportIconSize = 20;
 
 
-    public TransportIconView(Transport transport, Image transportImage, int animationDuration) {
+    public TransportIconView(Transport transport, Image transportImage) {
         this.transport = transport;
-        this.transport.addObserver(this); // Rejestracja jako obserwator
 
         setIcon(new ImageIcon(transportImage));
         setSize(transportIconSize, transportIconSize);
@@ -42,7 +40,6 @@ public class TransportIconView extends JLabel implements TransportOberver {
         this.positionY = startY;
 
         this.directionToTraget = true;
-        this.animationDuration = animationDuration;
         this.frameRate = 30;
         this.totalFrames = (animationDuration / 1000) * frameRate;
         this.currentFrame = 0;
@@ -52,9 +49,9 @@ public class TransportIconView extends JLabel implements TransportOberver {
     public void startAnimation() {
         new Thread(() -> {
             while (true) {
-                double progress = (double) currentFrame / totalFrames; // Procent ukończenia
+                double progress = (double) currentFrame / totalFrames;
 
-                // Obliczenie pozycji na podstawie kierunku
+
                 if (directionToTraget) {
                     positionX = (int) (startX + (targetX - startX) * progress);
                     positionY = (int) (startY + (targetY - startY) * progress);
@@ -68,12 +65,11 @@ public class TransportIconView extends JLabel implements TransportOberver {
                 currentFrame++;
 
                 if (currentFrame >= totalFrames) {
-                    currentFrame = 0; // Reset klatki
-                    directionToTraget = !directionToTraget; // Zmiana kierunku
+                    currentFrame = 0;
+                    directionToTraget = !directionToTraget;
                 }
-
                 try {
-                    Thread.sleep(1000 / frameRate); // Czas pomiędzy klatkami
+                    Thread.sleep(1000 / frameRate);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
@@ -84,7 +80,6 @@ public class TransportIconView extends JLabel implements TransportOberver {
 
 
     public void scale(double scaleX, double scaleY) {
-        // Skaluj pozycje startowe i docelowe
         this.startX = (int) (transport.getFromCountry().getCountryCapitalGlobalXCoordinate() * scaleX) - (transportIconSize / 2);
         this.startY = (int) (transport.getFromCountry().getCountryCapitalGlobalYCoordinate() * scaleY) - (transportIconSize / 2);
         this.targetX = (int) (transport.getToCountry().getCountryCapitalGlobalXCoordinate() * scaleX) - (transportIconSize / 2);
@@ -98,9 +93,5 @@ public class TransportIconView extends JLabel implements TransportOberver {
         setLocation(x, y);
     }
 
-    @Override
-    public void onTransportStateChange(Transport transport) {
-        SwingUtilities.invokeLater(() -> this.setVisible(transport.isEnabled()));
 
-    }
 }
